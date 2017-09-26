@@ -11,6 +11,9 @@ app = Flask(__name__)
 def hello():
     return 'Poupon! :)'
 
+@app.rout('/Cities')
+def cities():
+    return 'This is where we display cities!!!'
 
 @app.errorhandler(500)
 def server_error(e):
