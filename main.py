@@ -6,12 +6,11 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
-@app.route('/')
+@app.route('/api/hello')
 def hello():
-    return 'Poupon! :)'
+    return 'Poupon? :)'
 
-@app.route('/Cities')
+@app.route('/api/cities')
 def cities():
     return 'dsfsdfThis is where we display cities!!!'
 

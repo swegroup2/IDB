@@ -5,7 +5,13 @@ skip_files:
 - ^poupon-web/node_modules/*?
 
 handlers:
-- url: /.*
-  static_dir: poupon-web/build
 - url: /api/.*
   script: main.app
+
+- url: /
+  static_files: poupon-web/build/index.html
+  upload: poupon-web/build/index.html
+
+- url: /(.*)
+  static_files: poupon-web/build/\1
+  upload: poupon-web/build/(.*)
