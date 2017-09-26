@@ -1,2 +1,11 @@
-# IDB
- A website for discovering hip hop artists and current events involving them in the music industry
+# App Engine Standard Flask Hello World
+
+This sample shows how to use [Flask](http://flask.pocoo.org/) with Google App
+Engine Standard.
+
+Before running or deploying this application, install the dependencies using
+[pip](http://pip.readthedocs.io/en/stable/):
+
+    pip install -t lib -r requirements.txt
+
+For more information, see the [App Engine Standard README](../../README.md)
