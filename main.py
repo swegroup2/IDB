@@ -11,7 +11,7 @@ app = Flask(__name__)
 def hello():
     return 'Poupon! :)'
 
-@app.rout('/Cities')
+@app.route('/Cities')
 def cities():
     return 'This is where we display cities!!!'
 
