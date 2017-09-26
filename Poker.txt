@@ -1,0 +1,42 @@
+Story: as a user, I want to learn about where music comes from
+Estimate: 40
+
+Story: as a user, I want to see information about cities when I click the cities tab
+Estimate: 13
+
+Story: as a user, I want to see information about a city relating to hip hop when I click on a city on the city page
+Estimate: 5
+
+Story: as a user, I want to learn about current events in music
+Estimate: 20
+
+Story: as a user, I want to see recent news articles in the music industry when I click the news tab
+Estimate: 40
+
+Story: as a user, I want to read a news article that I see
+Estimate: 2
+
+Story: as a user, I want to learn about songs
+Estimate: 2
+
+Story: as a user, I want to see the artists when I click the artists tab
+Estimate: 3
+
+Story: as a user, I want to see information about an artist if I click on an artist on the artists page
+Estimate: 3
+
+Story: as a user, I want to see the albums when I click the albums tab
+Estimate: 3
+
+Story: as a user, I want to see detailed information about an album if I click on an album on the album page
+Estimate: 3
+
+Story: as a user, I want to be able to play a song from a page containing information about an album
+Estimate: 3
+
+Story: as a user, I want to see search results when I type in a keyword in the search bar
+Estimate: 8
+
+Story: as a user, I want to see the homepage when I type in the url
+Estimate: 1
+
