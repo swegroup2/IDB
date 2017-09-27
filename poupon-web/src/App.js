@@ -3,7 +3,8 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom';
 import Navbar from './Navbar';
 
@@ -41,9 +42,11 @@ class App extends Component {
       <Router>
         <div style={{textAlign: "center"}}>
           <Navbar/>
-          <Route exact path="/" component={Home}/>
-          <Route path="/artists" component={Artists}/>
-          <Route exact path="*" component={NotFound} />
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/artists" component={Artists}/>
+            <Route component={NotFound} />
+          </Switch>
         </div>
       </Router>
     );
