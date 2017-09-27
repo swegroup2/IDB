@@ -15,6 +15,10 @@ def show_hello():
 def show_echo(what):
     return jsonify({'text': what})
 
+@app.rout('/artists')
+def show_artists():
+    return 'This is where we display artists!!!'
+
 @app.route('/api/cities')
 def show_cities():
     return 'dsfsdfThis is where we display cities!!!'
