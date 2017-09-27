@@ -27,6 +27,14 @@ function Artists() {
   );
 }
 
+function NotFound() {
+  return (
+    <div>
+      <p>URL not found!</p>
+    </div>
+  );
+}
+
 class App extends Component {
   render() {
     return (
@@ -35,6 +43,7 @@ class App extends Component {
           <Navbar/>
           <Route exact path="/" component={Home}/>
           <Route path="/artists" component={Artists}/>
+          <Route exact path="*" component={NotFound} />
         </div>
       </Router>
     );
