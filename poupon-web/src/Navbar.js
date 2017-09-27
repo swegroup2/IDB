@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 
 class Navbar extends Component {
 	render() {
@@ -16,7 +21,7 @@ class Navbar extends Component {
 				classes.push("active");
 
 			return <li className={classes.join(" ")} key={data.name}>
-			        <a className="nav-link" href={data.href}>{data.name}</a>
+			        <Link to={data.href}><div className="nav-link">{data.name}</div></Link>
 			       </li>
 		});
 
