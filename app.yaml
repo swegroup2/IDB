@@ -12,10 +12,10 @@ handlers:
   static_files: poupon-web/build/index.html
   upload: poupon-web/build/index.html
 
-- url: /artists
-  static_files: poupon-web/build/index.html
-  upload: poupon-web/build/index.html
-
-- url: /(.*)
+- url: /(.*\.(.*))
   static_files: poupon-web/build/\1
   upload: poupon-web/build/(.*)
+
+- url: /(.*)
+  static_files: poupon-web/build/index.html
+  upload: poupon-web/build/index.html
