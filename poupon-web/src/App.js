@@ -1,37 +1,42 @@
 import React, { Component } from 'react';
-import { Navbar, Jumbotron, Button, Grid } from 'react-bootstrap';
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
+import Navbar from './Navbar';
+
+
+function Home() {
+  return (
+      <div>
+        <p>Rendered with React.</p>
+        <a href="http://poupon.me/api/hello" target="_blank">
+          <button type="button" className="btn btn-primary">API Test</button>
+        </a>
+      </div>
+  );
+}
+
+function Artists() {
+  return (
+    <div>
+      <p>Artists will be displayed here!</p>
+    </div>
+  );
+}
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Navbar inverse fixedTop>
-          <Grid>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <a href="/">Poupon.me</a>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-          </Grid>
-        </Navbar>
-        <Jumbotron>
-          <Grid>
-            <h1>Welcome to Poupon</h1>
-            <p>
-              <Button
-                bsStyle="success"
-                bsSize="large"
-                href="http://poupon.me/api/hello"
-                target="_blank">
-                API Test
-              </Button>
-            </p>
-          </Grid>
-        </Jumbotron>
-      </div>
+      <Router>
+        <div style={{textAlign: "center"}}>
+          <Navbar/>
+          <Route exact path="/" component={Home}/>
+          <Route path="/artists" component={Artists}/>
+        </div>
+      </Router>
     );
   }
 }
