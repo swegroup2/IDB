@@ -15,7 +15,7 @@ def show_hello():
 def show_echo(what):
     return jsonify({'text': what})
 
-@app.rout('/artists')
+@app.route('/artists')
 def show_artists():
     return 'This is where we display artists!!!'
 
