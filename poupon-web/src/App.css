@@ -1,4 +1,5 @@
 .App {
+    font-family: 'sans-serif';
 }
 
 .App-logo {
@@ -6,14 +7,12 @@
   height: 80px;
 }
 
-
-
 .App-intro {
   font-size: large;
 }
 
 .Container {
-    max-width: 900px;
+    padding: 1em;
 }
 
 

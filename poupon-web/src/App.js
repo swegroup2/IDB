@@ -13,10 +13,11 @@ import News from './News';
 function Home() {
   return (
       <div>
-        <p>Rendered with React.</p>
+        <div className="Container">
         <a href="http://poupon.me/api/hello" target="_blank">
           <button type="button" className="btn btn-primary">API Test</button>
         </a>
+      </div>
       </div>
   );
 }

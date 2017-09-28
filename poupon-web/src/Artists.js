@@ -20,23 +20,25 @@ class Artists extends Component {
 
 class Preview extends Component {
     render() {
-        const genres = this.props.artist.genres.map((genre) => {return(genre + ", ");})
-        const albums = this.props.artist.albums.map((album) => {return(album) + ", ";})
+        var artist = this.props.artist;
         return (
                 <div className="col-sm-6 col-md-4">
                 <div className="card">
                     <div className="Container">
-                    <img src={this.props.artist.image.url} className="card-img-top"/>
+                    <img src={artist.image.url} className="card-img-top"/>
                     <div className="card-block">
                         <div className="Container">
-                        <h4 className="card-title">{this.props.artist.name}</h4>
+                        <h4 className="card-title">{artist.name}</h4>
                         </div>
                         <div className="Container">
                         <p className="card-text">
-                            genres: {genres}<br/>
-                            albums: {albums}
+                            <b>Genres:</b> {artist.genres.join(", ")}<br/>
+                            <b>Albums:</b> {artist.albums.join(", ")}<br/>
+                            <b>Cities:</b> {artist.cities.join(", ")}<br/>
+                            <b>Related Artists:</b> {artist.related_artists.join(", ")}<br/>
                         </p>
-                    </div>
+                         <a href={artist.external_urls.spotify} class="btn btn-primary">Open Spotify</a>
+                        </div>
                     </div>
                     </div>
                 </div>
