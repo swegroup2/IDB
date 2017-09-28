@@ -24,7 +24,7 @@ class Preview extends Component {
                 <div className="col-sm-6 col-md-4">
                 <div className="card">
                     <div className="Container">
-                    <img src={artist.image.url} className="card-img-top"/>
+                    <img src={artist.image.url} className="card-img-top" alt={artist.name}/>
                     <div className="card-block">
                         <div className="Container">
                         <h4 className="card-title">{artist.name}</h4>

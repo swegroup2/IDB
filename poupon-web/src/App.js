@@ -10,12 +10,13 @@ import Navbar from './Navbar';
 import Artists from './Artists';
 import Albums from './Albums';
 import News from './News';
+import Cities from './Cities';
 
 function Home() {
   return (
       <div>
         <div className="Container">
-        <a href="http://poupon.me/api/hello" target="_blank">
+        <a href="http://poupon.me/api/hello" target="_blank" rel="noopener noreferrer">
           <button type="button" className="btn btn-primary">API Test</button>
         </a>
       </div>
@@ -43,6 +44,7 @@ class App extends Component {
                 <Route path="/artists" component={Artists}/>
                 <Route path="/albums" component={Albums}/>
                 <Route path="/news" component={News}/>
+                <Route path="/cities" component={Cities}/>
                 <Route component={NotFound} />
           </Switch>
           </div>

@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom';
 
 var data = require('./data/news.json');
 
@@ -34,7 +29,7 @@ class Preview extends Component {
 				  <div className="card-block">
 				    <h4 className="card-title">{title}</h4>
 				    <h6 className="card-subtitle mb-2 text-muted">{"points: " + score}</h6>
-				    <p className="card-text">{"Artists: " + artists.join(",")}</p>
+				    <p className="card-text">{"Artists: " + artists.join(", ")}</p>
 				    <a href={url} className="card-link">{`Open (${domain})`}</a>
 				  </div>
 				  </div>
