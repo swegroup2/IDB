@@ -1,103 +1,108 @@
 {
-    "artists": [ {
-        "name": "Frank Ocean",
-        "image": {
-            "height": 640,
-            "url": "https://i.scdn.co/image/7db34c8aace6feb91f38601bb75e6b3301b4657a",
-            "width": 640
+    "artists":[
+        {
+            "artist_id":0,
+            "name":"Frank Ocean",
+            "image":{
+                "height":640,
+                "url":"https://i.scdn.co/image/7db34c8aace6feb91f38601bb75e6b3301b4657a",
+                "width":640
+            },
+            "genres":[
+                "dance-pop",
+                "indie-r&b",
+                "neo-soul",
+                "pop",
+                "pop-rap",
+                "rap"
+            ],
+            "albums":[
+                "Blonde",
+                "channel ORANGE (Explicit Version)"
+            ],
+            "cities":[
+                "New Orleans",
+                "Los Angeles"
+            ],
+            "related_artists":[
+                "Tyler, The Creator",
+                "Earl Sweatshirt",
+                "Miguel"
+            ],
+            "external_urls":{
+                "spotify":"https://open.spotify.com/artist/2h93pZq0e7k5yf4dywlkpM"
+            }
         },
-        "genres": [
-            "dance-pop",
-            "indie-r&b",
-            "neo-soul",
-            "pop",
-            "pop-rap",
-            "rap"
-        ],
-        "albums": [
-            "Blonde",
-            "channel ORANGE (Explicit Version)"
-        ],
-        "cities": [
-            "New Orleans",
-            "Los Angeles"
-        ],
-        "related_artists": [ 
-            "Tyler, The Creator",
-            "Earl Sweatshirt",
-            "Miguel"
-        ],
-        "external_urls": {
-            "spotify": "https://open.spotify.com/artist/2h93pZq0e7k5yf4dywlkpM"
-        }
-    },
-    {
-        "name" : "Kanye West",
-        "image" : {
-            "height" : 666,
-            "url" : "https://i.scdn.co/image/b86a3dbd77a8353647bff195d310d5eb1bd80af6",
-            "width" : 999
+        {
+            "artist_id":1,
+            "name":"Kanye West",
+            "image":{
+                "height":666,
+                "url":"https://i.scdn.co/image/b86a3dbd77a8353647bff195d310d5eb1bd80af6",
+                "width":999
+            },
+            "genres":[
+                "pop",
+                "pop-rap",
+                "rap"
+            ],
+            "albums":[
+                "The Life Of Pablo",
+                "Yeezus",
+                "My Beautiful Dark Twisted Fantasy",
+                "Graduation",
+                "808s & Heartbreak",
+                "Late Registration"
+            ],
+            "cities":[
+                "Atlanta",
+                "Chicago",
+                "Los Angeles"
+            ],
+            "related_artists":[
+                "JAY Z",
+                "Kid Cudi",
+                "Drake",
+                "Big Sean"
+            ],
+            "external_urls":{
+                "spotify":"https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x"
+            }
         },
-        "genres" : [ 
-            "pop", 
-            "pop-rap", 
-            "rap" 
-        ],
-        "albums": [
-            "The Life Of Pablo",
-            "Yeezus",
-            "My Beautiful Dark Twisted Fantasy",
-            "Graduation",
-            "808s & Heartbreak",
-            "Late Registration"
-        ],
-        "cities": [
-            "Atlanta",
-            "Chicago",
-            "Los Angeles"
-        ],
-        "related_artists": [ 
-            "JAY Z",
-            "Kid Cudi",
-            "Drake",
-            "Big Sean"
-        ],
-        "external_urls" : {
-            "spotify" : "https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x"
+        {
+            "artist_id":2,
+            "name":"Kendrick Lamar",
+            "image":{
+                "height":640,
+                "url":"https://i.scdn.co/image/106c76de27f7e556ebb43947aadd1228862d6cd7",
+                "width":640
+            },
+            "genres":[
+                "hip-hop",
+                "pop-rap",
+                "rap"
+            ],
+            "albums":[
+                "DAMN.",
+                "untitled unmastered.",
+                "To Pimp A Butterfly",
+                "good kid, m.A.A.d city",
+                "Section.80",
+                "Overly Dedicated"
+            ],
+            "cities":[
+                "Compton",
+                "Los Angeles"
+            ],
+            "related_artists":[
+                "ScHoolboy Q",
+                "Ab-Soul",
+                "A$AP Rocky",
+                "Vince Staples"
+            ],
+            "external_urls":{
+                "spotify":"https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg"
+            }
         }
-    },
-    {
-        "name" : "Kendrick Lamar",
-        "image" : {
-            "height" : 640,
-            "url" : "https://i.scdn.co/image/106c76de27f7e556ebb43947aadd1228862d6cd7",
-            "width" : 640
-        },
-        "genres" : [ 
-            "hip-hop", 
-            "pop-rap", 
-            "rap"
-        ],
-        "albums": [
-            "DAMN.",
-            "untitled unmastered.",
-            "To Pimp A Butterfly",
-            "good kid, m.A.A.d city",
-            "Section.80",
-            "Overly Dedicated"
-        ],
-        "cities": [
-            "Compton",
-            "Los Angeles"
-        ],
-        "related_artists": [ 
-            "ScHoolboy Q",
-            "Ab-Soul",
-            "A$AP Rocky",
-            "Vince Staples"
-        ],
-        "external_urls" : {
-            "spotify" : "https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg"
-        }
-    } ]
+    ]
 }
