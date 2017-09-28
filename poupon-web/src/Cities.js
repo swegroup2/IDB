@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-var data = require('./data/cities.json');
+var data = require('./data.json').data[3];
 
 class Cities extends Component {
     render() {

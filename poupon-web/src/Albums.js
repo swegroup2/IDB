@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-var data = require('./data/albums.json');
+var data = require('./data.json').data[1];
 
 class Albums extends Component {
     render() {

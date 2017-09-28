@@ -6,6 +6,7 @@ import {
   Link,
   Switch
 } from 'react-router-dom';
+
 import Navbar from './Navbar';
 import Artists from './Artists';
 import Albums from './Albums';
