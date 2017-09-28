@@ -1,0 +1,54 @@
+import React, { Component } from 'react';
+
+var data = require('./data/albums.json');
+
+class Albums extends Component {
+    render() {
+        const items = data.albums.map((item, i) =>
+            <Preview key={i} album={item}/>
+        );
+        return (
+            <div className="Container">
+            <div className="row">
+                {items}
+            </div>
+            </div>
+     );
+  }
+}
+
+class Preview extends Component {
+    render() {
+        var album = this.props.album;
+        var collapseName = "collapse"+album.name;
+        return (
+            <div className="col-sm-6 col-md-4">
+            <div className="card">
+                <div className="Container">
+                <img src={album.image.url} className="card-img-top"/>
+                <div className="card-block">
+                    <div className="Container">
+                    <h4 className="card-title">{album.name}</h4>
+				    <h6 className="card-subtitle mb-2 text-muted">{album.artist}</h6>
+                    </div>
+                    <div className="Container">
+                    <p className="card-text">
+                        <b>Release Date:</b> {new Date(album.release_date).toDateString()}<br/>
+                        <b>Label:</b> {album.label}<br/>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#{collapseName}" aria-expanded="true" aria-controls={collapseName}>TrackList
+                        </a>
+                        <div id={collapseName} className="collapse hide" role="tabpanel" aria-labelledby="heading{collapseName}">
+                        Whaddup
+                        </div>
+                    </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        );
+    }
+}
+
+export default Albums;
+

@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Navbar from './Navbar';
 import Artists from './Artists';
+import Albums from './Albums';
 import News from './News';
 
 function Home() {
@@ -40,6 +41,7 @@ class App extends Component {
           <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/artists" component={Artists}/>
+                <Route path="/albums" component={Albums}/>
                 <Route path="/news" component={News}/>
                 <Route component={NotFound} />
           </Switch>

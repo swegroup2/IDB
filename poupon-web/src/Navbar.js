@@ -11,6 +11,7 @@ class Navbar extends Component {
 		const tabs = [
 			{name: "Home", href: "/"},
 			{name: "Artists", href: "/artists"},
+			{name: "Albums", href: "/albums"},
 			{name: "News", href: "/news"}
 		];
 

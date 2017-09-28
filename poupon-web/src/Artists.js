@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 var data = require('./data/artists.json');
-console.log(data);
 
 class Artists extends Component {
     render() {

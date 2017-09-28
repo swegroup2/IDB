@@ -30,11 +30,13 @@ class Preview extends Component {
             <div className="col-sm-12 col-md-6">
             	<div className="Container">
                 <div className="card">
+                  <div className="Container">
 				  <div className="card-block">
 				    <h4 className="card-title">{title}</h4>
 				    <h6 className="card-subtitle mb-2 text-muted">{"points: " + score}</h6>
 				    <p className="card-text">{"Artists: " + artists.join(",")}</p>
 				    <a href={url} className="card-link">{`Open (${domain})`}</a>
+				  </div>
 				  </div>
 				</div>
             	</div>
