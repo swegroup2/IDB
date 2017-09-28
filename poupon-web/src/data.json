@@ -18,7 +18,7 @@
             ],
             "albums": [
                 "Blonde",
-                "channel ORANGE (Explicit Version)"
+                "channel ORANGE"
             ],
             "cities": [
                 "New Orleans",
@@ -547,6 +547,36 @@
                 "coordinates": {
                     "latitude": 33.753746,
                     "longitude": -84.386330 
+                }
+            },
+            {
+                "id": 14,
+                "name": "New Orleans",
+                "state": "Louisiana",
+                "population": 391495,
+                "artists": [
+                    "Frank Ocean",
+                    "Lil Wayne",
+                    "Birdman"
+                ],
+                "coordinates": {
+                    "latitude": 29.951065,
+                    "longitude": -90.071533
+                }
+            },
+            {
+                "id": 15,
+                "name": "Los Angeles",
+                "state": "California",
+                "population": 3976000,
+                "artists": [
+                    "Kanye West",
+                    "Kendrick Lamar",
+                    "Frank Ocean"
+                ],
+                "coordinates": {
+                    "latitude": 34.052235,
+                    "longitude": -118.243683
                 }
             }
         ]

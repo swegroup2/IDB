@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
+var db = require('./database.json').database;
 
 class Artists extends Component {
     render() {
@@ -56,6 +57,20 @@ class MultipleArtists extends Component {
 class ArtistCard extends Component {
     render() {
         var artist = this.props.artist;
+        const albums = artist.albums.map(item =>
+            {if(item in db) {
+                return(<span><a href={"/albums/"+db[item]}>{item}</a>, </span>);
+            } else {
+                return(<span>{item}, </span>);
+            }}
+            );
+        const cities = artist.cities.map(item =>
+            {if(item in db) {
+                return(<span><a href={"/cities/"+db[item]}>{item}</a>, </span>);
+            } else {
+                return(<span>{item}, </span>);
+            }}
+            );
         return (
                 <div className="col-sm-12 col-md-6 col-lg-4">
                 <div className="card">
@@ -68,8 +83,8 @@ class ArtistCard extends Component {
                 <div className="Container">
                 <p className="card-text">
                 <b>Genres:</b> {artist.genres.join(", ")}<br/>
-                <b>Albums:</b> {artist.albums.join(", ")}<br/>
-                <b>Cities:</b> {artist.cities.join(", ")}<br/>
+                <b>Albums:</b> {albums}<br/>
+                <b>Cities:</b> {cities}<br/>
                 <b>Related Artists:</b> {artist.related_artists.join(", ")}<br/>
                 </p>
                 <a href={artist.external_urls.spotify}>Open Spotify</a>
