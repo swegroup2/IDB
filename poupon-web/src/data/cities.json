@@ -1,44 +1,48 @@
-{
-    "name": "Chicago",
-    "state": "Illinois",
-    "population": 2705000,
-    "artists": [
-        "Kanye West",
-        "Chance the Rapper",
-        "Vic Mensa",
-        "Chief Keef"
-    ],
-    "coordinates": {
-        "latitude": 41.881832,
-        "longitude": -87.623177
-    }
-},
-{
-    "name": "Houston",
-    "state": "Texas",
-    "population": 2303000,
-    "artists": [
-        "Beyonce",
-        "Travis Scott",
-        "Drake"
-    ],
-    "coordinates": {
-        "latitude": 29.766083,
-        "longitude": -95.358810 
-    }
-},
-{
-    "name": "Atlanta",
-    "state": "Georgia",
-    "population": 472522,
-    "artists": [
-        "Migos",
-        "Future",
-        "Young Thug",
-        "Gucci Mane"
-    ],
-    "coordinates": {
-        "latitude": 33.753746,
-        "longitude": -84.386330 
-    }
+{ 
+    "cities": [
+        {
+            "name": "Chicago",
+            "state": "Illinois",
+            "population": 2705000,
+            "artists": [
+                "Kanye West",
+                "Chance the Rapper",
+                "Vic Mensa",
+                "Chief Keef"
+            ],
+            "coordinates": {
+                "latitude": 41.881832,
+                "longitude": -87.623177
+            }
+        },
+        {
+            "name": "Houston",
+            "state": "Texas",
+            "population": 2303000,
+            "artists": [
+                "Beyonce",
+                "Travis Scott",
+                "Drake"
+            ],
+            "coordinates": {
+                "latitude": 29.766083,
+                "longitude": -95.358810 
+            }
+        },
+        {
+            "name": "Atlanta",
+            "state": "Georgia",
+            "population": 472522,
+            "artists": [
+                "Migos",
+                "Future",
+                "Young Thug",
+                "Gucci Mane"
+            ],
+            "coordinates": {
+                "latitude": 33.753746,
+                "longitude": -84.386330 
+            }
+        }
+    ]
 }
