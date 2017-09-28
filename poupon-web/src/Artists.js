@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
   Route,
-  Link,
   Switch
 } from 'react-router-dom';
 
@@ -65,7 +63,7 @@ class ArtistCard extends Component {
                 <img src={artist.image.url} className="card-img-top" alt={artist.name}/>
                 <div className="card-block">
                 <div className="Container">
-                        <h4><a href={"artists/"+artist.id} className="card-title"> {artist.name}</a></h4>
+                        <h4><a href={"/artists/"+artist.id} className="card-title"> {artist.name}</a></h4>
                 </div>
                 <div className="Container">
                 <p className="card-text">

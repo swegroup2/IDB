@@ -61,7 +61,7 @@ class NewsCard extends Component {
                 <div className="card">
                   <div className="Container">
 				  <div className="card-block">
-				    <h4 className="card-title"><a href={"news/"+id}>{title}</a></h4>
+				    <h4 className="card-title"><a href={"/news/"+id}>{title}</a></h4>
 				    <h6 className="card-subtitle mb-2 text-muted">{"points: " + score}</h6>
 				    <p className="card-text">{"Artists: " + artists.join(", ")}</p>
 				    <a href={url} className="card-link">{`Open (${domain})`}</a>
