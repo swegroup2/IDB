@@ -7,11 +7,11 @@
             "width": 640
         },
         "genres": [
-            "dance pop",
-            "indie r&b",
-            "neo soul",
+            "dance-pop",
+            "indie-r&b",
+            "neo-soul",
             "pop",
-            "pop rap",
+            "pop-rap",
             "rap"
         ],
         "albums": [
@@ -38,9 +38,9 @@
             "url" : "https://i.scdn.co/image/b86a3dbd77a8353647bff195d310d5eb1bd80af6",
             "width" : 999
         },
-        "genres" : [ "pop", 
-            "pop christmas", 
-            "pop rap", 
+        "genres" : [ 
+            "pop", 
+            "pop-rap", 
             "rap" 
         ],
         "albums": [
@@ -74,10 +74,9 @@
             "width" : 640
         },
         "genres" : [ 
-            "hip hop", 
-            "pop rap", 
-            "rap", 
-            "west coast rap" 
+            "hip-hop", 
+            "pop-rap", 
+            "rap"
         ],
         "albums": [
             "DAMN.",
