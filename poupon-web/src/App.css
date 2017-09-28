@@ -15,6 +15,9 @@
     padding: 1em;
 }
 
+div[class^="col-"], div[class*=" col-"] {
+    padding: 1em;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
