@@ -7,7 +7,7 @@ import {
   Switch
 } from 'react-router-dom';
 import Navbar from './Navbar';
-
+import Artists from './Artists';
 
 function Home() {
   return (
@@ -17,14 +17,6 @@ function Home() {
           <button type="button" className="btn btn-primary">API Test</button>
         </a>
       </div>
-  );
-}
-
-function Artists() {
-  return (
-    <div>
-      <p>Artists will be displayed here!</p>
-    </div>
   );
 }
 
@@ -42,11 +34,13 @@ class App extends Component {
       <Router>
         <div style={{textAlign: "center"}}>
           <Navbar/>
+          <div className="Container">
           <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/artists" component={Artists}/>
-            <Route component={NotFound} />
+                <Route exact path="/" component={Home}/>
+                <Route path="/artists" component={Artists}/>
+                <Route component={NotFound} />
           </Switch>
+          </div>
         </div>
       </Router>
     );
