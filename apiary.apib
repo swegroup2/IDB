@@ -9,72 +9,121 @@ Poupon is a simple API allowing consumers to grab data about hip hop.
 
 ### List All Artists [GET]
 
+This will return all of the artist objects in the database.
+
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "artist_id": 1,
+                "name": "Kanye West",
+                "genres": [
                     {
-                        "choice": "Swift",
-                        "votes": 2048
+                        "genre": "rap"
                     }, {
-                        "choice": "Python",
-                        "votes": 1024
+                        "genre": "hip hop"
+                    }
+                ],
+                "albums": [
+                    {
+                        "album_id": 1,
                     }, {
-                        "choice": "Objective-C",
-                        "votes": 512
+                        "album_id": 2,
+                    }
+                ],
+                "image_id" : 1,
+                "related_artists": [
+                    {
+                        "artist_id": 2,
                     }, {
-                        "choice": "Ruby",
-                        "votes": 256
+                        "artist_id": 3,
                     }
                 ]
             }
         ]
 
-### Create a New Question [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+            
+## Albums Collection [/albums]
 
-+ Request (application/json)
+### List All Albums [GET]
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+    This will return all of the albums in the database.
++ Response 200 (application/json)
 
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
+        [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "album_id": 1,
+                "name": "My Beautiful Dark Twisted Fantasy",
+                "release_date": "2015-08-05",
+                "artists": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
+                        "artist_id": 1,
+                    }
+                ],
+                "tracks": [
+                    {
+                        "track": "Dark Fantasy",
                     }, {
-                        "choice": "Python",
-                        "votes": 0
+                        "track": "Gorgeous",
                     }, {
-                        "choice": "Objective-C",
-                        "votes": 0
+                        "track": "Power",
+                    }
+                ],
+                "cover_art_id": 1,
+                "label": "GOOD Music"
+            }
+        ]
+
+            
+## News Collection [/news]
+
+### List All Articles [GET]
+
+    This will return all of the news articles in the database.
++ Response 200 (application/json)
+
+        [
+            {
+                "article_id": 1,
+                "published_at": "2015-08-05",
+                "title": "Huge new song",
+                "score": 23,
+                "comments": 5,
+                "url": "example.com",
+                "artists": [
+                    {
+                        "artist_id": 2,
                     }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                        "artist_id": 4
                     }
                 ]
             }
+        ]
+            
+## Cities Collection [/cities]
+
+### List All Cities [GET]
+
+    This will return all of the city objects in the database.
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "city_id": "1",
+                "name": "Houston",
+                "state": "Texas",
+                "population": 3219321,
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "artists": [
+                    {
+                        "artist_id": 8
+                    }, {
+                        "artist_id": 15
+                    }, {
+                        "artist_id": 23
+                    }
+                ]
+            }
+        ]
