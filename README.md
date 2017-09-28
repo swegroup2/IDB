@@ -1,11 +1,12 @@
-# App Engine Standard Flask Hello World
+# Poupon.me
+## Setting up
+- On Ubuntu (using apt): `make install`
+- On other systems:
+	- Install Node.js 8.x
+	- Install Python 2.7 and Pip
+	- `make post-install`
 
-This sample shows how to use [Flask](http://flask.pocoo.org/) with Google App
-Engine Standard.
-
-Before running or deploying this application, install the dependencies using
-[pip](http://pip.readthedocs.io/en/stable/):
-
-    pip install -t lib -r requirements.txt
-
-For more information, see the [App Engine Standard README](../../README.md)
+## Building
+- To deploy: `make deploy`
+- To build react app: `make build`
+- To test locally: `make test`
