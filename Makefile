@@ -1,15 +1,15 @@
-all: web
+all: test
 
 .PHONY: deploy
-deploy:
+deploy: build
 	gcloud app deploy --version vx 
 
 .PHONY: test
 test:
 	cd poupon-web; npm start
 
-.PHONY: web
-web:
+.PHONY: build
+build:
 	cd poupon-web; npm run build
 
 .PHONY: install
