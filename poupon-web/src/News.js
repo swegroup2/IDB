@@ -28,7 +28,7 @@ class Preview extends Component {
     	const domain = url.substring(dStart, dEnd);
         return (
             <div className="col-sm-12 col-md-6">
-            <div className="Container">
+            
                 <div className="card">
 				  <div className="card-block">
 				    <h4 className="card-title">{title}</h4>
@@ -37,7 +37,7 @@ class Preview extends Component {
 				    <a href={url} className="card-link">{`Open (${domain})`}</a>
 				  </div>
 				</div>
-            </div>
+            
             </div>
         );
     }

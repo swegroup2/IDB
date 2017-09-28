@@ -6,24 +6,16 @@
   height: 80px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-}
+
 
 .App-intro {
   font-size: large;
 }
 
 .Container {
-    padding:1em;
+    max-width: 900px;
 }
 
-.card-text, .card-title {
-    text-align: left;
-    color: black;
-}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
