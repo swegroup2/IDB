@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom';
 
 var data = require('./data/artists.json');
 console.log(data);
 
 class Artists extends Component {
     render() {
-        const items = data.artists.map((item) =>
-            <Preview artist={item}/>
+        const items = data.artists.map((item, i) =>
+            <Preview key={i} artist={item}/>
         );
         return (
             <div className="Container">
@@ -25,15 +20,25 @@ class Artists extends Component {
 
 class Preview extends Component {
     render() {
-        const genres = this.props.artist.genres.map((genre) => <li>{genre}</li>)
-        const albums = this.props.artist.albums.map((album) => <li>{album}</li>)
+        const genres = this.props.artist.genres.map((genre) => {return(genre + ", ");})
+        const albums = this.props.artist.albums.map((album) => {return(album) + ", ";})
         return (
                 <div className="col-sm-6 col-md-4">
-                <div className="Container">
-                    <img src={this.props.artist.image.url} className="img-fluid"/>
-                    {this.props.artist.name}
-                    {genres}
-                    {albums}
+                <div className="card">
+                    <div className="Container">
+                    <img src={this.props.artist.image.url} className="card-img-top"/>
+                    <div className="card-block">
+                        <div className="Container">
+                        <h4 className="card-title">{this.props.artist.name}</h4>
+                        </div>
+                        <div className="Container">
+                        <p className="card-text">
+                            genres: {genres}<br/>
+                            albums: {albums}
+                        </p>
+                    </div>
+                    </div>
+                    </div>
                 </div>
                 </div>
         );
