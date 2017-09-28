@@ -1,36 +1,40 @@
 {
-    "title": "[FRESH] Kendrick Lamar: \"Humble\" (Single)",
-    "score": 25380,
-    "num_comments": 3248,
-    "url": "https://www.youtube.com/watch?v=tvTRZJ-4EyI",
-    "artists" : [
-        "Kendrick Lamar"
-    ]
-},
-{
-    "title": "[FRESH] Kendrick Lamar - DAMN.",
-    "score": 21589,
-    "url": "https://www.reddit.com/r/hiphopheads/comments/65a5s2/fresh_kendrick_lamar_damn/",
-    "num_comments": 4852,
-    "artists" : [
-        "Kendrick Lamar"
-    ]
-},
-{
-    "title": "[FRESH] Kendrick Lamar - The Heart Part 4",
-    "score": 18884,
-    "url": "https://itun.es/de/V6KQib",
-    "num_comments": 3252,
-    "artists" : [
-        "Kendrick Lamar"
-    ]
-},
-{
-    "title": "Kim is snapchatting Kanye's conversation with Taylor right now",
-    "score": 16676,
-    "url": "https://www.reddit.com/r/hiphopheads/comments/4tczej/kim_is_snapchatting_kanyes_conversation_with/",
-    "num_comments": 3717,
-    "artists" : [
-        "Kanye West"
+    "news": [
+        {
+            "title": "[FRESH] Kendrick Lamar: \"Humble\" (Single)",
+            "score": 25380,
+            "num_comments": 3248,
+            "url": "https://www.youtube.com/watch?v=tvTRZJ-4EyI",
+            "artists" : [
+                "Kendrick Lamar"
+            ]
+        },
+        {
+            "title": "[FRESH] Kendrick Lamar - DAMN.",
+            "score": 21589,
+            "url": "https://www.reddit.com/r/hiphopheads/comments/65a5s2/fresh_kendrick_lamar_damn/",
+            "num_comments": 4852,
+            "artists" : [
+                "Kendrick Lamar"
+            ]
+        },
+        {
+            "title": "[FRESH] Kendrick Lamar - The Heart Part 4",
+            "score": 18884,
+            "url": "https://itun.es/de/V6KQib",
+            "num_comments": 3252,
+            "artists" : [
+                "Kendrick Lamar"
+            ]
+        },
+        {
+            "title": "Kim is snapchatting Kanye's conversation with Taylor right now",
+            "score": 16676,
+            "url": "https://www.reddit.com/r/hiphopheads/comments/4tczej/kim_is_snapchatting_kanyes_conversation_with/",
+            "num_comments": 3717,
+            "artists" : [
+                "Kanye West"
+            ]
+        }
     ]
 }

@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Navbar from './Navbar';
 import Artists from './Artists';
+import News from './News';
 
 function Home() {
   return (
@@ -32,12 +33,13 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div style={{textAlign: "center"}}>
+        <div>
           <Navbar/>
           <div className="Container">
           <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/artists" component={Artists}/>
+                <Route path="/news" component={News}/>
                 <Route component={NotFound} />
           </Switch>
           </div>
