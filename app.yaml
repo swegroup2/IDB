@@ -3,6 +3,7 @@ api_version: 1
 threadsafe: true
 skip_files:
 - ^poupon-web/node_modules/*?
+- ^.git/*?
 
 handlers:
 - url: /api/.*
