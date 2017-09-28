@@ -5,7 +5,7 @@ var data = require('./data/albums.json');
 class Albums extends Component {
     render() {
         const items = data.albums.map((item, i) =>
-            <Preview key={i} album={item}/>
+            <Preview key={i} album={item} index={i}/>
         );
         return (
             <div className="Container">
@@ -20,12 +20,14 @@ class Albums extends Component {
 class Preview extends Component {
     render() {
         var album = this.props.album;
-        var collapseName = "collapse"+album.name;
+        var collapseName = "collapse"+this.props.index;
+        const tracks = album.tracks.map((item, i) => <span key={i}>{item.name}<br/></span>);
+        console.log(tracks);
         return (
-            <div className="col-sm-6 col-md-4">
+            <div className="col-sm-12 col-md-6 col-lg-4">
             <div className="card">
                 <div className="Container">
-                <img src={album.image.url} className="card-img-top"/>
+                <img src={album.image.url} className="card-img-top" alt={album.name}/>
                 <div className="card-block">
                     <div className="Container">
                     <h4 className="card-title">{album.name}</h4>
@@ -35,12 +37,13 @@ class Preview extends Component {
                     <p className="card-text">
                         <b>Release Date:</b> {new Date(album.release_date).toDateString()}<br/>
                         <b>Label:</b> {album.label}<br/>
-                        <a data-toggle="collapse" data-parent="#accordion" href="#{collapseName}" aria-expanded="true" aria-controls={collapseName}>TrackList
-                        </a>
-                        <div id={collapseName} className="collapse hide" role="tabpanel" aria-labelledby="heading{collapseName}">
-                        Whaddup
-                        </div>
                     </p>
+                    <a data-toggle="collapse" data-parent="#accordion" href={"#"+collapseName} aria-expanded="false" aria-controls={collapseName}>
+                        TrackList
+                    </a>
+                    <div id={collapseName} className="collapse hide" role="tabpanel">
+                        {tracks}
+                    </div>
                     </div>
                 </div>
                 </div>
