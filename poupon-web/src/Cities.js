@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
+var db = require('./database.json').database;
 
 class Cities extends Component {
     render() {
@@ -54,21 +55,27 @@ class MultipleCities extends Component {
 class CityCard extends Component {
     render() {
         const {id, name, state, population, artists, coordinates} = this.props.city;
+        const related_artists = artists.map(item =>
+            {if(item in db) {
+                return(<span><a href={"/artists/"+db[item]}>{item}</a>, </span>);
+            } else {
+                return(<span>{item}, </span>);
+            }}
+            );
         return (
             <div className="col-md-12 col-lg-6">
             	<div className="Container">
                 <div className="card">
-                  <div className="Container">
-				  <div className="card-block">
+				  <div className="card-body">
 				    <h4 className="card-title"><a href={"/cities/"+id}>{name}, {state}</a></h4>
 				    <h6 className="card-subtitle mb-2 text-muted">
                         <b>Population: </b>{population}
                     </h6>
 				    <p className="card-text">
-                        {"Artists: " + artists.join(", ")}<br/>
+                        <b>Related Artists: </b>{related_artists}<br/>
+                        <b>Related News Articles: </b><br/>
                         <b>Coordinates: </b>{coordinates.latitude}, {coordinates.longitude}
                     </p>
-				  </div>
 				  </div>
 				</div>
             	</div>
