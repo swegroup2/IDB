@@ -8,6 +8,7 @@ class Navbar extends Component {
 		//todo: move this?
 		const tabs = [
 			{name: "Home", href: "/"},
+			{name: "About", href: "/about"},
 			{name: "Artists", href: "/artists"},
 			{name: "Albums", href: "/albums"},
 			{name: "News", href: "/news"},

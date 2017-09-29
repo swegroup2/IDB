@@ -11,6 +11,7 @@ import Artists from './Artists';
 import Albums from './Albums';
 import News from './News';
 import Cities from './Cities';
+import About from './About'
 
 function Home() {
   return (
@@ -49,6 +50,7 @@ class App extends Component {
                 <Route path="/albums" component={Albums}/>
                 <Route path="/news" component={News}/>
                 <Route path="/cities" component={Cities}/>
+                <Route path="/about" component={About}/>
                 <Route component={NotFound} />
           </Switch>
           </div>
