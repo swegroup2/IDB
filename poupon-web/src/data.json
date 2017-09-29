@@ -111,6 +111,9 @@
                 "artist" : "Kanye West",
                 "release_date" : "2013-01-01",
                 "label" : "Digital Distribution Trinidad and Tobago",
+                "cities_mentioned": [
+                    "Chicago"
+                ],
                 "image" : {
                     "height" : 640,
                     "url" : "https://i.scdn.co/image/3d003b7bb9e93a101d412f475fe2d1e7df62b3c7",
@@ -196,6 +199,12 @@
                 "artist" : "Frank Ocean",
                 "release_date" : "2012-01-01",
                 "label" : "Def Jam Records",
+                "cities_mentioned": [
+                    "Denver",
+                    "Los Angeles",
+                    "Miami",
+                    "Amsterdam"
+                ],
                 "image" : {
                     "height" : 640,
                     "url" : "https://i.scdn.co/image/a809b53f724dab8416e399bda6c0fc2a16ab75ed",
@@ -330,6 +339,10 @@
                 "artist" : "Frank Ocean",
                 "release_date" : "2016-08-20",
                 "label" : "Boys Don't Cry",
+                "cities_mentioned": [
+                    "New Orleans",
+                    "Los Angeles"
+                ],
                 "image" : {
                     "height" : 640,
                     "url" : "https://i.scdn.co/image/e22f959dae6f088b9c6614c4f777efacaf3544f1",
@@ -468,7 +481,9 @@
                 "url": "https://www.youtube.com/watch?v=tvTRZJ-4EyI",
                 "artists" : [
                     "Kendrick Lamar"
-                    ]
+                ],
+                "albums" : [
+                ]
             },
             {
                 "id": 8,
@@ -478,7 +493,10 @@
                 "num_comments": 4852,
                 "artists" : [
                     "Kendrick Lamar"
-                    ]
+                ],
+                "albums" : [
+                    "DAMN."
+                ]
             },
             {
                 "id": 9,
@@ -488,7 +506,9 @@
                 "num_comments": 3252,
                 "artists" : [
                     "Kendrick Lamar"
-                    ]
+                ],
+                "albums" : [
+                ]
             },
             {
                 "id": 10,
@@ -498,7 +518,9 @@
                 "num_comments": 3717,
                 "artists" : [
                     "Kanye West"
-                    ]
+                ],
+                "albums" : [
+                ]
             }
         ],
         "cities": [
