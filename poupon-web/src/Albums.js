@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
+var db = require('./database.json').database;
 
 class Albums extends Component {
     render() {
@@ -60,28 +61,32 @@ class AlbumCard extends Component {
         var album = this.props.album;
         var collapseName = "collapse"+album.id;
         const tracks = album.tracks.map((item, i) => <span key={i}>{item.name}<br/></span>);
+        const cities = album.cities_mentioned.map(item =>
+            {if(item in db) {
+                return(<span><a href={"/cities/"+db[item]}>{item}</a>, </span>);
+            } else {
+                return(<span>{item}, </span>);
+            }}
+            );
         return (
                 <div className="col-sm-12 col-md-6 col-lg-4">
                 <div className="card">
                 <div className="Container">
                 <img src={album.image.url} className="card-img-top" alt={album.name}/>
-                <div className="card-block">
-                <div className="Container">
-                <h4 className="card-title"><a href={"/albums/"+album.id}>{album.name}</a></h4>
-                <h6 className="card-subtitle mb-2 text-muted">{album.artist}</h6>
                 </div>
-                <div className="Container">
+                <div className="card-body">
+                <h4 className="card-title"><a href={"/albums/"+album.id}>{album.name}</a></h4>
+                <h6 className="card-subtitle mb-2 text-muted"><a href={"/artists/"+db[album.artist]}>{album.artist}</a></h6>
                 <p className="card-text">
                 <b>Release Date:</b> {new Date(album.release_date).toDateString()}<br/>
                 <b>Label:</b> {album.label}<br/>
+                <b>Cities Mentioned:</b> {cities}<br/>
                 </p>
                 <a data-toggle="collapse" data-parent="#accordion" href={"#"+collapseName} aria-expanded="false" aria-controls={collapseName}>
-                TrackList
+                TrackList >
                 </a>
                 <div id={collapseName} className="collapse hide" role="tabpanel">
                 {tracks}
-                </div>
-                </div>
                 </div>
                 </div>
                 </div>
