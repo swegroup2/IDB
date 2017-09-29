@@ -76,11 +76,9 @@ class ArtistCard extends Component {
                 <div className="card">
                 <div className="Container">
                 <img src={artist.image.url} className="card-img-top" alt={artist.name}/>
-                <div className="card-block">
-                <div className="Container">
-                        <h4><a href={"/artists/"+artist.id} className="card-title"> {artist.name}</a></h4>
                 </div>
-                <div className="Container">
+                <div className="card-body">
+                <h4><a href={"/artists/"+artist.id} className="card-title"> {artist.name}</a></h4>
                 <p className="card-text">
                 <b>Genres:</b> {artist.genres.join(", ")}<br/>
                 <b>Albums:</b> {albums}<br/>
@@ -88,8 +86,6 @@ class ArtistCard extends Component {
                 <b>Related Artists:</b> {artist.related_artists.join(", ")}<br/>
                 </p>
                 <a href={artist.external_urls.spotify}>Open Spotify</a>
-                </div>
-                </div>
                 </div>
                 </div>
                 </div>
