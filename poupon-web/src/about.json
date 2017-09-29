@@ -1,0 +1,59 @@
+{
+	"people": [
+		{
+			"name": "Christian Carroll",
+			"img": "",
+			"bio": "",
+			"responsibilities": "",
+			"github": {
+				"commits": 0,
+				"issues": 0,
+				"unittests": 0
+			} 
+		},
+		{
+			"name": "Logan Zartman",
+			"img": "https://loganzartman.github.io/sweblog17/profile.jpg",
+			"bio": "I really like to write JavaScript but I think it's Stockholm Syndrome.",
+			"responsibilities": "Front-end, Tools and Configuration",
+			"github": {
+				"commits": 23,
+				"issues": 5,
+				"unittests": 0
+			} 
+		},
+		{
+			"name": "Sarah Wang",
+			"img": "",
+			"bio": "",
+			"responsibilities": "",
+			"github": {
+				"commits": 0,
+				"issues": 0,
+				"unittests": 0
+			} 
+		},
+		{
+			"name": "William Xu",
+			"img": "",
+			"bio": "",
+			"responsibilities": "",
+			"github": {
+				"commits": 0,
+				"issues": 0,
+				"unittests": 0
+			} 
+		},
+		{
+			"name": "Zach Burky",
+			"img": "",
+			"bio": "",
+			"responsibilities": "",
+			"github": {
+				"commits": 0,
+				"issues": 0,
+				"unittests": 0
+			} 
+		}
+	]
+}
