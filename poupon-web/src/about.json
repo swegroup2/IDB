@@ -2,12 +2,12 @@
 	"people": [
 		{
 			"name": "Christian Carroll",
-			"img": "",
-			"bio": "",
-			"responsibilities": "",
+			"img": "https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg",
+			"bio": "I'm a junior Computer Science and Finance double major.",
+			"responsibilities": "Apiary, Report",
 			"github": {
-				"commits": 0,
-				"issues": 0,
+				"commits": 3,
+				"issues": 5,
 				"unittests": 0
 			} 
 		},
