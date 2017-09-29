@@ -35,12 +35,12 @@
 		},
 		{
 			"name": "William Xu",
-			"img": "",
-			"bio": "",
-			"responsibilities": "",
+			"img": "https://xillwu.files.wordpress.com/2017/01/12967276_10206096418031215_1083369949972101586_o.jpg",
+			"bio": "I love working with Big Data and think React is an alien language",
+			"responsibilities": "Back-end, Apiary, and Tools",
 			"github": {
-				"commits": 0,
-				"issues": 0,
+				"commits": 7,
+				"issues": 11,
 				"unittests": 0
 			} 
 		},
