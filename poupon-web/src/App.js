@@ -3,9 +3,9 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch
 } from 'react-router-dom';
+
 import Navbar from './Navbar';
 import Artists from './Artists';
 import Albums from './Albums';
@@ -16,12 +16,20 @@ function Home() {
   return (
       <div>
         <div className="Container">
-        <a href="http://poupon.me/api/hello" target="_blank" rel="noopener noreferrer">
+        <a href="/api/hello" target="_blank" rel="noopener noreferrer">
           <button type="button" className="btn btn-primary">API Test</button>
         </a>
       </div>
       </div>
   );
+}
+
+function Api() {
+    return (
+            <div>
+            Poupon
+            </div>
+           );
 }
 
 function NotFound() {
@@ -45,6 +53,7 @@ class App extends Component {
                 <Route path="/albums" component={Albums}/>
                 <Route path="/news" component={News}/>
                 <Route path="/cities" component={Cities}/>
+                <Route path="/api/*" component={Api}/>
                 <Route component={NotFound} />
           </Switch>
           </div>
