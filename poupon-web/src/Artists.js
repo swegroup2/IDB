@@ -10,12 +10,12 @@ var db = require('./database.json').database;
 class Artists extends Component {
     render() {
         return (
-            <div className="Container">
-            <Switch>
+                <div className="Container">
+                <Switch>
                 <Route exact path="/artists" component={MultipleArtists}/>
                 <Route component={SingleArtist}/>
-            </Switch>
-            </div>
+                </Switch>
+                </div>
         );
     }
 }
@@ -45,10 +45,8 @@ class MultipleArtists extends Component {
     render() {
         const items = data.artists.map((item, i) => <ArtistCard key={i} artist={item}/>);
         return (
-                <div className="Container">
                 <div className="row">
                 {items}
-                </div>
                 </div>
                );
     }

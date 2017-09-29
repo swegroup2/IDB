@@ -10,8 +10,10 @@ class About extends Component {
     render() {
         const cards = data.people.map((person, i) => <AboutCard key={i} person={person}/>);
         return (
+            <div className="Container">
             <div className="row">
                 {cards}
+            </div>
             </div>
         );
     }
@@ -30,7 +32,9 @@ class AboutCard extends Component {
         return (
             <div className="col-lg-4 col-md-6 col-sm-12">
                 <div className="card">
+                    <div className="Container">
                     <img className="card-img-top" src={person.img} alt="Headshot"/>
+                    </div>
                     <div className="card-body">
                         <h4>{person.name}</h4>
                         <div className="card-text mb-3">

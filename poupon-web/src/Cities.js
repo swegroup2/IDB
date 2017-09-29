@@ -10,10 +10,12 @@ var db = require('./database.json').database;
 class Cities extends Component {
     render() {
         return (
+            <div className="Container">
             <Switch>
                 <Route exact path="/cities" component={MultipleCities}/>
                 <Route component={SingleCity}/>
             </Switch>
+            </div>
         );
     }
 }
@@ -43,10 +45,8 @@ class MultipleCities extends Component {
     render() {
         const items = data.cities.map((item, i) => <CityCard key={i} city={item}/>);
         return (
-            <div className="Container">
             <div className="row">
                 {items}
-            </div>
             </div>
      	);
 	}
@@ -64,7 +64,6 @@ class CityCard extends Component {
             );
         return (
             <div className="col-md-12 col-lg-6">
-            	<div className="Container">
                 <div className="card">
 				  <div className="card-body">
 				    <h4 className="card-title"><a href={"/cities/"+id}>{name}, {state}</a></h4>
@@ -77,7 +76,6 @@ class CityCard extends Component {
                         <b>Coordinates: </b>{coordinates.latitude}, {coordinates.longitude}
                     </p>
 				  </div>
-				</div>
             	</div>
             </div>
         );

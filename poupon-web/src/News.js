@@ -10,10 +10,12 @@ var db = require('./database.json').database;
 class News extends Component {
     render() {
         return (
+            <div className="Container">
             <Switch>
                 <Route exact path="/news" component={MultipleNews}/>
                 <Route component={SingleNews}/>
             </Switch>
+            </div>
         );
     }
 }

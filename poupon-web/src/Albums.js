@@ -47,10 +47,8 @@ class MultipleAlbums extends Component {
             <AlbumCard key={i} album={item}/>
         );
         return (
-            <div className="Container">
             <div className="row">
                 {items}
-            </div>
             </div>
      );
   }
