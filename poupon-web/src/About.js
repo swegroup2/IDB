@@ -37,7 +37,10 @@ class AboutCard extends Component {
                     </div>
                     <div className="card-body">
                         <h4>{person.name}</h4>
-                        <div className="card-text mb-3">{person.bio}</div>
+                        <div className="card-text mb-3">
+                            <p>{person.bio}</p>
+                            <p><span className="font-weight-bold">Responsibilities:</span><br/>{person.responsibilities}</p>
+                        </div>
                         <table className="table table-sm">
                           <tbody>
                             {rows}

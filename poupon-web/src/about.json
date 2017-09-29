@@ -2,12 +2,12 @@
 	"people": [
 		{
 			"name": "Christian Carroll",
-			"img": "",
-			"bio": "",
-			"responsibilities": "",
+			"img": "https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg",
+			"bio": "I'm a junior Computer Science and Finance double major.",
+			"responsibilities": "Apiary, Report",
 			"github": {
-				"Commits": 0,
-				"Issues": 0,
+				"Commits": 3,
+				"Issues": 5,
 				"Unit Tests": 0
 			} 
 		},
@@ -35,23 +35,23 @@
 		},
 		{
 			"name": "William Xu",
-			"img": "",
-			"bio": "",
-			"responsibilities": "",
+			"img": "https://xillwu.files.wordpress.com/2017/01/12967276_10206096418031215_1083369949972101586_o.jpg",
+			"bio": "I love working with Big Data and think React is magic",
+			"responsibilities": "Back-end, Apiary, and Tools",
 			"github": {
 				"Commits": 0,
-				"Issues": 0,
+				"Issues": 11,
 				"Unit Tests": 0
 			} 
 		},
 		{
 			"name": "Zach Burky",
-			"img": "",
-			"bio": "",
-			"responsibilities": "",
+			"img": "https://hodlandstress.files.wordpress.com/2017/09/cropped-headshot1.png",
+			"bio": "Sometimes I feel like I need more sleep.",
+			"responsibilities": "Apiary, Report-writing, back-end, database",
 			"github": {
-				"Commits": 0,
-				"Issues": 0,
+				"Commits": 5,
+				"Issues": 9,
 				"Unit Tests": 0
 			} 
 		}
