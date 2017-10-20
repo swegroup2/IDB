@@ -1,8 +1,19 @@
 all: test
 
 .PHONY: deploy
-deploy: build
-	gcloud app deploy --version vx 
+deploy: build deploy-candidate deploy-production
+
+.PHONY: deploy-candidate
+deploy-candidate:
+	gcloud app deploy --no-promote --version candidate
+	gcloud app versions migrate candidate
+	gcloud app versions delete production
+
+.PHONY: deploy-production
+deploy-production:
+	gcloud app deploy --no-promote --version production
+	gcloud app versions migrate production
+	gcloud app versions delete candidate
 
 .PHONY: test
 test:
