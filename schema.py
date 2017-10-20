@@ -8,20 +8,20 @@ Base = declarative_base()
 DColumn = partial(Column, nullable=False)
 
 articles_artists = Table('articles_artists', Base.metadata,
-			DColumn('article_id', String, ForeignKey('articles.article_id')),
-			DColumn('artist_id', String, ForeignKey('artists.artist_id')))
+			DColumn('article_id', String, ForeignKey('articles.article_id'), primary_key=True),
+			DColumn('artist_id', String, ForeignKey('artists.artist_id'), primary_key=True))
 
 articles_albums = Table('articles_albums', Base.metadata,
-			DColumn('article_id', String, ForeignKey('articles.article_id')),
-			DColumn('album_id', String, ForeignKey('albums.album_id')))
+			DColumn('article_id', String, ForeignKey('articles.article_id'), primary_key=True),
+			DColumn('album_id', String, ForeignKey('albums.album_id'), primary_key=True))
 
 genres_artists = Table('genres_artists', Base.metadata,
-			DColumn('genre_id', String, ForeignKey('genres.genre_id')),
-			DColumn('artist_id', String, ForeignKey('artists.artist_id')))
+			DColumn('genre_id', String, ForeignKey('genres.genre_id'), primary_key=True),
+			DColumn('artist_id', String, ForeignKey('artists.artist_id'), primary_key=True))
 
 cities_artists = Table('cities_artists', Base.metadata,
-			DColumn('city_id', String, ForeignKey('cities.city_id')),
-			DColumn('artist_id', String, ForeignKey('artists.artist_id')))
+			DColumn('city_id', String, ForeignKey('cities.city_id'), primary_key=True),
+			DColumn('artist_id', String, ForeignKey('artists.artist_id'), primary_key=True))
 
 class Artist(Base):
 	__tablename__ = "artists"
