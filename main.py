@@ -5,7 +5,7 @@ import os
 from flask import Flask
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
-from schema import *
+from api.schema import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
