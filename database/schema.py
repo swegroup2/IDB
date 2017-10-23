@@ -51,7 +51,7 @@ class Album(Base):
 	name = DColumn(String)
 	spotify_id = DColumn(String, unique=True)
 	release_date = DColumn(Date)
-	album_picture_link = DColumn(String, unique=True)
+	album_picture_link = DColumn(String)
 	artist_id = DColumn(Integer, ForeignKey("artists.artist_id"))
 	articles = relationship(
 		'Article',
