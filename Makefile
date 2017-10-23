@@ -17,7 +17,7 @@ install: install-node post-install
 
 .PHONY: post-install
 post-install:
-	sudo pip install -r requirements.txt
+	sudo pip install -t lib -r requirements.txt
 	cd poupon-web; npm install
 
 .PHONY: install-node
