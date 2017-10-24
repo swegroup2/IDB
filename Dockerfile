@@ -1,11 +1,12 @@
-FROM python:3.6
+FROM gcr.io/google-appengine/python
+LABEL python_version=python3.6
+RUN virtualenv --no-download /env -p python3.6
 
-WORKDIR /app
-
-ADD . /app
-
+# Set virtualenv environment variables. This is equivalent to running
+# source /env/bin/activate
+ENV VIRTUAL_ENV /env
+ENV PATH /env/bin:$PATH
+ADD requirements.txt /app/
 RUN pip install -r requirements.txt
-
-EXPOSE 80
-
+ADD . /app/
 CMD bash
