@@ -13,14 +13,14 @@ clean-docker:
 .docker_built:
 	cp docker/Dockerfile Dockerfile
 	docker build -t web_build .
-	docker create --name web_test -it web_build
 	touch .docker_built
 	rm Dockerfile
 
 .PHONY: docker-run
 docker-run: .docker_built
 	clear
-	docker start -i web_test
+	docker run --mount type=bind,src="/$(shell pwd)",dst=/app --name web_test -it web_build
+	docker rm web_test
 
 .PHONY: deploy
 deploy: react-build
