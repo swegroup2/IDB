@@ -22,10 +22,10 @@ def show_hello():
 def show_echo(what):
     return jsonify({'text': what})
 
-@app.route('/api/artists/top/<integer:num>')
+@app.route('/api/artists/top/<int:num>')
 @app.route('/api/artists/top')
-def show_artists(num=5):
-	num = max(1, min(10, num))
+def show_artists_top(num=5):
+    num = max(1, min(10, num))
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 

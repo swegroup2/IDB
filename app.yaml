@@ -11,8 +11,6 @@ skip_files:
 - ^.git/*?
 
 env_variables:
-    # Replace user, password, database, and instance connection name with the values obtained
-    # when configuring your Cloud SQL instance.
     SQLALCHEMY_DATABASE_URI: >-
       postgresql+psycopg2://postgres:downing@/postgres?host=/cloudsql/poupon-181003:us-central1:db-test
 
