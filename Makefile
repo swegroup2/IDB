@@ -15,6 +15,7 @@ clean:
 
 .PHONY: docker-run
 docker-run: .docker_built
+	clear
 	docker start -i web_test
 
 .PHONY: deploy
@@ -22,9 +23,13 @@ deploy: react-build
 	gcloud app deploy --no-promote --version candidate
 
 .PHONY: react-test
-test:
+react-test:
 	cd poupon-web; npm start
 
 .PHONY: react-build
-build:
+react-build:
 	cd poupon-web; npm run build
+
+.PHONY: flask-test
+flask-test:
+	python "test-flask.py"

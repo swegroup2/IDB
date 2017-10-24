@@ -1,17 +1,18 @@
 # Poupon.me
 ## Setting up
-- On Ubuntu (using apt): `make install`
-- On other systems:
-	- Install Node.js 8.x
-	- Install Python 2.7 and Pip
-	- `make post-install`
+- Install Docker
+- Run `make`
+- A Docker container will be created and started
+- Run `make` again to restart the existing container
+- Now you can issue the commands under "Building"
 
 ## Building
 - To deploy: `make deploy`
-- To build react app: `make build`
-- To test locally: `make test`
+- To build react app: `make react-build`
+- To test react locally: `make react-test`
+- To test Flask locally: `make flask-test`
 
-## Setting up Docker
+## Setting up Docker Manually
 
 ### Building the Docker Image
 Run the following commands ONLY once:
