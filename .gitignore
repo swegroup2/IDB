@@ -3,3 +3,4 @@ lib
 *.pyc
 __pycache__
 cloud_sql_proxy
+.docker_built
