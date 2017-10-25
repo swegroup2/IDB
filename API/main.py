@@ -31,7 +31,7 @@ def show_echo(what):
 def get_artist_by_id(art_id):
     match = db.session.query(Artist).get(art_id)
     if match is None:
-        return 'Resource not found.', 404
+        return not_found()
     return sql_json(Artist, match)
 
 @app.route('/api/artists/top/<int:limit>')
@@ -51,7 +51,7 @@ def get_all_artists():
 def get_album_by_id(alb_id):
     match = db.session.query(Album).get(alb_id)
     if match is None:
-        return 'Resource not found.', 404
+        return not_found()
     return sql_json(Album, match)
 
 @app.route('/api/albums')
@@ -76,13 +76,17 @@ def get_all_articles():
 def get_city_by_id(c_id):
     match = db.session.query(City).get(c_id)
     if match is None:
-        return 'Resource not found.', 404
+        return not_found()
     return sql_json(City, match)
 
 @app.route('/api/cities')
 def get_all_cities():
     matches = db.session.query(City).order_by(City.population.desc()).all()
     return sql_json(City, *matches)
+
+# Error json if object not found
+def not_found():
+    return jsonify({'Error': 'Resource not found.'})
 
 # Error handler
 @app.errorhandler(500)

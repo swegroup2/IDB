@@ -39,6 +39,7 @@ class TestArtistEndpoints(unittest.TestCase):
 
         res = self.client.get("/api/artists/top")
         top_artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(top_artists), 10)
 
     # Test get top artists limit 0
@@ -49,6 +50,7 @@ class TestArtistEndpoints(unittest.TestCase):
 
         res = self.client.get("/api/artists/top/0")
         top_artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(top_artists), 1)
 
     # Test get top artists limit higher than #rows
@@ -59,6 +61,7 @@ class TestArtistEndpoints(unittest.TestCase):
 
         res = self.client.get("/api/artists/top/20")
         top_artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(top_artists), 11)
 
     # Test get top artists limit lower than #rows
@@ -69,6 +72,7 @@ class TestArtistEndpoints(unittest.TestCase):
 
         res = self.client.get("/api/artists/top/5")
         top_artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(top_artists), 5)
 
     # Test get all artists
@@ -79,12 +83,14 @@ class TestArtistEndpoints(unittest.TestCase):
 
         res = self.client.get("/api/artists")
         artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(artists), 2)
 
     # Test get all artists with empty table
     def test_artists_all_2(self):
         res = self.client.get("/api/artists")
         artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(artists), 0)
 
     # Test get artist by id exists
@@ -95,6 +101,7 @@ class TestArtistEndpoints(unittest.TestCase):
 
         res = self.client.get("/api/artists/1")
         artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
         self.assertEqual(len(artists), 1)
 
     # Test get artist by id doesn't exist
@@ -104,7 +111,10 @@ class TestArtistEndpoints(unittest.TestCase):
         self.app.db.session.commit()
 
         res = self.client.get("/api/artists/5")
-        self.assertEqual(res.status_code, 404)
+        artists = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(len(artists), 1)
+        self.assertEqual(artists['Error'], 'Resource not found.')
 
 if __name__ == '__main__':
     unittest.main()
