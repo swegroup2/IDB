@@ -19,17 +19,5 @@ beta_settings:
     cloud_sql_instances: poupon-181003:us-central1:db-test
 
 handlers:
-- url: /api/.*
-  script: main.app
-
-- url: /
-  static_files: poupon-web/build/index.html
-  upload: poupon-web/build/index.html
-
-- url: /(.*\..*)
-  static_files: poupon-web/build/\1
-  upload: poupon-web/build/.*
-
 - url: /.*
-  static_files: poupon-web/build/index.html
-  upload: poupon-web/build/index.html
+  script: api/main.app

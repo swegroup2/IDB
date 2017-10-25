@@ -1,17 +1,26 @@
 # [START app]
 import logging
 import os
+from datetime import datetime
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from database.schema import *
 from database.util import *
 
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='',static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
+
+@app.route('/api/hello')
+def show_hello():
+    return jsonify({'hello': 'world'})
 
 # "RESTful" JSON API
 @app.route('/api/echo/<string:what>')
@@ -21,13 +30,13 @@ def show_echo(what):
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
-    matches = db.session.query(Artist).get(art_id).first()
-    return sql_json(Artist, *matches)
+    matches = db.session.query(Artist).get(art_id)
+    return sql_json(Artist, matches)
 
-@app.route('/api/artists/top/<int:num>')
+@app.route('/api/artists/top/<int:limit>')
 @app.route('/api/artists/top')
-def get_artists_top(num=10):
-    num = max(1, min(10, num))
+def get_artists_top(limit=10):
+    num = max(1, limit)
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 
@@ -39,8 +48,8 @@ def get_all_artists():
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
 def get_album_by_id(alb_id):
-    matches = db.session.query(Album).get(alb_id).first()
-    return sql_json(Album, *matches)
+    matches = db.session.query(Album).get(alb_id)
+    return sql_json(Album, matches)
 
 @app.route('/api/albums')
 def get_all_albums():
@@ -48,9 +57,9 @@ def get_all_albums():
     return sql_json(Album, *matches)
 
 # News endpoints
-@app.route('/api/news/<int:iso_date>')
-def get_articles_by_date(iso_date):
-    conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
+@app.route('/api/news/<string:iso_timestamp>')
+def get_articles_by_date(iso_timestamp):
+    conv_date = datetime.fromtimestamp(int(float(iso_timestamp))).strftime('%Y-%m-%d')
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article, *matches)
 
@@ -62,8 +71,8 @@ def get_all_articles():
 # Cities endpoints
 @app.route('/api/cities/<int:c_id>')
 def get_city_by_id(c_id):
-	matches = db.session.query(City).get(c_id).first()
-	return sql_json(City, *matches)
+	matches = db.session.query(City).get(c_id)
+	return sql_json(City, matches)
 
 @app.route('/api/cities')
 def get_all_cities():
