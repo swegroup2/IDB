@@ -10,3 +10,9 @@ def sql_serialize(cls, *inst) :
 
 def sql_json(cls, *inst) :
     return jsonify(sql_serialize(cls, *inst))
+
+# Error json if object not found
+def not_found():
+    return jsonify({'Error': 'Resource not found.'})
+
+

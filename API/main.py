@@ -1,11 +1,10 @@
 # [START app]
 import logging
 import os
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from database.schema import *
-from database.util import *
+from database.util import sql_json, not_found
 
 app = Flask(__name__,static_url_path='',static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
@@ -83,10 +82,6 @@ def get_city_by_id(c_id):
 def get_all_cities():
     matches = db.session.query(City).order_by(City.population.desc()).all()
     return sql_json(City, *matches)
-
-# Error json if object not found
-def not_found():
-    return jsonify({'Error': 'Resource not found.'})
 
 # Error handler
 @app.errorhandler(500)
