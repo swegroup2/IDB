@@ -54,6 +54,16 @@ def get_specific_articles(iso_date):
 	matches = db.session.query(Article).filter_by(date=conv_date).all()
 	return sql_json(Article, *matches)
 
+@app.route('/api/cities')
+def get_all_cities():
+	matches = db.session.query(City).order_by(City.population.desc()).all()
+	return sql_json(City, *matches)
+
+@app.route('/api/cities/<int:c_id>')
+def get_specific_city(c_id):
+	matches = db.session.query(City).get(c_id)
+	return sql_json(City, *matches)
+
 @app.route('/api/artists/top/<int:num>')
 @app.route('/api/artists/top')
 def show_artists_top(num=5):
