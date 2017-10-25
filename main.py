@@ -42,9 +42,17 @@ def get_all_albums():
 def get_specific_album(a_id=1):
 	matches = db.session.query(Album).get(a_id)
 	return sql_json(Album, *matches)
-	
 
+@app.route('/api/news')
+def get_all_articles():
+	matches = db.session.query(Article).order_by(Article.date.desc()).all()
+	return sql_json(Article, *matches)
 
+@app.route('/api/news/<int:iso_date>')
+def get_specific_articles(iso_date):
+	conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
+	matches = db.session.query(Article).filter_by(date=conv_date).all()
+	return sql_json(Article, *matches)
 
 @app.route('/api/artists/top/<int:num>')
 @app.route('/api/artists/top')
