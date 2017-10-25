@@ -4,6 +4,7 @@ import {
   Switch
 } from 'react-router-dom';
 
+const API_URL = "http://poupon.me/api"; //TODO: relocate
 const data = require('./about.json');
 
 class About extends Component {
@@ -20,22 +21,46 @@ class About extends Component {
     }
 }
 
-class AboutSummary extends Component {
+class APIStatusBadge extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            apiTest: false
+            apiStatus: "unknown"
+        };
+
+        this.badgeClass = {
+            "unknown": "badge-warning",
+            "good": "badge-success",
+            "bad": "badge-danger"
+        };
+        this.badgeText = {
+            "unknown": "Checking...",
+            "good": "Available",
+            "bad": "Offline"
         };
     }
 
     componentWillMount() {
-        fetch("http://poupon.me/api/hello")
+        fetch(`${API_URL}/hello`)
             .then(data => data.json())
             .then(json => {
-                this.setState({apiTest: "hello" in json});
+                this.setState({apiStatus: "hello" in json ? "good" : "bad"});
+            })
+            .catch(e => {
+                this.setState({apiStatus: "bad"});
             });
     }
-    
+
+    render() {
+        return (
+            <span className={`badge ${this.badgeClass[this.state.apiStatus]}`}>
+                API Status: {this.badgeText[this.state.apiStatus]}
+            </span>
+        );
+    }
+}
+
+class AboutSummary extends Component {
     render() {
         return (
             <div className="col-lg-4 col-md-6 col-sm-12">
@@ -43,9 +68,7 @@ class AboutSummary extends Component {
                     <div className="card-body">
                         <h2>Poupon</h2>
                         
-                        <span className={`badge badge-${this.state.apiTest ? "success" : "danger"}`}>
-                            API Status: {this.state.apiTest ? "Available" : "Offline"}
-                        </span>
+                        <APIStatusBadge/>
 
                         <p className="card-text">
                         Poupon is a site dedicated to the discovery of hip-hop and r&b. Its purpose is to keep users informed of current events in the industry, as well as its impact around America. The intended audience is anyone in the general public who is interested in hip-hop music and culture.
