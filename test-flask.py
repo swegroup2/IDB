@@ -21,9 +21,11 @@ class TestEndpoints(unittest.TestCase):
 
 		kanye = Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=100)
 		jayz = Artist(name="Jay-Z", spotify_id="spotify:jayz", artist_picture_link="//jayz", popularity=90)
+		lilb = Artist(name="Lil B", spotify_id="spotify:lilb", artist_picture_link="//lilb", popularity=89)
 		kanye.genres += [hiphop]
 		jayz.genres += [hiphop]
-		artists = [kanye, jayz]
+		lilb.genres += [hiphop]
+		artists = [kanye, jayz, lilb]
 
 		items = [*artists, *genres]
 
@@ -31,12 +33,28 @@ class TestEndpoints(unittest.TestCase):
 			self.app.db.session.add(item)
 		self.app.db.session.commit()
 
-	def test_artists_top(self):
+	# def test_artists_top(self):
+	# 	# TODO: improve
+	# 	res = self.client.get("/api/artists/top/2")
+	# 	actual = json.loads(res.data)
+	# 	expected = json.loads("""[{"artist_id": 1,"artist_picture_link": "//kanye","name": "Kanye","popularity": 100,"spotify_id": "spotify:kanye"},
+	# 							{"artist_id": 2,"artist_picture_link": "//jayz","name": "Jay-Z","popularity": 90,"spotify_id": "spotify:jayz"}]""")
+	# 	self.assertEqual(actual, expected)
+
+	# def test_artists_all(self):
+	# 	# TODO: improve
+	# 	res = self.client.get("/api/artists")
+	# 	actual = json.loads(res.data)
+	# 	expected = json.loads("""[{"artist_id": 1,"artist_picture_link": "//kanye","name": "Kanye","popularity": 100,"spotify_id": "spotify:kanye"},
+	# 							{"artist_id": 2,"artist_picture_link": "//jayz","name": "Jay-Z","popularity": 90,"spotify_id": "spotify:jayz"},
+	# 							{"artist_id": 3,"artist_picture_link": "//lilb","name": "Lil B","popularity": 89,"spotify_id": "spotify:lilb"}]""")
+	# 	self.assertEqual(actual, expected)
+
+	def get_artist(self):
 		# TODO: improve
-		res = self.client.get("/api/artists/top/2")
+		res = self.client.get("/api/artists/2")
 		actual = json.loads(res.data)
-		expected = json.loads("""[{"artist_id": 1,"artist_picture_link": "//kanye","name": "Kanye","popularity": 100,"spotify_id": "spotify:kanye"},
-								{"artist_id": 2,"artist_picture_link": "//jayz","name": "Jay-Z","popularity": 90,"spotify_id": "spotify:jayz"}]""")
+		expected = json.loads("""[{"artist_id": 2,"artist_picture_link": "//jayz","name": "Jay-Z","popularity": 90,"spotify_id": "spotify:jayz"}]""")
 		self.assertEqual(actual, expected)
 		
 if __name__ == '__main__':
