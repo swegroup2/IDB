@@ -7,11 +7,20 @@ from flask_sqlalchemy import SQLAlchemy
 from database.schema import *
 from database.util import *
 
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='',static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
+@app.route('/')
+def root():
+	return app.send_static_file('index.html')
+
+
+@app.route('/api/hello')
+def show_hello():
+    return jsonify({'hello': 'world'})
 
 # "RESTful" JSON API
 @app.route('/api/echo/<string:what>')
