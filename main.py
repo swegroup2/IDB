@@ -30,8 +30,8 @@ def show_echo(what):
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
-    matches = db.session.query(Artist).get(art_id).first()
-    return sql_json(Artist, *matches)
+    matches = db.session.query(Artist).get(art_id)
+    return sql_json(Artist, matches)
 
 @app.route('/api/artists/top/<int:num>')
 @app.route('/api/artists/top')
@@ -48,8 +48,8 @@ def get_all_artists():
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
 def get_album_by_id(alb_id):
-    matches = db.session.query(Album).get(alb_id).first()
-    return sql_json(Album, *matches)
+    matches = db.session.query(Album).get(alb_id)
+    return sql_json(Album, matches)
 
 @app.route('/api/albums')
 def get_all_albums():
@@ -61,7 +61,7 @@ def get_all_albums():
 def get_articles_by_date(iso_date):
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
-    return sql_json(Article, *matches)
+    return sql_json(Article, matches)
 
 @app.route('/api/news')
 def get_all_articles():
@@ -71,8 +71,8 @@ def get_all_articles():
 # Cities endpoints
 @app.route('/api/cities/<int:c_id>')
 def get_city_by_id(c_id):
-	matches = db.session.query(City).get(c_id).first()
-	return sql_json(City, *matches)
+	matches = db.session.query(City).get(c_id)
+	return sql_json(City, matches)
 
 @app.route('/api/cities')
 def get_all_cities():
