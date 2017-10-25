@@ -13,56 +13,67 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+
 @app.route('/api/hello')
 def show_hello():
     return jsonify({'hello': 'world'})
+
 
 # "RESTful" JSON API
 @app.route('/api/echo/<string:what>')
 def show_echo(what):
     return jsonify({'text': what})
 
+
 @app.route('/api/artists')
 def get_all_artists():
-	matches = db.session.query(Artist).all()
-	return sql_json(Artist, *matches)
+    matches = db.session.query(Artist).all()
+    return sql_json(Artist, *matches)
+
 
 @app.route('/api/artists/<int:a_id>')
 def get_specific_artist(a_id=1):
-	artist_id = a_id
-	matches = db.session.query(Artist).filter_by(artist_id=artist_id).first()
-	return sql_json(Artist, *matches)
+    artist_id = a_id
+    matches = db.session.query(Artist).filter_by(artist_id=artist_id).first()
+    return sql_json(Artist, *matches)
+
 
 @app.route('/api/albums')
 def get_all_albums():
-	matches = db.session.query(Album).all()
-	return sql_json(Album, *matches)
+    matches = db.session.query(Album).all()
+    return sql_json(Album, *matches)
 
-@app.route('/api/albums/<int:id>')
+
+@app.route('/api/albums/<int:a_id>')
 def get_specific_album(a_id=1):
-	matches = db.session.query(Album).get(a_id)
-	return sql_json(Album, *matches)
+    matches = db.session.query(Album).get(a_id)
+    return sql_json(Album, *matches)
+
 
 @app.route('/api/news')
 def get_all_articles():
-	matches = db.session.query(Article).order_by(Article.date.desc()).all()
-	return sql_json(Article, *matches)
+    matches = db.session.query(Article).order_by(Article.date.desc()).all()
+    return sql_json(Article, *matches)
+
 
 @app.route('/api/news/<int:iso_date>')
 def get_specific_articles(iso_date):
-	conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
-	matches = db.session.query(Article).filter_by(date=conv_date).all()
-	return sql_json(Article, *matches)
+    conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
+    matches = db.session.query(Article).filter_by(date=conv_date).all()
+    return sql_json(Article, *matches)
+
 
 @app.route('/api/cities')
 def get_all_cities():
-	matches = db.session.query(City).order_by(City.population.desc()).all()
-	return sql_json(City, *matches)
+    matches = db.session.query(City).order_by(City.population.desc()).all()
+    return sql_json(City, *matches)
+
 
 @app.route('/api/cities/<int:c_id>')
 def get_specific_city(c_id):
-	matches = db.session.query(City).get(c_id)
-	return sql_json(City, *matches)
+    matches = db.session.query(City).get(c_id)
+    return sql_json(City, *matches)
+
 
 @app.route('/api/artists/top/<int:num>')
 @app.route('/api/artists/top')
@@ -71,9 +82,11 @@ def show_artists_top(num=5):
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 
+
 @app.errorhandler(500)
 def server_error(e):
     # Log the error and stacktrace.
     logging.exception('An error occurred during a request.')
     return 'An internal error occurred.', 500
+
 # [END app]
