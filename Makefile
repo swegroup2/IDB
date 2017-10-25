@@ -18,9 +18,10 @@ clean-docker:
 
 .PHONY: docker-run
 docker-run: .docker_built
+	@-docker rm web_test
 	clear
 	docker run --mount type=bind,src="/$(shell pwd)",dst=/app --name web_test -it web_build
-	docker rm web_test
+	@-docker rm web_test
 
 .PHONY: deploy
 deploy: react-build
