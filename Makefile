@@ -31,7 +31,7 @@ deploy-gcloud:
 
 .PHONY: gcloud-setup
 gcloud-setup:
-	gcloud auth login
+	gcloud init
 	gcloud config set project poupon-181003
 
 .PHONY: react-serve

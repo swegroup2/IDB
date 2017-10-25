@@ -3,12 +3,14 @@ import logging
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS, cross_origin
 from database.schema import *
 from database.util import sql_json, not_found
 
 app = Flask(__name__,static_url_path='',static_folder='../poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+CORS(app) # Enable cross-origin resource sharing
 
 db = SQLAlchemy(app)
 
