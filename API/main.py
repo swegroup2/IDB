@@ -1,7 +1,6 @@
 # [START app]
 import logging
 import os
-from datetime import datetime
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -30,10 +29,10 @@ def show_echo(what):
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
-    matches = db.session.query(Artist).get(art_id)
-    if matches is None:
+    match = db.session.query(Artist).get(art_id)
+    if match is None:
         return 'Resource not found.', 404
-    return sql_json(Artist, matches)
+    return sql_json(Artist, match)
 
 @app.route('/api/artists/top/<int:limit>')
 @app.route('/api/artists/top')
@@ -50,8 +49,10 @@ def get_all_artists():
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
 def get_album_by_id(alb_id):
-    matches = db.session.query(Album).get(alb_id)
-    return sql_json(Album, matches)
+    match = db.session.query(Album).get(alb_id)
+    if match is None:
+        return 'Resource not found.', 404
+    return sql_json(Album, match)
 
 @app.route('/api/albums')
 def get_all_albums():
@@ -59,11 +60,11 @@ def get_all_albums():
     return sql_json(Album, *matches)
 
 # News endpoints
-@app.route('/api/news/<string:iso_timestamp>')
-def get_articles_by_date(iso_timestamp):
-    conv_date = datetime.fromtimestamp(int(float(iso_timestamp))).strftime('%Y-%m-%d')
+@app.route('/api/news/<int:iso_date>')
+def get_articles_by_date(iso_date):
+    conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
-    return sql_json(Article, *matches)
+    return sql_json(Article, matches)
 
 @app.route('/api/news')
 def get_all_articles():
@@ -73,8 +74,10 @@ def get_all_articles():
 # Cities endpoints
 @app.route('/api/cities/<int:c_id>')
 def get_city_by_id(c_id):
-	matches = db.session.query(City).get(c_id)
-	return sql_json(City, matches)
+    match = db.session.query(City).get(c_id)
+    if match is None:
+        return 'Resource not found.', 404
+    return sql_json(City, match)
 
 @app.route('/api/cities')
 def get_all_cities():
