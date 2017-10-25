@@ -15,8 +15,7 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def root():
-	return app.send_static_file('index.html')
-
+    return app.send_static_file('index.html')
 
 @app.route('/api/hello')
 def show_hello():
@@ -30,7 +29,7 @@ def show_echo(what):
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
-    matches = db.session.query(Artist).filter_by(artist_id=art_id).all()
+    match = db.session.query(Artist).get(art_id)
     return sql_json(Artist, match)
 
 @app.route('/api/artists/top/<int:limit>')
