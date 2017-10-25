@@ -73,7 +73,7 @@ class Track(Base):
 
 	name = DColumn(String, primary_key=True)
 	track_number = DColumn(Integer)
-	spotify_id = DColumn(String, unique=True)
+	spotify_id = DColumn(String)
 	album_id = DColumn(Integer, ForeignKey("albums.album_id"), primary_key=True)
 
 class Region(Base):
@@ -105,7 +105,7 @@ class City(Base):
 	city_id = DColumn(Integer, primary_key=True)
 	name = DColumn(String)
 	population = DColumn(Integer)
-	city_picture_link = DColumn(String, unique=True)
+	city_picture_link = DColumn(String)
 	state = DColumn(String, ForeignKey("regions.state"))
 	artists = relationship(
 		'Artist',
