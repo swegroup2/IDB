@@ -30,6 +30,8 @@ def show_echo(what):
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
     matches = db.session.query(Artist).get(art_id)
+    if matches is None:
+        return 'Resource not found.', 404
     return sql_json(Artist, matches)
 
 @app.route('/api/artists/top/<int:limit>')

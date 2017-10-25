@@ -1,8 +1,6 @@
 import unittest
 import os
 import json
-import pprint
-import logging
 from database.schema import *
 from sqlalchemy import MetaData
 from flask import jsonify
@@ -99,15 +97,14 @@ class TestArtistEndpoints(unittest.TestCase):
         artists = json.loads(res.data)
         self.assertEqual(len(artists), 1)
 
-    # Test get all artists
+    # Test get artist by id doesn't exist
     def test_artist_2(self):
         self.app.db.session.add(self.artists['kanye'])
         self.app.db.session.add(self.artists['jayz'])
         self.app.db.session.commit()
 
         res = self.client.get("/api/artists/5")
-        artists = json.loads(res.data)
-        self.assertEqual(len(artists), 0)
+        self.assertEqual(res.status_code, 404)
 
 if __name__ == '__main__':
     unittest.main()
