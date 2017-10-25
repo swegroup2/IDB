@@ -23,7 +23,7 @@ docker-run: .docker_built
 	@-docker rm web_test
 
 .PHONY: deploy
-deploy: react-build deploy-gcloud
+deploy: flask-test react-build deploy-gcloud
 
 .PHONY: deploy-gcloud
 deploy-gcloud:
@@ -50,4 +50,4 @@ react-install: clean
 
 .PHONY: flask-test
 flask-test:
-	python "test-flask.py"
+	python "API/test-main.py"
