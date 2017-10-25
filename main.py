@@ -13,6 +13,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# "RESTful" JSON API
+@app.route('/api/echo/<string:what>')
+def show_echo(what):
+    return jsonify({'text': what})
+
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
@@ -43,15 +48,15 @@ def get_all_albums():
     return sql_json(Album, *matches)
 
 # News endpoints
-@app.route('/api/news')
-def get_articles():
-	matches = db.session.query(Article).order_by(Article.date.desc()).all()
-	return sql_json(Article, *matches)
-
 @app.route('/api/news/<int:iso_date>')
 def get_articles_by_date(iso_date):
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
+    return sql_json(Article, *matches)
+
+@app.route('/api/news')
+def get_all_articles():
+    matches = db.session.query(Article).order_by(Article.date.desc()).all()
     return sql_json(Article, *matches)
 
 # Cities endpoints
@@ -62,8 +67,8 @@ def get_city_by_id(c_id):
 
 @app.route('/api/cities')
 def get_all_cities():
-	matches = db.session.query(City).order_by(City.population.desc()).all()
-	return sql_json(City, *matches)
+    matches = db.session.query(City).order_by(City.population.desc()).all()
+    return sql_json(City, *matches)
 
 # Error handler
 @app.errorhandler(500)
@@ -71,4 +76,5 @@ def server_error(e):
     # Log the error and stacktrace.
     logging.exception('An error occurred during a request.')
     return 'An internal error occurred.', 500
+
 # [END app]
