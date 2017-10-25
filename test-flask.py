@@ -1,41 +1,49 @@
 import unittest
 import os
-from database.schema import *
-from flask import jsonify
 import json
+from database.schema import *
+from sqlalchemy import MetaData
+from flask import jsonify
+
+artists = {
+        'kanye':Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=100),
+        'jayz':Artist(name="Jay-Z", spotify_id="spotify:jayz", artist_picture_link="//jayz", popularity=90),
+        'frank':Artist(name="Frank Ocean", spotify_id="spotify:frank", artist_picture_link="//frank", popularity=95),
+        'sza':Artist(name="SZA", spotify_id="spotify:sza", artist_picture_link="//sza", popularity=90)
+}
 
 class TestEndpoints(unittest.TestCase):
-	def setUp(self):
-		# TODO: connect to test db? Maybe create separate testcase.
-		os.environ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-		import main as main_app
-		self.app = main_app #DB and app (should be just DB)
-		self.client = main_app.app.test_client()
+    def setUp(self):
+        # Connect to in memory test DB
+        os.environ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+        import main as main_app
+        self.app = main_app
+        self.client = main_app.app.test_client()
+        Base.metadata.create_all(self.app.db.engine)
 
+    def tearDown(self):
+        # Clear database
+        Base.metadata.drop_all(self.app.db.engine)
 
-		Base.metadata.create_all(self.app.db.engine)
+    def test_artists_top_no_limit(self):
+        # Add data
+        self.app.db.session.add(artists['kanye'])
+        self.app.db.session.add(artists['jayz'])
+        self.app.db.session.commit()
 
-		# Create some sample data
-		hiphop = Genre(name="Hip Hop")
-		genres = [hiphop]
+        res = self.client.get("/api/artists/top")
+        top_artists = json.loads(res.data)
+        assert(len(top_artists) == 2)
 
-		kanye = Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=100)
-		jayz = Artist(name="Jay-Z", spotify_id="spotify:jayz", artist_picture_link="//jayz", popularity=90)
-		kanye.genres += [hiphop]
-		jayz.genres += [hiphop]
-		artists = [kanye, jayz]
+    def test_artists_top_limit_0(self):
+        # Add data
+        self.app.db.session.add(artists['kanye'])
+        self.app.db.session.add(artists['jayz'])
+        self.app.db.session.commit()
 
-		items = [*artists, *genres]
-
-		for item in items:
-			self.app.db.session.add(item)
-		self.app.db.session.commit()
-
-	def test_artists_top(self):
-		# TODO: improve
-		res = self.client.get("/api/artists/top")
-		json_Obj = json.loads(res.data)
-		print(json.dumps(json_Obj,indent=4,sort_keys=True))
+        res = self.client.get("/api/artists/top/0")
+        top_artists = json.loads(res.data)
+        assert(len(top_artists) == 1)
 
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()
