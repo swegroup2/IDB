@@ -22,6 +22,16 @@ def show_hello():
 def show_echo(what):
     return jsonify({'text': what})
 
+@app.route('/api/artists')
+def get_all_artists():
+	matches = db.session.query(Artist).all()
+	return sql_json(Artist, *matches)
+
+@app.route('/api/artists/<int:id>')
+def get_specific_artist(a_id=1):
+	artist_id = a_id
+	matches = db.session.query(Artist).filter_by(artist_id=artist_id).first()
+
 @app.route('/api/artists/top/<int:num>')
 @app.route('/api/artists/top')
 def show_artists_top(num=5):
