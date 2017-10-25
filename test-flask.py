@@ -33,9 +33,11 @@ class TestEndpoints(unittest.TestCase):
 
 	def test_artists_top(self):
 		# TODO: improve
-		res = self.client.get("/api/artists/top")
-		json_Obj = json.loads(res.data)
-		print(json.dumps(json_Obj,indent=4,sort_keys=True))
-
+		res = self.client.get("/api/artists/top/2")
+		actual = json.loads(res.data)
+		expected = json.loads("""[{"artist_id": 1,"artist_picture_link": "//kanye","name": "Kanye","popularity": 100,"spotify_id": "spotify:kanye"},
+								{"artist_id": 2,"artist_picture_link": "//jayz","name": "Jay-Z","popularity": 90,"spotify_id": "spotify:jayz"}]""")
+		self.assertEqual(actual, expected)
+		
 if __name__ == '__main__':
 	unittest.main()
