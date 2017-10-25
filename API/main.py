@@ -1,6 +1,7 @@
 # [START app]
 import logging
 import os
+from datetime import datetime
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -57,11 +58,11 @@ def get_all_albums():
     return sql_json(Album, *matches)
 
 # News endpoints
-@app.route('/api/news/<int:iso_date>')
-def get_articles_by_date(iso_date):
-    conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
+@app.route('/api/news/<string:iso_timestamp>')
+def get_articles_by_date(iso_timestamp):
+    conv_date = datetime.fromtimestamp(int(float(iso_timestamp))).strftime('%Y-%m-%d')
     matches = db.session.query(Article).filter_by(date=conv_date).all()
-    return sql_json(Article, matches)
+    return sql_json(Article, *matches)
 
 @app.route('/api/news')
 def get_all_articles():
