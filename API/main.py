@@ -33,10 +33,10 @@ def get_artist_by_id(art_id):
     matches = db.session.query(Artist).get(art_id)
     return sql_json(Artist, matches)
 
-@app.route('/api/artists/top/<int:num>')
+@app.route('/api/artists/top/<int:limit>')
 @app.route('/api/artists/top')
-def get_artists_top(num=10):
-    num = max(1, min(10, num))
+def get_artists_top(limit=10):
+    num = max(1, limit)
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 
