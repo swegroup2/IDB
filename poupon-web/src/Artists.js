@@ -10,84 +10,107 @@ var db = require('./database.json').database;
 class Artists extends Component {
     render() {
         return (
-                <div className="Container">
+            <div className="Container">
                 <Switch>
                 <Route exact path="/artists" component={MultipleArtists}/>
-                <Route component={SingleArtist}/>
+                <Route path="/artists/:id" component={ArtistDetailCard}/>
                 </Switch>
-                </div>
+            </div>
         );
     }
 }
 
-class SingleArtist extends Component {
+class ArtistDetailCard extends Component {
+    constructor(props) {
+        super(props);
+        this.id = this.props.match.params.id;
+        this.state = {
+            data: {}
+        };
+    }
+
+    componentWillMount() {
+        fetch(`http://poupon.me/api/artists/${this.id}`)
+            .then(data => data.json())
+            .then(json => {
+                this.setState({data: json[0]})
+            })
+            .catch(e => {});
+    }
+
     render() {
-        var path = window.location.pathname.split("/");
-        var id = path[2];
-        console.log("id: " + id);
-        for(var i = 0; i < data.artists.length; i++) {
-            if(data.artists[i].id == id) {
-                return (
-                        <div className="row">
-                        <div className="col-sm-0 col-md-3 col-lg-4">
+        const name = this.state.data.name;
+        const img = this.state.data.artist_picture_link;
+        const popularity = this.state.data.popularity;
+        const sid = this.state.data.spotify_id;
+
+        return (
+            <div className="col-12">
+                <div className="card">
+                    <div className="row">
+                        <div className="col-sm-12 col-md-6 col-lg-4">
+                            <img src={img} className="img-fluid" alt={name}/>
                         </div>
-                        <ArtistCard artist={data.artists[i]}/>
-                        <div className="col-sm-0 col-md-3 col-lg-4">
+                        <div className="col-sm-12 col-md-6 col-lg-8">
+                            <h2 className="card-title">{name}</h2>
+                            <div className="card-block">
+                                <p><b>Popularity:&nbsp;</b>{popularity}</p>
+                                <p><a href={`https://open.spotify.com/artist/${sid}`}>Open Spotify</a></p>
+                            </div>
                         </div>
-                        </div>
-                       );
-            }
-        }
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
 class MultipleArtists extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            top: []
+        };
+    }
+
+    componentWillMount() {
+        fetch("http://poupon.me/api/artists/top/30")
+            .then(data => data.json())
+            .then(json => {
+                this.setState({top: json})
+            })
+            .catch(e => {});
+    }
+
     render() {
-        const items = data.artists.map((item, i) => <ArtistCard key={i} artist={item}/>);
+        const items = this.state.top.map((item, i) => <ArtistPreviewCard key={i} data={item}/>);
         return (
-                <div className="row">
+            <div className="row">
                 {items}
-                </div>
-               );
+            </div>
+        );
     }
 }
 
-class ArtistCard extends Component {
+class ArtistPreviewCard extends Component {
     render() {
-        var artist = this.props.artist;
-        const albums = artist.albums.map(item =>
-            {if(item in db) {
-                return(<span><a href={"/albums/"+db[item]}>{item}</a>, </span>);
-            } else {
-                return(<span>{item}, </span>);
-            }}
-            );
-        const cities = artist.cities.map(item =>
-            {if(item in db) {
-                return(<span><a href={"/cities/"+db[item]}>{item}</a>, </span>);
-            } else {
-                return(<span>{item}, </span>);
-            }}
-            );
+        const name = this.props.data.name;
+        const img = this.props.data.artist_picture_link;
+        const id = this.props.data.artist_id;
+
         return (
-                <div className="col-sm-12 col-md-6 col-lg-4">
+            <div className="col-sm-12 col-md-6 col-lg-4">
                 <div className="card">
-                <div className="Container">
-                <img src={artist.image.url} className="card-img-top" alt={artist.name}/>
+                    <div className="Container">
+                        <img src={img} className="card-img-top" alt={name}/>
+                    </div>
+
+                    <div className="card-body">
+                        <h4><a href={`/artists/${id}`} className="card-title">{name}</a></h4>
+                    </div>
                 </div>
-                <div className="card-body">
-                <h4><a href={"/artists/"+artist.id} className="card-title"> {artist.name}</a></h4>
-                <p className="card-text">
-                <b>Genres:</b> {artist.genres.join(", ")}<br/>
-                <b>Albums:</b> {albums}<br/>
-                <b>Cities:</b> {cities}<br/>
-                <b>Related Artists:</b> {artist.related_artists.join(", ")}<br/>
-                </p>
-                <a href={artist.external_urls.spotify}>Open Spotify</a>
-                </div>
-                </div>
-                </div>
-                );
+            </div>
+        );
     }
 }
 
