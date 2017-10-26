@@ -10,27 +10,28 @@ const data = require('./about.json');
 class About extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            commits : []
+        };
     }
-    
+
     componentDidMount() {
-        fetch('https://api.github.com/repos/swegroup2/IDB/contributors').then(d => d.json())
+        fetch('https://api.github.com/repos/swegroup2/IDB/stats/contributors').then(d => d.json())
             .then(d => {
                 this.setState({
-                    commmits : d
+                    commits : d
                 })
         })
     }
     
 
     render() {
-        const cards = data.people.map((person, i) => <AboutCard key={i} person={person}/>);
+        const cards = data.people.map((person, i) => <AboutCard key={i} person={person} commits={this.state.commits}/>);
         return (
             <div className="Container">
             <div className="row">
                 <AboutSummary/>
                 {cards}
-                {this.state.commits}
             </div>
             </div>
         );
@@ -115,6 +116,15 @@ class AboutSummary extends Component {
 class AboutCard extends Component {
     render() {
         const person = this.props.person;
+        const commits = this.props.commits;
+
+        for (let i = 0; i < commits.length; i++) {
+            if (commits[i].author.login === person.id) {
+                person.github.Commits = commits[i].total;
+                break;
+            }
+        }
+
         const rows = Object.entries(person.github).map(kv => (
             <tr>
               <td>{kv[0]}</td>
