@@ -3,12 +3,15 @@
 1. Install Docker
 2. Run `make`
 3. A Docker container will be created and started. If you've already built the container once, it will be restarted. To force a rebuild, run `make clean-docker` first. 
-4. Now you can issue the commands under "Building"
+4. Configure gcloud with `make gcloud-setup`.
+4. Exit docker and run `make react-install` once. This is the only target that must be issued from the host machine.
+5. Now you can issue the commands under "Building"
 
 ## Building
-- To deploy: `make deploy`.
+- To start Docker: `make`
+- To deploy: `make deploy`
 - To build react app: `make react-build`
-- To test react locally: `make react-test`
+- To serve react locally: `make react-serve`. It will be served at `http://localhost:3000`.
 - To test Flask locally: `make flask-test`
 
 ## Setting up Docker Manually

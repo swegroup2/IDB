@@ -3,7 +3,6 @@ all: docker-run
 .PHONY: clean
 clean:
 	-rm -rf poupon-web/build
-	-rm -rf poupon-web/node_modules
 
 .PHONY: clean-docker
 clean-docker:
@@ -24,21 +23,31 @@ docker-run: .docker_built
 	@-docker rm web_test
 
 .PHONY: deploy
-deploy: react-build
-	gcloud app deploy --no-promote --version candidate
+deploy: flask-test react-build deploy-gcloud
 
-.PHONY: react-test
-react-test:
+.PHONY: deploy-gcloud
+deploy-gcloud:
+	gcloud app deploy --version candidate
+
+.PHONY: gcloud-setup
+gcloud-setup:
+	gcloud init
+	gcloud config set project poupon-181003
+
+.PHONY: react-serve
+react-serve: 
 	cd poupon-web; npm start
 
 .PHONY: react-build
-react-build: clean react-install
+react-build: 
+	@echo "!!! Make sure to run make react-install from your HOST (not docker) first !!!"
 	cd poupon-web; npm run build
 
 .PHONY: react-install
-react-install:
+react-install: clean
+	-rm -rf poupon-web/node_modules
 	cd poupon-web; npm install
 
 .PHONY: flask-test
 flask-test:
-	python "test-flask.py"
+	python "test-main.py"
