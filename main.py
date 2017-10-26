@@ -53,9 +53,9 @@ def get_artists_top(limit=10):
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 
-@app.route('/api/artists')
+@app.route('/api/artists/')
 def get_all_artists():
-    matches = db.session.query(Artist).all()
+    matches = db.session.query(Artist).order_by(Artist.popularity.desc()).all()
     return sql_json(Artist, *matches)
 
 # Album endpoints
