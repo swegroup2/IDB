@@ -13,6 +13,7 @@ class About extends Component {
         this.state = {};
     }
 
+
     componentDidMount() {
         fetch('https://api.github.com/repos/swegroup2/IDB/contributors').then(d => d.json())
             .then(d => {
