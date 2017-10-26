@@ -1,4 +1,4 @@
-from schema import *
+from database.schema import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import json
@@ -15,25 +15,35 @@ class DataInserter:
 
     # Add new artists and genres to the database
     def update_artists(self, artist_data):
-        new_genres = set()
-        self.genres.update({g:self.add_genre(g, new_genres) for art in artist_data for g in art['genres'] if all((g not in self.genres, g not in new_genres))})
+        # Update genres
+        for art in artist_data:
+            for g in art['genres']:
+                if g in self.genres:
+                    continue
+                self.genres[g] = self.add_genre(g)
+        # Update artists
         self.artists.update({art['name']:self.add_artist(art) for art in artist_data if art['name'] not in self.artists})
         self.s.commit()
 
     # Add new albums o the database
     def update_albums(self, album_data):
+        # Update albums
         new_albums = []
-        albums = {alb['name']:self.add_album(alb, new_albums) for alb in album_data if all((alb['name'] not in self.albums, alb not in new_albums))}
-        self.albums.update(albums)
+        for alb in album_data:
+            if alb['name'] in self.albums:
+                continue
+            self.albums[alb['name']] = self.add_album(alb, new_albums)
         self.s.commit()
-        for alb in new_albums:
-            self.add_tracks(alb)
+        # Update tracks
+        [self.add_tracks(alb) for alb in new_albums]
         self.s.commit()
 
     # Add new articles to the database
     def update_news(self, news_data):
-        new_articles= set()
-        self.news.update({article['title']:self.add_article(article, new_articles) for article in news_data if all((article['title'] not in self.news, article['title'] not in new_articles))})
+        for article in news_data:
+            if article['title'] in self.news:
+                continue
+            self.news[article['title']] = self.add_article(article)
         self.s.commit()
 
     # Add new cities to the database
@@ -42,9 +52,8 @@ class DataInserter:
         self.s.commit()
 
     # Add a genre to the database
-    def add_genre(self, g, new_genres):
+    def add_genre(self, g):
         new_genre = Genre(name=g)
-        new_genres.add(new_genre)
         self.s.add(new_genre)
         return new_genre
 
@@ -87,7 +96,7 @@ class DataInserter:
             track_names.add(tracks[i][0]);
 
     # Add a news article to the database
-    def add_article(self, article, new_articles):
+    def add_article(self, article):
         title = article['title']
         new_article = Article(
             title=title,
@@ -97,7 +106,6 @@ class DataInserter:
             thumbnail=article['thumbnail'])
         new_article.artists += [self.artists[name] for name in self.artists if name in title]
         new_article.albums += [self.albums[name] for name in self.albums if name in title]
-        new_articles.add(article['title'])
         self.s.add(new_article)
 
     # Add a city to the database
