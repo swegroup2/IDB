@@ -8,15 +8,25 @@ from flask_cors import CORS, cross_origin
 from database.schema import *
 from database.util import sql_json, not_found
 
-app = Flask(__name__,static_url_path='',static_folder='../poupon-web/build')
+app = Flask(__name__,static_url_path='',static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app) # Enable cross-origin resource sharing
 
 db = SQLAlchemy(app)
 
+@app.route('/artists/')
+@app.route('/artists/<path>')
+@app.route('/about')
+@app.route('/about/<path>')
+@app.route('/albums')
+@app.route('/albums/<path>')
+@app.route('/news')
+@app.route('/news/<path>')
+@app.route('/cities')
+@app.route('/cities/<path>')
 @app.route('/')
-def root():
+def root(path=""):
     return app.send_static_file('index.html')
 
 @app.route('/api/hello')
