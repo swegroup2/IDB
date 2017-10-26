@@ -7,7 +7,9 @@ from flask import jsonify
 
 def get_Artists():
     return {
-        'travis':Artist(name="Travis Scott", spotify_id="spotify:travis", artist_picture_link="//travis", popularity=97), 'drake':Artist(name="Drake", spotify_id="spotify:drizzy", artist_picture_link="//drizzy", popularity=100), 'kanye':Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=99),
+        'travis':Artist(name="Travis Scott", spotify_id="spotify:travis", artist_picture_link="//travis", popularity=97),
+        'drake':Artist(name="Drake", spotify_id="spotify:drizzy", artist_picture_link="//drizzy", popularity=100),
+        'kanye':Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=99),
         'jayz':Artist(name="Jay-Z", spotify_id="spotify:jayz", artist_picture_link="//jayz", popularity=90),
         'frank':Artist(name="Frank Ocean", spotify_id="spotify:frank", artist_picture_link="//frank", popularity=95),
         'beyonce':Artist(name="Beyonce", spotify_id="spotify:beyonce", artist_picture_link="//beyonce", popularity=92),
