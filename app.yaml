@@ -3,7 +3,7 @@ env: flex
 service: default
 runtime_config:
   python_version: 3.6
-entrypoint: gunicorn --pythonpath API -b :$PORT main:app
+entrypoint: gunicorn -b :$PORT main:app
 
 api_version: 2
 threadsafe: true
@@ -20,4 +20,4 @@ beta_settings:
 
 handlers:
 - url: /.*
-  script: api/main.app
+  script: main.app

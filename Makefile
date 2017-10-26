@@ -50,4 +50,4 @@ react-install: clean
 
 .PHONY: flask-test
 flask-test:
-	python "API/test-main.py"
+	python "test-main.py"
