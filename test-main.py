@@ -1,5 +1,5 @@
 import unittest
-from testartists import *
+from test.artists import *
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(TestArtistEndpoints)
