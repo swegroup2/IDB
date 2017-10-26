@@ -37,7 +37,7 @@ class About extends Component {
         return (
             <div className="Container">
             <div className="row">
-                <AboutSummary/>
+                <AboutSummary commits={this.state.commits} cards={this.state.cards}/>
                 {cards}
             </div>
             </div>
@@ -85,7 +85,22 @@ class APIStatusBadge extends Component {
 }
 
 class AboutSummary extends Component {
+    
     render() {
+        const commits = this.props.commits;
+        const cards = this.props.cards;
+
+        let commitCount = 0;
+        let issueCount = 0;
+
+        for (let i = 0; i < commits.length; i++) {
+            commitCount += commits[i].total;
+        }
+
+        if (cards.length >= 0){
+            issueCount = cards.length;
+        }
+
         return (
             <div className="col-lg-4 col-md-6 col-sm-12">
                 <div className="card">
@@ -104,8 +119,8 @@ class AboutSummary extends Component {
                         <tr><td><a href="https://trello.com/b/WkHJVGMT/idb1-board">Trello</a></td><td></td></tr>
                         <tr><td><a href="http://docs.sarahgrace.apiary.io/#">Apiary</a></td><td></td></tr>
                         <tr><td><a href="https://utexas.app.box.com/s/ifvpz6r63gsh6ib7fl01oj4wp1ytm87e">Report</a></td><td></td></tr>
-                        <tr><td>Total Commits</td><td>100</td></tr>
-                        <tr><td>Total Issues</td><td>33</td></tr>
+                        <tr><td>Total Commits</td><td>{commitCount}</td></tr>
+                        <tr><td>Total Issues</td><td>{issueCount}</td></tr>
                         <tr><td>Total Unit Tests</td><td>0</td></tr>
                         </tbody>
                         </table>
