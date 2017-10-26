@@ -16,7 +16,7 @@ class About extends Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch('https://api.github.com/repos/swegroup2/IDB/stats/contributors').then(d => d.json())
             .then(d => {
                 this.setState({
@@ -85,7 +85,7 @@ class APIStatusBadge extends Component {
 }
 
 class AboutSummary extends Component {
-    
+
     render() {
         const commits = this.props.commits;
         const cards = this.props.cards;
