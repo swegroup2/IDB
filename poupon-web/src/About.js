@@ -8,6 +8,21 @@ const API_URL = "http://poupon.me/api"; //TODO: relocate
 const data = require('./about.json');
 
 class About extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        fetch('https://api.github.com/repos/swegroup2/IDB/contributors').then(d => d.json())
+            .then(d => {
+                this.setState({
+                    commmits : d
+                })
+        })
+    }
+    
+
     render() {
         const cards = data.people.map((person, i) => <AboutCard key={i} person={person}/>);
         return (
@@ -15,6 +30,7 @@ class About extends Component {
             <div className="row">
                 <AboutSummary/>
                 {cards}
+                {this.state.commits}
             </div>
             </div>
         );
