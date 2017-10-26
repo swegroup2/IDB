@@ -47,13 +47,13 @@ class ArtistDetailCard extends Component {
         return (
             <div className="col-12">
                 <div className="card">
-                    <div className="row">
-                        <div className="col-sm-12 col-md-6 col-lg-4">
-                            <img src={img} className="img-fluid" alt={name}/>
-                        </div>
-                        <div className="col-sm-12 col-md-6 col-lg-8">
-                            <h2 className="card-title">{name}</h2>
-                            <div className="card-block">
+                    <div className="card-body">
+                        <h2 className="card-title">{name}</h2>
+                        <div className="row">
+                            <div className="col-sm-12 col-md-6 col-lg-4">
+                                <img src={img} className="img-fluid" alt={name}/>
+                            </div>
+                            <div className="col-sm-12 col-md-6 col-lg-8">
                                 <p><b>Popularity:&nbsp;</b>{popularity}</p>
                                 <p><a href={`https://open.spotify.com/artist/${sid}`}>Open Spotify</a></p>
                             </div>
