@@ -11,7 +11,8 @@ class About extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            commits : []
+            commits : [],
+            cards: []
         };
     }
 
@@ -22,11 +23,17 @@ class About extends Component {
                     commits : d
                 })
         })
+        fetch('https://api.trello.com/1/boards/WkHJVGMT/cards').then(data => data.json())
+            .then(data => {
+                this.setState({
+                    cards : data
+                })
+        })
     }
     
 
     render() {
-        const cards = data.people.map((person, i) => <AboutCard key={i} person={person} commits={this.state.commits}/>);
+        const cards = data.people.map((person, i) => <AboutCard key={i} person={person} commits={this.state.commits} cards={this.state.cards}/>);
         return (
             <div className="Container">
             <div className="row">
@@ -117,6 +124,8 @@ class AboutCard extends Component {
     render() {
         const person = this.props.person;
         const commits = this.props.commits;
+        const cards = this.props.cards;
+        let count = 0;
 
         for (let i = 0; i < commits.length; i++) {
             if (commits[i].author.login === person.id) {
@@ -124,6 +133,14 @@ class AboutCard extends Component {
                 break;
             }
         }
+
+        for (let i = 0; i < cards.length; i++) {
+            if (cards[i].idMembers.includes(person.trello)) {
+                count++;
+            }
+        }
+
+        person.github.Issues = count;
 
         const rows = Object.entries(person.github).map(kv => (
             <tr>
