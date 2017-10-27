@@ -7,7 +7,7 @@ import {
 var data = require('./data.json').data;
 var db = require('./database.json').database;
 
-const numberCommas = num => num.toLocaleString();
+const numberCommas = (num=0) => num.toLocaleString();
 
 class Cities extends Component {
     render() {

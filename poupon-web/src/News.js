@@ -43,7 +43,7 @@ class ArticleDetailCard extends Component {
     render() {
         const {article_id, media_link, title, upvotes} = this.state.data;
         const date = new Date(this.state.data.date);
-        const domain = urlGetDomain(media_link);
+        const domain = media_link ? urlGetDomain(media_link) : "";
 
         return (
             <div className="col-sm-12 col-md-6">
@@ -92,7 +92,7 @@ class MultipleArticles extends Component {
 class ArticlePreviewCard extends Component {
     render() {
         const {name, title, media_link, upvotes, article_id} = this.props.data;
-        const domain = urlGetDomain(media_link);
+        const domain = media_link ? urlGetDomain(media_link) : "";
 
         return (
             <div className="col-sm-12 col-md-6">
