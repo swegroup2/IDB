@@ -27,7 +27,9 @@ class ArticleDetailCard extends Component {
         super(props);
         this.id = this.props.match.params.id;
         this.state = {
-            data: {}
+            data: {},
+            artists: [],
+            albums: []
         };
     }
 
@@ -36,6 +38,42 @@ class ArticleDetailCard extends Component {
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json[0]});
+            })
+            .catch(e => {});
+
+        fetch(`http://poupon.me/api/news/albums/${this.id}`)
+            .then(data => data.json())
+            .then(json => {
+                json.forEach(pair => {
+                    fetch(`http://poupon.me/api/albums/${pair.albums_id}`)
+                        .then(adata => adata.json())
+                        .then(ajson => {
+                            this.setState(function(oldState, props) {
+                                return {
+                                    albums: [ajson.name, ...oldState.albums]
+                                };
+                            });
+                        })
+                        .catch(e => {});
+                })
+            })
+            .catch(e => {});
+
+        fetch(`http://poupon.me/api/news/artists/${this.id}`)
+            .then(data => data.json())
+            .then(json => {
+                json.forEach(pair => {
+                    fetch(`http://poupon.me/api/artists/${pair.artist_id}`)
+                        .then(adata => adata.json())
+                        .then(ajson => {
+                            this.setState(function(oldState, props) {
+                                return {
+                                    artists: [ajson.name, ...oldState.artists]
+                                };
+                            });
+                        })
+                        .catch(e => {});
+                })
             })
             .catch(e => {});
     }
@@ -52,8 +90,8 @@ class ArticleDetailCard extends Component {
                         <h4 className="card-title"><a href={`/news/${article_id}`}>{title}</a></h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
-                        <b>Related Artists: </b>todo<br/>
-                        <b>Related Albums: </b>todo</p>
+                        <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
+                        <b>Related Albums: </b>{this.state.albums.join(",")}</p>
                         <a href={media_link} className="card-link">{`Open (${domain})`}</a>
                     </div>
                 </div>
@@ -100,9 +138,6 @@ class ArticlePreviewCard extends Component {
                     <div className="card-body">
                         <h4 className="card-title">{title}</h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
-                        <p className="card-text">
-                        <b>Related Artists: </b>todo<br/>
-                        <b>Related Albums: </b>todo</p>
                         <a className="btn btn-primary mr-1" href={media_link}>{`Open (${domain})`}</a>
                         <a className="btn btn-primary" href={`/news/${article_id}`}>{`Details`}</a>
                     </div>
