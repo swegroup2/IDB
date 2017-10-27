@@ -1,69 +1,69 @@
 {
-	"people": [
-		{
-			"name": "Christian Carroll",
-			"id": "chrcarroll",
-			"trello": "59c84e15b449d4f92269ae16",
-			"img": "https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg",
-			"bio": "I'm a junior Computer Science and Finance double major.",
-			"responsibilities": "Apiary, Report",
-			"github": {
-				"Commits": 3,
-				"Issues": 5,
-				"Unit Tests": 0
-			} 
-		},
-		{
-			"name": "Logan Zartman",
-			"id": "loganzartman",
-			"trello": "53e1c3a2ab32024c68db445e",
-			"img": "https://loganzartman.github.io/sweblog17/profile.jpg",
-			"bio": "I really like to write JavaScript but I think it's Stockholm Syndrome.",
-			"responsibilities": "Front-end, Tools and Configuration",
-			"github": {
-				"Commits": 23,
-				"Issues": 5,
-				"Unit Tests": 0
-			} 
-		},
-		{
-			"name": "Sarah Wang",
-			"id": "sarahgrace",
-			"trello": "59c85668e70528d79fda80c5",
-			"img": "https://swesushi.files.wordpress.com/2017/01/img_7694.jpg?w=644&zoom=2",
-			"bio": "I like sushi, hip-hop, and writing back-end code.",
-			"responsibilities": "Front-end, Data Collection/Aggregation",
-			"github": {
-				"Commits": 39,
-				"Issues": 13,
-				"Unit Tests": 0
-			} 
-		},
-		{
-			"name": "William Xu",
-			"id": "Wixu",
-			"trello": "58712c884508c52c9de9fadc",
-			"img": "https://xillwu.files.wordpress.com/2017/01/12967276_10206096418031215_1083369949972101586_o.jpg",
-			"bio": "I love working with Big Data and think React is magic",
-			"responsibilities": "Back-end, Apiary, and Tools",
-			"github": {
-				"Commits": 0,
-				"Issues": 11,
-				"Unit Tests": 0
-			} 
-		},
-		{
-			"name": "Zach Burky",
-			"id": "ts0l",
-			"trello": "59c84d9b4c80f9c9943b5a52",
-			"img": "https://hodlandstress.files.wordpress.com/2017/09/cropped-headshot1.png",
-			"bio": "Sometimes I feel like I need more sleep.",
-			"responsibilities": "Apiary, Report-writing, back-end, database",
-			"github": {
-				"Commits": 6,
-				"Issues": 9,
-				"Unit Tests": 0
-			} 
-		}
-	]
+  "people": [
+    {
+      "name": "Christian Carroll",
+      "id": "chrcarroll",
+      "trello": "59c84e15b449d4f92269ae16",
+      "img": "https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg",
+      "bio": "I'm a junior Computer Science and Finance double major.",
+      "responsibilities": "Unit Tests, About, API Sourcing",
+      "github": {
+        "Commits": 3,
+        "Issues": 5,
+        "Unit Tests": 2
+      }
+    },
+    {
+      "name": "Logan Zartman",
+      "id": "loganzartman",
+      "trello": "53e1c3a2ab32024c68db445e",
+      "img": "https://loganzartman.github.io/sweblog17/profile.jpg",
+      "bio": "I really like to write JavaScript but I think it's Stockholm Syndrome.",
+      "responsibilities": "Front-end, Tools and Configuration",
+      "github": {
+        "Commits": 23,
+        "Issues": 5,
+        "Unit Tests": 0
+      }
+    },
+    {
+      "name": "Sarah Wang",
+      "id": "sarahgrace",
+      "trello": "59c85668e70528d79fda80c5",
+      "img": "https://swesushi.files.wordpress.com/2017/01/img_7694.jpg?w=644&zoom=2",
+      "bio": "I like sushi, hip-hop, and writing back-end code.",
+      "responsibilities": "Front-end, Data Collection / Aggregation",
+      "github": {
+        "Commits": 39,
+        "Issues": 13,
+        "Unit Tests": 8
+      }
+    },
+    {
+      "name": "William Xu",
+      "id": "Wixu",
+      "trello": "58712c884508c52c9de9fadc",
+      "img": "https://xillwu.files.wordpress.com/2017/01/12967276_10206096418031215_1083369949972101586_o.jpg",
+      "bio": "I love working with Big Data and think React is magic",
+      "responsibilities": "Back-end, Apiary, and Tools",
+      "github": {
+        "Commits": 0,
+        "Issues": 11,
+        "Unit Tests": 0
+      }
+    },
+    {
+      "name": "Zach Burky",
+      "id": "ts0l",
+      "trello": "59c84d9b4c80f9c9943b5a52",
+      "img": "https://hodlandstress.files.wordpress.com/2017/09/cropped-headshot1.png",
+      "bio": "Sometimes I feel like I need more sleep.",
+      "responsibilities": "Report, Schema Design, Database Creation",
+      "github": {
+        "Commits": 6,
+        "Issues": 9,
+        "Unit Tests": 0
+      }
+    }
+  ]
 }

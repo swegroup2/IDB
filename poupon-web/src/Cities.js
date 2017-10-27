@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Route,
-  Switch
+    Route,
+    Switch
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
@@ -14,8 +14,8 @@ class Cities extends Component {
         return (
             <div className="Container">
                 <Switch>
-                <Route exact path="/cities" component={CityList}/>
-                <Route path="/cities/:id" component={CityDetailCard}/>
+                    <Route exact path="/cities" component={CityList}/>
+                    <Route path="/cities/:id" component={CityDetailCard}/>
                 </Switch>
             </div>
         );
@@ -37,7 +37,8 @@ class CityDetailCard extends Component {
             .then(json => {
                 this.setState({data: json[0]});
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -78,7 +79,8 @@ class CityList extends Component {
             .then(json => {
                 this.setState({data: json})
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -87,7 +89,7 @@ class CityList extends Component {
 
             return (
                 <tr>
-                    <th scope="row">{i+1}</th>
+                    <th scope="row">{i + 1}</th>
                     <td><a href={`/cities/${city_id}`}>{name}</a></td>
                     <td>{numberCommas(population)}</td>
                     <td>{state}</td>
@@ -99,16 +101,16 @@ class CityList extends Component {
                 <div className="col-12">
                     <table className="table table-light">
                         <thead className="thead-inverse">
-                            <tr>
-                                <th>#</th>
-                                <th>City</th>
-                                <th>Population</th>
-                                <th>State</th>
-                            </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>City</th>
+                            <th>Population</th>
+                            <th>State</th>
+                        </tr>
                         </thead>
-                    <tbody>
+                        <tbody>
                         {items}
-                    </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>

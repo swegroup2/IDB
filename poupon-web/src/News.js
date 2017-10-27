@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Route,
-  Switch
+    Route,
+    Switch
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
@@ -14,8 +14,8 @@ class Articles extends Component {
         return (
             <div className="Container">
                 <Switch>
-                <Route exact path="/news" component={MultipleArticles}/>
-                <Route path="/news/:id" component={ArticleDetailCard}/>
+                    <Route exact path="/news" component={MultipleArticles}/>
+                    <Route path="/news/:id" component={ArticleDetailCard}/>
                 </Switch>
             </div>
         );
@@ -37,7 +37,8 @@ class ArticleDetailCard extends Component {
             .then(json => {
                 this.setState({data: json[0]});
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -52,8 +53,8 @@ class ArticleDetailCard extends Component {
                         <h4 className="card-title"><a href={`/news/${article_id}`}>{title}</a></h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
-                        <b>Related Artists: </b>todo<br/>
-                        <b>Related Albums: </b>todo</p>
+                            <b>Related Artists: </b>todo<br/>
+                            <b>Related Albums: </b>todo</p>
                         <a href={media_link} className="card-link">{`Open (${domain})`}</a>
                     </div>
                 </div>
@@ -76,7 +77,8 @@ class MultipleArticles extends Component {
             .then(json => {
                 this.setState({data: json})
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -101,8 +103,8 @@ class ArticlePreviewCard extends Component {
                         <h4 className="card-title">{title}</h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
-                        <b>Related Artists: </b>todo<br/>
-                        <b>Related Albums: </b>todo</p>
+                            <b>Related Artists: </b>todo<br/>
+                            <b>Related Albums: </b>todo</p>
                         <a className="btn btn-primary mr-1" href={media_link}>{`Open (${domain})`}</a>
                         <a className="btn btn-primary" href={`/news/${article_id}`}>{`Details`}</a>
                     </div>
