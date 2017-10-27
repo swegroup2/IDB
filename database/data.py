@@ -35,7 +35,8 @@ class DataInserter:
             self.albums[alb['name']] = self.add_album(alb, new_albums)
         self.s.commit()
         # Update tracks
-        [self.add_tracks(alb) for alb in new_albums]
+        for alb in new_albums:
+            self.add_tracks(alb)
         self.s.commit()
 
     # Add new articles to the database
@@ -76,23 +77,23 @@ class DataInserter:
                 release_date=alb['release_date'],
                 album_picture_link=alb['pic_URL'],
                 artist_id=self.artists[alb['artist_name']].artist_id)
-        new_albums.append(new_album)
+        new_albums.append(alb)
         self.s.add(new_album)
         return new_album
 
     # Add the tracks for an album to the database
     def add_tracks(self, alb):
-        alb_id = self.albums[alb['name']].album_id
         tracks = [list(a) for a in zip(alb['tracks'], alb['track_num'], alb['track_spotify_links'])]
         track_names = set()
         for i in range(0, len(tracks)):
             if tracks[i][0] in track_names:
                 continue
-            self.s.add(Track(
+            new_track = Track(
                 name=tracks[i][0],
                 track_number=tracks[i][1],
                 spotify_id=tracks[i][2],
-                album_id=alb_id))
+                album_id=self.albums[alb['name']].album_id)
+            self.s.add(new_track)
             track_names.add(tracks[i][0]);
 
     # Add a news article to the database
