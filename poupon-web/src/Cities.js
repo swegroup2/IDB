@@ -7,80 +7,113 @@ import {
 var data = require('./data.json').data;
 var db = require('./database.json').database;
 
+const numberCommas = num => num.toLocaleString();
+
 class Cities extends Component {
     render() {
         return (
             <div className="Container">
-            <Switch>
-                <Route exact path="/cities" component={MultipleCities}/>
-                <Route component={SingleCity}/>
-            </Switch>
+                <Switch>
+                <Route exact path="/cities" component={CityList}/>
+                <Route path="/cities/:id" component={CityDetailCard}/>
+                </Switch>
             </div>
         );
     }
 }
 
-class SingleCity extends Component {
+class CityDetailCard extends Component {
+    constructor(props) {
+        super(props);
+        this.id = this.props.match.params.id;
+        this.state = {
+            data: {}
+        };
+    }
+
+    componentWillMount() {
+        fetch(`http://poupon.me/api/cities/${this.id}`)
+            .then(data => data.json())
+            .then(json => {
+                this.setState({data: json[0]});
+            })
+            .catch(e => {});
+    }
+
     render() {
-        var path = window.location.pathname.split("/");
-        var id = path[2];
-        console.log("id: " + id);
-        for(var i = 0; i < data.cities.length; i++) {
-            if(data.cities[i].id == id) {
-                return (
+        const {name, city_picture_link, population, state} = this.state.data;
+
+        return (
+            <div className="col-12">
+                <div className="card">
+                    <div className="card-body">
+                        <h2 className="card-title">{name}</h2>
                         <div className="row">
-                        <div className="col-md-0 col-lg-3">
+                            <div className="col-sm-12 col-md-6 col-lg-4">
+                                <img src={city_picture_link} className="img-fluid" alt={name}/>
+                            </div>
+                            <div className="col-sm-12 col-md-6 col-lg-8">
+                                <p><b>Population:&nbsp;</b>{numberCommas(population)}</p>
+                                <p><b>State:&nbsp;</b>{state}</p>
+                            </div>
                         </div>
-                        <CityCard city={data.cities[i]}/>
-                        <div className="col-md-0 col-lg-3">
-                        </div>
-                        </div>
-                       );
-            }
-        }
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
-class MultipleCities extends Component {
+class CityList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+    }
+
+    componentWillMount() {
+        fetch("http://poupon.me/api/cities")
+            .then(data => data.json())
+            .then(json => {
+                this.setState({data: json})
+            })
+            .catch(e => {});
+    }
+
     render() {
-        const items = data.cities.map((item, i) => <CityCard key={i} city={item}/>);
+        const items = this.state.data.map((item, i) => {
+            const {name, population, state, city_id} = item;
+
+            return (
+                <tr>
+                    <th scope="row">{i+1}</th>
+                    <td><a href={`/cities/${city_id}`}>{name}</a></td>
+                    <td>{numberCommas(population)}</td>
+                    <td>{state}</td>
+                </tr>
+            )
+        });
         return (
             <div className="row">
-                {items}
-            </div>
-     	);
-	}
-}
-
-class CityCard extends Component {
-    render() {
-        const {id, name, state, population, artists, coordinates} = this.props.city;
-        const related_artists = artists.map(item =>
-            {if(item in db) {
-                return(<span><a href={"/artists/"+db[item]}>{item}</a>, </span>);
-            } else {
-                return(<span>{item}, </span>);
-            }}
-            );
-        return (
-            <div className="col-md-12 col-lg-6">
-                <div className="card">
-				  <div className="card-body">
-				    <h4 className="card-title"><a href={"/cities/"+id}>{name}, {state}</a></h4>
-				    <h6 className="card-subtitle mb-2 text-muted">
-                        <b>Population: </b>{population}
-                    </h6>
-				    <p className="card-text">
-                        <b>Related Artists: </b>{related_artists}<br/>
-                        <b>Related News Articles: </b><br/>
-                        <b>Coordinates: </b>{coordinates.latitude}, {coordinates.longitude}
-                    </p>
-				  </div>
-            	</div>
+                <div className="col-12">
+                    <table className="table table-light">
+                        <thead className="thead-inverse">
+                            <tr>
+                                <th>#</th>
+                                <th>City</th>
+                                <th>Population</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        {items}
+                    </tbody>
+                    </table>
+                </div>
             </div>
         );
     }
 }
 
 export default Cities;
-
