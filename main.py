@@ -78,6 +78,11 @@ def get_all_albums():
     matches = db.session.query(Album).all()
     return sql_json(Album, *matches)
 
+@app.route('/api/albums/artists/<int:artist_id>')
+def get_all_albums_by_artist(artist_id):
+    matches = db.session.query(Album).filter_by(artist_id=artist_id).all()
+    return sql_json(Album, *matches)
+
 
 # News endpoints
 @app.route('/api/news/<int:news_id>')
