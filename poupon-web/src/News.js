@@ -54,8 +54,8 @@ class ArticleDetailCard extends Component {
                         <h4 className="card-title"><a href={`/news/${article_id}`}>{title}</a></h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
-                        <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
-                        <b>Related Albums: </b>{this.state.albums.join(",")}</p>
+                            <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
+                            <b>Related Albums: </b>{this.state.albums.join(",")}</p>
                         <a href={media_link} className="card-link">{`Open (${domain})`}</a>
                     </div>
                 </div>
