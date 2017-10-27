@@ -8,12 +8,13 @@ from flask_cors import CORS, cross_origin
 from database.schema import *
 from database.util import sql_json, not_found
 
-app = Flask(__name__,static_url_path='',static_folder='poupon-web/build')
+app = Flask(__name__, static_url_path='', static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-CORS(app) # Enable cross-origin resource sharing
+CORS(app)  # Enable cross-origin resource sharing
 
 db = SQLAlchemy(app)
+
 
 @app.route('/artists/')
 @app.route('/artists/<path>')
@@ -29,14 +30,17 @@ db = SQLAlchemy(app)
 def root(path=""):
     return app.send_static_file('index.html')
 
+
 @app.route('/api/hello')
 def show_hello():
     return jsonify({'hello': 'world'})
+
 
 # "RESTful" JSON API
 @app.route('/api/echo/<string:what>')
 def show_echo(what):
     return jsonify({'text': what})
+
 
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
@@ -45,6 +49,7 @@ def get_artist_by_id(art_id):
     if match is None:
         return not_found()
     return sql_json(Artist, match)
+
 
 @app.route('/api/artists/top/<int:limit>')
 @app.route('/api/artists/top')
@@ -58,6 +63,7 @@ def get_all_artists():
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).all()
     return sql_json(Artist, *matches)
 
+
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
 def get_album_by_id(alb_id):
@@ -66,10 +72,12 @@ def get_album_by_id(alb_id):
         return not_found()
     return sql_json(Album, match)
 
+
 @app.route('/api/albums')
 def get_all_albums():
     matches = db.session.query(Album).all()
     return sql_json(Album, *matches)
+
 
 # News endpoints
 @app.route('/api/news/<int:news_id>')
@@ -85,10 +93,12 @@ def get_articles_by_date(iso_date):
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article, matches)
 
+
 @app.route('/api/news')
 def get_all_articles():
     matches = db.session.query(Article).order_by(Article.date.desc()).all()
     return sql_json(Article, *matches)
+
 
 # Cities endpoints
 @app.route('/api/cities/<int:c_id>')
@@ -98,10 +108,12 @@ def get_city_by_id(c_id):
         return not_found()
     return sql_json(City, match)
 
+
 @app.route('/api/cities')
 def get_all_cities():
     matches = db.session.query(City).order_by(City.population.desc()).all()
     return sql_json(City, *matches)
+
 
 # Error handler
 @app.errorhandler(500)

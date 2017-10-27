@@ -5,17 +5,23 @@ from database.schema import *
 from sqlalchemy import MetaData
 from flask import jsonify
 
+
 def get_Artists():
     return {
-        'travis':Artist(name="Travis Scott", spotify_id="spotify:travis", artist_picture_link="//travis", popularity=97), 'drake':Artist(name="Drake", spotify_id="spotify:drizzy", artist_picture_link="//drizzy", popularity=100), 'kanye':Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=99),
-        'jayz':Artist(name="Jay-Z", spotify_id="spotify:jayz", artist_picture_link="//jayz", popularity=90),
-        'frank':Artist(name="Frank Ocean", spotify_id="spotify:frank", artist_picture_link="//frank", popularity=95),
-        'beyonce':Artist(name="Beyonce", spotify_id="spotify:beyonce", artist_picture_link="//beyonce", popularity=92),
-        'post':Artist(name="Post Malone", spotify_id="spotify:post", artist_picture_link="//post", popularity=94),
-        'carti':Artist(name="Playboi Carti", spotify_id="spotify:carti", artist_picture_link="//carti", popularity=86),
-        'thugger':Artist(name="Young Thug", spotify_id="spotify:thugger", artist_picture_link="//thugger", popularity=87),
-        'future':Artist(name="Future", spotify_id="spotify:future", artist_picture_link="//future", popularity=89),
-        'sza':Artist(name="SZA", spotify_id="spotify:sza", artist_picture_link="//sza", popularity=90)}
+        'travis': Artist(name="Travis Scott", spotify_id="spotify:travis", artist_picture_link="//travis",
+                         popularity=97),
+        'drake': Artist(name="Drake", spotify_id="spotify:drizzy", artist_picture_link="//drizzy", popularity=100),
+        'kanye': Artist(name="Kanye", spotify_id="spotify:kanye", artist_picture_link="//kanye", popularity=99),
+        'jayz': Artist(name="Jay-Z", spotify_id="spotify:jayz", artist_picture_link="//jayz", popularity=90),
+        'frank': Artist(name="Frank Ocean", spotify_id="spotify:frank", artist_picture_link="//frank", popularity=95),
+        'beyonce': Artist(name="Beyonce", spotify_id="spotify:beyonce", artist_picture_link="//beyonce", popularity=92),
+        'post': Artist(name="Post Malone", spotify_id="spotify:post", artist_picture_link="//post", popularity=94),
+        'carti': Artist(name="Playboi Carti", spotify_id="spotify:carti", artist_picture_link="//carti", popularity=86),
+        'thugger': Artist(name="Young Thug", spotify_id="spotify:thugger", artist_picture_link="//thugger",
+                          popularity=87),
+        'future': Artist(name="Future", spotify_id="spotify:future", artist_picture_link="//future", popularity=89),
+        'sza': Artist(name="SZA", spotify_id="spotify:sza", artist_picture_link="//sza", popularity=90)}
+
 
 class TestArtistEndpoints(unittest.TestCase):
     def setUp(self):
@@ -115,6 +121,7 @@ class TestArtistEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(len(artists), 1)
         self.assertEqual(artists['Error'], 'Resource not found.')
+
 
 if __name__ == '__main__':
     unittest.main()
