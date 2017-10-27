@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Route,
-  Switch
+    Route,
+    Switch
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
@@ -14,8 +14,8 @@ class Articles extends Component {
         return (
             <div className="Container">
                 <Switch>
-                <Route exact path="/news" component={MultipleArticles}/>
-                <Route path="/news/:id" component={ArticleDetailCard}/>
+                    <Route exact path="/news" component={MultipleArticles}/>
+                    <Route path="/news/:id" component={ArticleDetailCard}/>
                 </Switch>
             </div>
         );
@@ -114,7 +114,8 @@ class MultipleArticles extends Component {
             .then(json => {
                 this.setState({data: json})
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
