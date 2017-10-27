@@ -93,6 +93,11 @@ def get_articles_by_date(iso_date):
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article, matches)
 
+@app.route('/api/cities/artists/<int:city_id>')
+def get_artists_by_city(city_id):
+    matches = db.session.query(cities_artists).filter_by(city_id=city_id).all()
+    return jsonify(*matches)
+
 
 @app.route('/api/news')
 def get_all_articles():
