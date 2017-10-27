@@ -39,7 +39,8 @@ class ArticleDetailCard extends Component {
             .then(json => {
                 this.setState({data: json[0]});
             })
-            .catch(e => {});
+            .catch(e => {
+            });
 
         fetch(`http://poupon.me/api/news/albums/${this.id}`)
             .then(data => data.json())
@@ -48,16 +49,18 @@ class ArticleDetailCard extends Component {
                     fetch(`http://poupon.me/api/albums/${pair.albums_id}`)
                         .then(adata => adata.json())
                         .then(ajson => {
-                            this.setState(function(oldState, props) {
+                            this.setState(function (oldState, props) {
                                 return {
                                     albums: [ajson.name, ...oldState.albums]
                                 };
                             });
                         })
-                        .catch(e => {});
+                        .catch(e => {
+                        });
                 })
             })
-            .catch(e => {});
+            .catch(e => {
+            });
 
         fetch(`http://poupon.me/api/news/artists/${this.id}`)
             .then(data => data.json())
@@ -66,16 +69,18 @@ class ArticleDetailCard extends Component {
                     fetch(`http://poupon.me/api/artists/${pair.artist_id}`)
                         .then(adata => adata.json())
                         .then(ajson => {
-                            this.setState(function(oldState, props) {
+                            this.setState(function (oldState, props) {
                                 return {
                                     artists: [ajson.name, ...oldState.artists]
                                 };
                             });
                         })
-                        .catch(e => {});
+                        .catch(e => {
+                        });
                 })
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -90,8 +95,8 @@ class ArticleDetailCard extends Component {
                         <h4 className="card-title"><a href={`/news/${article_id}`}>{title}</a></h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
-                        <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
-                        <b>Related Albums: </b>{this.state.albums.join(",")}</p>
+                            <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
+                            <b>Related Albums: </b>{this.state.albums.join(",")}</p>
                         <a href={media_link} className="card-link">{`Open (${domain})`}</a>
                     </div>
                 </div>
