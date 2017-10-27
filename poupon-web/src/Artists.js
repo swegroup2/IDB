@@ -7,6 +7,10 @@ import {
 var data = require('./data.json').data;
 var db = require('./database.json').database;
 
+function popularityRating(val) {
+    return val;
+}
+
 class Artists extends Component {
     render() {
         return (
@@ -25,7 +29,8 @@ class ArtistDetailCard extends Component {
         super(props);
         this.id = this.props.match.params.id;
         this.state = {
-            data: {}
+            data: {},
+            albums: []
         };
     }
 
@@ -33,9 +38,46 @@ class ArtistDetailCard extends Component {
         fetch(`http://poupon.me/api/artists/${this.id}`)
             .then(data => data.json())
             .then(json => {
-                this.setState({data: json[0]})
+                this.setState({data: json[0]});
+
+                this.getOwnAlbums();
             })
             .catch(e => {});
+    }
+
+    getOwnAlbums() {
+        fetch(`http://poupon.me/api/albums`)
+            .then(data => data.json())
+            .then(json => {
+                const own = json.filter(album => this.state.data.artist_id === album.artist_id);
+                this.setState({albums: own});
+            })
+            .catch(e => {});
+    }
+
+    renderAlbumList(albums) {
+        const items = albums.map((item) => {
+            const {name, artist_id, album_id} = item;
+
+            return (
+                <tr>
+                    <td><a href={`/albums/${album_id}`}>{name}</a></td>
+                </tr>
+            );
+        });
+
+        return (
+            <table className="table">
+                <thead className="thead-light">
+                    <tr>
+                        <th>Albums</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {items}
+                </tbody>
+            </table>
+        );
     }
 
     render() {
@@ -54,8 +96,10 @@ class ArtistDetailCard extends Component {
                                 <img src={img} className="img-fluid" alt={name}/>
                             </div>
                             <div className="col-sm-12 col-md-6 col-lg-8">
-                                <p><b>Popularity:&nbsp;</b>{popularity}</p>
+                                <p><b>Popularity:&nbsp;</b>{popularityRating(popularity)}</p>
                                 <p><a href={`https://open.spotify.com/artist/${sid}`}>Open Spotify</a></p>
+                            
+                                {this.renderAlbumList(this.state.albums)}
                             </div>
                         </div>
                     </div>
@@ -74,7 +118,7 @@ class MultipleArtists extends Component {
     }
 
     componentWillMount() {
-        fetch("http://poupon.me/api/artists/top/30")
+        fetch("http://poupon.me/api/artists")
             .then(data => data.json())
             .then(json => {
                 this.setState({top: json})
