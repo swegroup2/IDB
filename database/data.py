@@ -4,14 +4,15 @@ from sqlalchemy.orm import sessionmaker
 import json
 from datetime import datetime
 
+
 class DataInserter:
     def __init__(self, s):
         self.s = s
-        self.artists = {row.name:row.Artist for row in self.s.query(Artist.name, Artist)}
-        self.albums = {row.name:row.Album for row in self.s.query(Album.name, Album)}
-        self.genres = {row.name:row.Genre for row in self.s.query(Genre.name, Genre)}
-        self.news = {row.title:row.Article for row in self.s.query(Article.title, Article)}
-        self.cities = {row.name:row.City for row in self.s.query(City.name, City)}
+        self.artists = {row.name: row.Artist for row in self.s.query(Artist.name, Artist)}
+        self.albums = {row.name: row.Album for row in self.s.query(Album.name, Album)}
+        self.genres = {row.name: row.Genre for row in self.s.query(Genre.name, Genre)}
+        self.news = {row.title: row.Article for row in self.s.query(Article.title, Article)}
+        self.cities = {row.name: row.City for row in self.s.query(City.name, City)}
 
     # Add new artists and genres to the database
     def update_artists(self, artist_data):
@@ -22,7 +23,8 @@ class DataInserter:
                     continue
                 self.genres[g] = self.add_genre(g)
         # Update artists
-        self.artists.update({art['name']:self.add_artist(art) for art in artist_data if art['name'] not in self.artists})
+        self.artists.update(
+            {art['name']: self.add_artist(art) for art in artist_data if art['name'] not in self.artists})
         self.s.commit()
 
     # Add new albums o the database
@@ -49,7 +51,8 @@ class DataInserter:
 
     # Add new cities to the database
     def update_cities(self, cities_data):
-        self.cities.update({city['name']:self.add_city(city) for city in cities_data if city['name'] not in cities})
+        self.cities.update(
+            {city['name']: self.add_city(city) for city in cities_data if city['name'] not in self.cities})
         self.s.commit()
 
     # Add a genre to the database
@@ -61,10 +64,10 @@ class DataInserter:
     # Add an artist to the database
     def add_artist(self, art):
         new_artist = Artist(
-                artist_picture_link=art['artist_picture_link'],
-                popularity=art['popularity'],
-                name=art['name'],
-                spotify_id=art['artist_id'])
+            artist_picture_link=art['artist_picture_link'],
+            popularity=art['popularity'],
+            name=art['name'],
+            spotify_id=art['artist_id'])
         new_artist.genres += [self.genres[g] for g in art['genres']]
         self.s.add(new_artist)
         return new_artist
@@ -72,11 +75,11 @@ class DataInserter:
     # Add an album to the database
     def add_album(self, alb, new_albums):
         new_album = Album(
-                name=alb['name'],
-                spotify_id=alb['spotify_id'],
-                release_date=alb['release_date'],
-                album_picture_link=alb['pic_URL'],
-                artist_id=self.artists[alb['artist_name']].artist_id)
+            name=alb['name'],
+            spotify_id=alb['spotify_id'],
+            release_date=alb['release_date'],
+            album_picture_link=alb['pic_URL'],
+            artist_id=self.artists[alb['artist_name']].artist_id)
         new_albums.append(alb)
         self.s.add(new_album)
         return new_album
@@ -94,7 +97,7 @@ class DataInserter:
                 spotify_id=tracks[i][2],
                 album_id=self.albums[alb['name']].album_id)
             self.s.add(new_track)
-            track_names.add(tracks[i][0]);
+            track_names.add(tracks[i][0])
 
     # Add a news article to the database
     def add_article(self, article):
@@ -119,6 +122,7 @@ class DataInserter:
         new_city.artists += [self.artists[name] for name in city['artists']]
         self.s.add(new_city)
         return new_city
+
 
 if __name__ == '__main__':
     # Create engine/session
