@@ -53,7 +53,7 @@ def get_artists_top(limit=10):
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 
-@app.route('/api/artists/')
+@app.route('/api/artists')
 def get_all_artists():
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).all()
     return sql_json(Artist, *matches)
@@ -72,7 +72,14 @@ def get_all_albums():
     return sql_json(Album, *matches)
 
 # News endpoints
-@app.route('/api/news/<int:iso_date>')
+@app.route('/api/news/<int:news_id>')
+def get_articles_by_id(news_id):
+    match = db.session.query(Article).get(news_id)
+    if match is None:
+        return not_found()
+    return sql_json(Article, match)
+
+@app.route('/api/news/date/<int:iso_date>')
 def get_articles_by_date(iso_date):
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
