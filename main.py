@@ -105,6 +105,13 @@ def get_artists_by_article(art_id):
 
     return jsonMatches
 
+@app.route('/api/artists/cities/<int:artist_id>')
+def get_city_by_artist(artist_id):
+    matches = db.session.query(cities_artists).filter_by(artist_id=artist_id).all()
+    jsonMatches = jsonify(*matches)
+
+    return jsonMatches
+
 
 @app.route('/api/news')
 def get_all_articles():
