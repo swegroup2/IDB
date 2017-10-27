@@ -58,6 +58,7 @@ def get_artists_top(limit=10):
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
 
+
 @app.route('/api/artists')
 def get_all_artists():
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).all()
@@ -78,6 +79,7 @@ def get_all_albums():
     matches = db.session.query(Album).all()
     return sql_json(Album, *matches)
 
+
 @app.route('/api/albums/artists/<int:artist_id>')
 def get_all_albums_by_artist(artist_id):
     matches = db.session.query(Album).filter_by(artist_id=artist_id).all()
@@ -92,16 +94,19 @@ def get_articles_by_id(news_id):
         return not_found()
     return sql_json(Article, match)
 
+
 @app.route('/api/news/date/<int:iso_date>')
 def get_articles_by_date(iso_date):
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article, matches)
 
+
 @app.route('/api/cities/artists/<int:city_id>')
 def get_artists_by_city(city_id):
     matches = db.session.query(cities_artists).filter_by(city_id=city_id).all()
     return jsonify(*matches)
+
 
 @app.route('/api/news/artists/<int:art_id>')
 def get_artists_by_article(art_id):
@@ -109,6 +114,7 @@ def get_artists_by_article(art_id):
     jsonMatches = jsonify(*matches)
 
     return jsonMatches
+
 
 @app.route('/api/artists/cities/<int:artist_id>')
 def get_city_by_artist(artist_id):
