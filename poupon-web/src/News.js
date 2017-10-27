@@ -40,42 +40,6 @@ class ArticleDetailCard extends Component {
                 this.setState({data: json[0]});
             })
             .catch(e => {});
-
-        fetch(`http://poupon.me/api/news/albums/${this.id}`)
-            .then(data => data.json())
-            .then(json => {
-                json.forEach(pair => {
-                    fetch(`http://poupon.me/api/albums/${pair.albums_id}`)
-                        .then(adata => adata.json())
-                        .then(ajson => {
-                            this.setState(function(oldState, props) {
-                                return {
-                                    albums: [ajson.name, ...oldState.albums]
-                                };
-                            });
-                        })
-                        .catch(e => {});
-                })
-            })
-            .catch(e => {});
-
-        fetch(`http://poupon.me/api/news/artists/${this.id}`)
-            .then(data => data.json())
-            .then(json => {
-                json.forEach(pair => {
-                    fetch(`http://poupon.me/api/artists/${pair.artist_id}`)
-                        .then(adata => adata.json())
-                        .then(ajson => {
-                            this.setState(function(oldState, props) {
-                                return {
-                                    artists: [ajson.name, ...oldState.artists]
-                                };
-                            });
-                        })
-                        .catch(e => {});
-                })
-            })
-            .catch(e => {});
     }
 
     render() {
