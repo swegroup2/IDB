@@ -66,7 +66,7 @@ def show_hello():
 def show_echo(what):
     return jsonify({'text': what})
 
-@app.route('api/model/artist/<int:art_id>')
+@app.route('/api/model/artists/<int:art_id>')
 def get_artist_model(art_id):
     artist_match = db.session.query(Artist).get(art_id)
     if artist_match is None:
