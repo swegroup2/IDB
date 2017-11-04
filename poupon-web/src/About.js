@@ -132,7 +132,7 @@ class AboutSummary extends Component {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td><a href="https://utexas.box.com/v/idbreport">Report</a>
+                                <td><a href="https://utexas.app.box.com/v/idbreport">Report</a>
                                 </td>
                                 <td></td>
                             </tr>
