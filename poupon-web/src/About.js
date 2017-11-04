@@ -118,7 +118,7 @@ class AboutSummary extends Component {
                         <tr><td><a href="https://github.com/swegroup2/IDB">GitHub</a></td><td></td></tr>
                         <tr><td><a href="https://trello.com/b/WkHJVGMT/idb1-board">Trello</a></td><td></td></tr>
                         <tr><td><a href="http://docs.sarahgrace.apiary.io/#">Apiary</a></td><td></td></tr>
-                        <tr><td><a href="https://utexas.app.box.com/s/ifvpz6r63gsh6ib7fl01oj4wp1ytm87e">Report</a></td><td></td></tr>
+                        <tr><td><a href="https://utexas.box.com/v/idbreport">Report</a></td><td></td></tr>
                         <tr><td>Total Commits</td><td>{commitCount}</td></tr>
                         <tr><td>Total Issues</td><td>{issueCount}</td></tr>
                         <tr><td>Total Unit Tests</td><td>0</td></tr>

@@ -2,8 +2,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from functools import partial
+from flask.ext.jsontools import JsonSerializableBase
 
-Base = declarative_base()
+Base = declarative_base(cls=(JsonSerializableBase,))
 
 # Apply defaults to a new Column
 DColumn = partial(Column, nullable=False)
@@ -45,6 +46,10 @@ class Artist(Base):
         'Genre',
         secondary=genres_artists,
         back_populates='artists')
+    albums = relationship("Album")
+
+    # def __json__(self):
+    # 	return ['artist_id','name','spotify_id','artist_picture_link','popularity']
 
 
 class Album(Base):
@@ -60,6 +65,9 @@ class Album(Base):
         'Article',
         secondary=articles_albums,
         back_populates='albums')
+
+    def __json__(self):
+    	return ['album_id','name','spotify_id','release_date','album_picture_link','artist_id']
 
 
 class Genre(Base):

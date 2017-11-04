@@ -27,7 +27,7 @@ deploy: flask-test react-build deploy-gcloud
 
 .PHONY: deploy-gcloud
 deploy-gcloud:
-	gcloud app deploy --version candidate
+	gcloud app deploy --no-promote --version test
 
 .PHONY: gcloud-setup
 gcloud-setup:
@@ -50,4 +50,4 @@ react-install: clean
 
 .PHONY: flask-test
 flask-test:
-	python "test-main.py"
+	python "testmain.py"
