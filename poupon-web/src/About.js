@@ -196,10 +196,10 @@ class AboutCard extends Component {
         ));
 
         return (
-            <div className="col-lg-4 col-md-6 col-sm-12">
+            <div className="collapse.in col-lg-4 col-md-6 col-sm-12">
                 <div className="card">
                     <div className="Container">
-                        <img className="card-img-top" src={person.img} alt="Headshot"/>
+                        <img className="img-fluid img-fullwidth" src={person.img} alt="Headshot"/>
                     </div>
                     <div className="card-body">
                         <h4>{person.name}</h4>

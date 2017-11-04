@@ -122,7 +122,7 @@ class AlbumPreviewCard extends Component {
             <div className="col-sm-12 col-md-6 col-lg-4">
                 <div className="card">
                     <div className="Container">
-                        <img src={img} className="card-img-top" alt={name}/>
+                        <img src={img} className="img-fluid" alt={name}/>
                     </div>
 
                     <div className="card-body">
