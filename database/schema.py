@@ -72,7 +72,6 @@ class Album(Base):
 
 class Genre(Base):
     __tablename__ = "genres"
-
     name = DColumn(String, unique=True)
     genre_id = DColumn(Integer, primary_key=True)
     artists = relationship(

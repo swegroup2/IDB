@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Route,
-  Switch
+    Route,
+    Switch
 } from 'react-router-dom';
-
-var data = require('./data.json').data;
-var db = require('./database.json').database;
 
 function popularityRating(val) {
     return val;
@@ -16,8 +13,8 @@ class Artists extends Component {
         return (
             <div className="Container">
                 <Switch>
-                <Route exact path="/artists" component={MultipleArtists}/>
-                <Route path="/artists/:id" component={ArtistDetailCard}/>
+                    <Route exact path="/artists" component={MultipleArtists}/>
+                    <Route path="/artists/:id" component={ArtistDetailCard}/>
                 </Switch>
             </div>
         );
@@ -33,8 +30,7 @@ class ArtistDetailCard extends Component {
             albums: []
         };
     }
-
-    componentWillMount() {
+componentWillMount() {
         fetch(`http://poupon.me/api/artists/${this.id}`)
             .then(data => data.json())
             .then(json => {
@@ -42,7 +38,8 @@ class ArtistDetailCard extends Component {
 
                 this.getOwnAlbums();
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     getOwnAlbums() {
@@ -52,7 +49,8 @@ class ArtistDetailCard extends Component {
                 const own = json.filter(album => this.state.data.artist_id === album.artist_id);
                 this.setState({albums: own});
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     renderAlbumList(albums) {
@@ -69,9 +67,9 @@ class ArtistDetailCard extends Component {
         return (
             <table className="table">
                 <thead className="thead-light">
-                    <tr>
-                        <th>Albums</th>
-                    </tr>
+                <tr>
+                    <th>Albums</th>
+                </tr>
                 </thead>
                 <tbody>
                 {items}
@@ -98,7 +96,7 @@ class ArtistDetailCard extends Component {
                             <div className="col-sm-12 col-md-6 col-lg-8">
                                 <p><b>Popularity:&nbsp;</b>{popularityRating(popularity)}</p>
                                 <p><a href={`https://open.spotify.com/artist/${sid}`}>Open Spotify</a></p>
-                            
+
                                 {this.renderAlbumList(this.state.albums)}
                             </div>
                         </div>
@@ -123,7 +121,8 @@ class MultipleArtists extends Component {
             .then(json => {
                 this.setState({top: json})
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -146,7 +145,7 @@ class ArtistPreviewCard extends Component {
             <div className="col-sm-12 col-md-6 col-lg-4">
                 <div className="card">
                     <div className="Container">
-                        <img src={img} className="card-img-top" alt={name}/>
+                        <img src={img} className="img-fluid" alt={name}/>
                     </div>
 
                     <div className="card-body">

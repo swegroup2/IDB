@@ -61,7 +61,7 @@ This will return all of the artist objects in the database.
 This will provide a single artist, given their Artist ID.
 
 + Parameters
-    + artist_id: '1' (integer,required) - ID of the Artist in our Database
+    + artist_id: '442' (integer,required) - ID of the Artist in our Database
     
 + Response 200 (application/json)
 
@@ -73,7 +73,7 @@ This will provide a single artist, given their Artist ID.
                 "spotify_id": "1uNFoZAHBGtllmzznpCI3s"
         }
         
-## Artist [/api/artists/top/{?limit}]
+## Top Artists [/api/artists/top/{?limit}]
 
 ### Get Top Artists [GET]
 This provides the top N artists (denoted by limit)
@@ -156,6 +156,26 @@ This provides the top N artists (denoted by limit)
             "spotify_id": "13y7CgLHjMVRMDqxdx0Xdo"
           }
         ]
+        
+## Cities by Artist [/api/artists/cities/{artist_id}]
+
+### Get Cities by Artist [GET]
+
+    This will return all the cities related to an Artist.
+    
++ Parameters
+    + artist_id: '1' (integer,required) - ID of the Artist in our Database
+
++ Response 200 (application/json)
+
+        [
+            {
+                "artist_id": 405, 
+                "city_id": 12
+            }
+        ]
+
+
 
 # Group Albums
 
@@ -236,6 +256,34 @@ This provides the top N artists (denoted by limit)
             "spotify_id": "15iSR05cslUeYgf2kuWDhu"
         }
 
+## All Albums by Artist [/api/albums/artists/{artist_id}]
+### Get All Albums by Artist [GET]
+
+    This will return all albums related to an artist.
+
++ Parameters
+    + artist_id: '442' (integer,required) - ID of the Artist in our Database
+    
++ Response 200 (application/json)
+
+        [
+          {
+            "album_id": 3179, 
+            "album_picture_link": "https://i.scdn.co/image/c050bd363e83a1e285f3249ae34f43e445c0cd6f", 
+            "artist_id": 405, 
+            "name": "In My Mind", 
+            "release_date": "Fri, 19 Feb 2016 00:00:00 GMT", 
+            "spotify_id": "15iSR05cslUeYgf2kuWDhu"
+          }, 
+          {
+            "album_id": 3180, 
+            "album_picture_link": "https://i.scdn.co/image/201cb5a5f87285d4925705dd4078fda00c243076", 
+            "artist_id": 405, 
+            "name": "Pineapple Now-Laters", 
+            "release_date": "Tue, 21 Feb 2012 00:00:00 GMT", 
+            "spotify_id": "2pGf7mMaV60uMDchGAMcXF"
+          }
+        ]
 
 # Group News
             
@@ -285,6 +333,24 @@ This provides the top N artists (denoted by limit)
                 "artists" : [
                     "Kendrick Lamar"
                 ]
+            }
+        ]
+        
+## Artists by Article [/api/news/artists/{article_id}]
+
+### Get Artists by Article [GET]
+    
+    This will return all artists referenced by the article.
+    
++ Parameters
+    + article_id: `` (integer) - The ID of the article
+    
++ Response 200 (application/json)
+    
+        [
+            {
+                "article_id": 164, 
+                "artist_id": 454
             }
         ]
 
@@ -354,3 +420,57 @@ This provides the top N artists (denoted by limit)
             "population": 2333054, 
             "state": "NY"
         }
+        
+## Artists by City [/api/cities/artists/{city_id}]
+
+### Get Artists by City [GET]
+    
+    This will return a list of Artists related to the city id specified
+    
++ Parameters
+    + city_id: `11` (Integer) - ID number of the city
+    
++ Response 200 (application/json)
+
+        [
+            {
+                "artist_id": 411, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 419, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 421, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 455, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 468, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 472, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 480, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 520, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 522, 
+                "city_id": 19
+            }, 
+            {
+                "artist_id": 537, 
+                "city_id": 19
+            }
+        ]

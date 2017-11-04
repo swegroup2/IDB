@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Route,
-  Switch
+    Route,
+    Switch
 } from 'react-router-dom';
 
 var data = require('./data.json').data;
@@ -12,8 +12,8 @@ class Albums extends Component {
         return (
             <div className="Container">
                 <Switch>
-                <Route exact path="/albums" component={MultipleAlbums}/>
-                <Route path="/albums/:id" component={AlbumDetailCard}/>
+                    <Route exact path="/albums" component={MultipleAlbums}/>
+                    <Route path="/albums/:id" component={AlbumDetailCard}/>
                 </Switch>
             </div>
         );
@@ -41,9 +41,11 @@ class AlbumDetailCard extends Component {
                     .then(artistJson => {
                         this.setState({artistData: artistJson[0]});
                     })
-                    .catch(e => {});
+                    .catch(e => {
+                    });
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -66,7 +68,7 @@ class AlbumDetailCard extends Component {
                                 <img src={img} className="img-fluid" alt={name}/>
                             </div>
                             <div className="col-sm-12 col-md-6 col-lg-4">
-                                <iframe src={`https://open.spotify.com/embed?uri=${spotify_link}&theme=white`} 
+                                <iframe src={`https://open.spotify.com/embed?uri=${spotify_link}&theme=white`}
                                         width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>
                             </div>
                             <div className="col-sm-12 col-md-12 col-lg-4">
@@ -96,7 +98,8 @@ class MultipleAlbums extends Component {
             .then(json => {
                 this.setState({top: json})
             })
-            .catch(e => {});
+            .catch(e => {
+            });
     }
 
     render() {
@@ -119,7 +122,7 @@ class AlbumPreviewCard extends Component {
             <div className="col-sm-12 col-md-6 col-lg-4">
                 <div className="card">
                     <div className="Container">
-                        <img src={img} className="card-img-top" alt={name}/>
+                        <img src={img} className="img-fluid" alt={name}/>
                     </div>
 
                     <div className="card-body">

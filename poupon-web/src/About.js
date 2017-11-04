@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Route,
-  Switch
+    Route,
+    Switch
 } from 'react-router-dom';
 
 const API_URL = "http://poupon.me/api"; //TODO: relocate
@@ -11,7 +11,7 @@ class About extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            commits : [],
+            commits: [],
             cards: []
         };
     }
@@ -20,26 +20,27 @@ class About extends Component {
         fetch('https://api.github.com/repos/swegroup2/IDB/stats/contributors').then(d => d.json())
             .then(d => {
                 this.setState({
-                    commits : d
+                    commits: d
                 })
-        })
+            })
         fetch('https://api.trello.com/1/boards/WkHJVGMT/cards').then(data => data.json())
             .then(data => {
                 this.setState({
-                    cards : data
+                    cards: data
                 })
-        })
+            })
     }
-    
+
 
     render() {
-        const cards = data.people.map((person, i) => <AboutCard key={i} person={person} commits={this.state.commits} cards={this.state.cards}/>);
+        const cards = data.people.map((person, i) => <AboutCard key={i} person={person} commits={this.state.commits}
+                                                                cards={this.state.cards}/>);
         return (
             <div className="Container">
-            <div className="row">
-                <AboutSummary commits={this.state.commits} cards={this.state.cards}/>
-                {cards}
-            </div>
+                <div className="row">
+                    <AboutSummary commits={this.state.commits} cards={this.state.cards}/>
+                    {cards}
+                </div>
             </div>
         );
     }
@@ -97,7 +98,7 @@ class AboutSummary extends Component {
             commitCount += commits[i].total;
         }
 
-        if (cards.length >= 0){
+        if (cards.length >= 0) {
             issueCount = cards.length;
         }
 
@@ -106,27 +107,57 @@ class AboutSummary extends Component {
                 <div className="card">
                     <div className="card-body">
                         <h2>Poupon</h2>
-                        
+
                         <APIStatusBadge/>
 
                         <p className="card-text">
-                        Poupon is a site dedicated to the discovery of hip-hop and r&b. Its purpose is to keep users informed of current events in the industry, as well as its impact around America. The intended audience is anyone in the general public who is interested in hip-hop music and culture.
+                            Poupon is a site dedicated to the discovery of hip-hop and r&b. Its purpose is to keep users
+                            informed of current events in the industry, as well as its impact around America. The
+                            intended audience is anyone in the general public who is interested in hip-hop music and
+                            culture.
                         </p>
-                        
+
                         <table className="table table-sm">
-                        <tbody>
-                        <tr><td><a href="https://github.com/swegroup2/IDB">GitHub</a></td><td></td></tr>
-                        <tr><td><a href="https://trello.com/b/WkHJVGMT/idb1-board">Trello</a></td><td></td></tr>
-                        <tr><td><a href="http://docs.sarahgrace.apiary.io/#">Apiary</a></td><td></td></tr>
-                        <tr><td><a href="https://utexas.box.com/v/idbreport">Report</a></td><td></td></tr>
-                        <tr><td>Total Commits</td><td>{commitCount}</td></tr>
-                        <tr><td>Total Issues</td><td>{issueCount}</td></tr>
-                        <tr><td>Total Unit Tests</td><td>0</td></tr>
-                        </tbody>
+                            <tbody>
+                            <tr>
+                                <td><a href="https://github.com/swegroup2/IDB">GitHub</a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://trello.com/b/WkHJVGMT/idb1-board">Trello</a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://docs.sarahgrace.apiary.io/#">Apiary</a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://utexas.app.box.com/v/idbreport">Report</a>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Total Commits</td>
+                                <td>{commitCount}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Issues</td>
+                                <td>{issueCount}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Unit Tests</td>
+                                <td>0</td>
+                            </tr>
+                            </tbody>
                         </table>
-                        
-                        <b>Data Sources: </b><a href="https://developer.spotify.com/web-api/endpoint-reference/">Spotify API</a>, <a href="https://www.reddit.com/dev/api/">Reddit API</a>, <a href="https://docs.genius.com/#annotations-h2">Genius API</a>*<br/>
-                        <b>Tools: </b><a href="https://facebook.github.io/react/">React</a>, <a href="http://flask.pocoo.org/">Flask</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, <a href="https://github.com/">GitHub</a>, <a href="https://github.com/facebookincubator/create-react-app">Create-React-App</a>*<br/>
+
+                        <b>Data Sources: </b><a href="https://developer.spotify.com/web-api/endpoint-reference/">Spotify
+                        API</a>, <a href="https://www.reddit.com/dev/api/">Reddit API</a>, <a
+                        href="https://docs.genius.com/#annotations-h2">Genius API</a>*<br/>
+                        <b>Tools: </b><a href="https://facebook.github.io/react/">React</a>, <a
+                        href="http://flask.pocoo.org/">Flask</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, <a
+                        href="https://github.com/">GitHub</a>, <a
+                        href="https://github.com/facebookincubator/create-react-app">Create-React-App</a>*<br/>
                         *more details in report
                     </div>
                 </div>
@@ -159,27 +190,28 @@ class AboutCard extends Component {
 
         const rows = Object.entries(person.github).map(kv => (
             <tr>
-              <td>{kv[0]}</td>
-              <td>{kv[1]}</td>
+                <td>{kv[0]}</td>
+                <td>{kv[1]}</td>
             </tr>
         ));
 
         return (
-            <div className="col-lg-4 col-md-6 col-sm-12">
+            <div className="collapse.in col-lg-4 col-md-6 col-sm-12">
                 <div className="card">
                     <div className="Container">
-                    <img className="card-img-top" src={person.img} alt="Headshot"/>
+                        <img className="img-fluid img-fullwidth" src={person.img} alt="Headshot"/>
                     </div>
                     <div className="card-body">
                         <h4>{person.name}</h4>
                         <div className="card-text mb-3">
                             <p>{person.bio}</p>
-                            <p><span className="font-weight-bold">Responsibilities:</span><br/>{person.responsibilities}</p>
+                            <p><span className="font-weight-bold">Responsibilities:</span><br/>{person.responsibilities}
+                            </p>
                         </div>
                         <table className="table table-sm">
-                          <tbody>
+                            <tbody>
                             {rows}
-                          </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
