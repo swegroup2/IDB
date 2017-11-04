@@ -45,7 +45,7 @@ def show_echo(what):
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id):
-    match = db.session.query(Artist).get(art_id)
+    match = db.session.query(Artist).get(art_id).join(
     if match is None:
         return not_found()
     return sql_json(Artist, match)

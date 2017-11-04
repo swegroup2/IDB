@@ -43,20 +43,27 @@ class ArticleDetailCard extends Component {
     }
 
     render() {
-        const {article_id, media_link, title, upvotes} = this.state.data;
+        const {article_id, media_link, title, upvotes, thumbnail} = this.state.data;
         const date = new Date(this.state.data.date);
         const domain = media_link ? urlGetDomain(media_link) : "";
 
         return (
-            <div className="col-sm-12 col-md-6">
+            <div className="col-sm-12">
                 <div className="card">
                     <div className="card-body">
+                        <div className="row">
+                        <div className="col-sm-12 col-md-4">
+                        <img src={thumbnail} className="img-fluid" alt={title}/>
+                        </div>
+                        <div className="col-sm-12 col-md-8">
                         <h4 className="card-title"><a href={`/news/${article_id}`}>{title}</a></h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
                             <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
                             <b>Related Albums: </b>{this.state.albums.join(",")}</p>
                         <a href={media_link} className="card-link">{`Open (${domain})`}</a>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,17 +101,24 @@ class MultipleArticles extends Component {
 
 class ArticlePreviewCard extends Component {
     render() {
-        const {name, title, media_link, upvotes, article_id} = this.props.data;
+        const {name, title, media_link, upvotes, article_id, thumbnail} = this.props.data;
         const domain = media_link ? urlGetDomain(media_link) : "";
 
         return (
             <div className="col-sm-12 col-md-6">
                 <div className="card">
                     <div className="card-body">
-                        <h4 className="card-title">{title}</h4>
+                        <div className="row">
+                        <div className="col-sm-12 col-md-4">
+                        <img src={thumbnail} className="img-fluid" alt={title}/>
+                        </div>
+                        <div className="col-sm-12 col-md-8">
+                        <h5 className="card-title">{title}</h5>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <a className="btn btn-primary mr-1" href={media_link}>{`Open (${domain})`}</a>
                         <a className="btn btn-primary" href={`/news/${article_id}`}>{`Details`}</a>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>

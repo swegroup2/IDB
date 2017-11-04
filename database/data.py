@@ -1,4 +1,4 @@
-from database.schema import *
+from schema import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import json
@@ -15,8 +15,7 @@ class DataInserter:
         self.cities = {row.name: row.City for row in self.s.query(City.name, City)}
 
     # Add new artists and genres to the database
-    def update_artists(self, artist_data):
-        # Update genres
+    def update_artists(self, artist_data): # Update genres
         for art in artist_data:
             for g in art['genres']:
                 if g in self.genres:
@@ -33,6 +32,12 @@ class DataInserter:
         new_albums = []
         for alb in album_data:
             if alb['name'] in self.albums:
+                continue
+            if alb['artist_name'] not in self.artists:
+                continue
+            if len(str(alb['release_date'])) < 10:
+                continue
+            if 'Deluxe' in alb['name']:
                 continue
             self.albums[alb['name']] = self.add_album(alb, new_albums)
         self.s.commit()
@@ -108,8 +113,8 @@ class DataInserter:
             date=datetime.fromtimestamp(int(float(article['unix_timestamp']))).strftime('%Y-%m-%d'),
             upvotes=article['upvotes'],
             thumbnail=article['thumbnail'])
-        new_article.artists += [self.artists[name] for name in self.artists if name in title]
-        new_article.albums += [self.albums[name] for name in self.albums if name in title]
+        new_article.artists += [self.artists[name] for name in self.artists if all((len(name) >= 5, name.lower() in title.lower()))]
+        new_article.albums += [self.albums[name] for name in self.albums if all((len(name) >= 5, name.lower() in title.lower()))]
         self.s.add(new_article)
 
     # Add a city to the database
@@ -122,7 +127,7 @@ class DataInserter:
         new_city.artists += [self.artists[name] for name in city['artists']]
         self.s.add(new_city)
         return new_city
-
+        self.s.commit()
 
 if __name__ == '__main__':
     # Create engine/session

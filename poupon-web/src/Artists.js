@@ -4,9 +4,6 @@ import {
     Switch
 } from 'react-router-dom';
 
-var data = require('./data.json').data;
-var db = require('./database.json').database;
-
 function popularityRating(val) {
     return val;
 }
@@ -33,8 +30,7 @@ class ArtistDetailCard extends Component {
             albums: []
         };
     }
-
-    componentWillMount() {
+componentWillMount() {
         fetch(`http://poupon.me/api/artists/${this.id}`)
             .then(data => data.json())
             .then(json => {
