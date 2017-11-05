@@ -95,7 +95,7 @@ def get_artist_by_id(art_id): #returns the full artist model
         return not_found()
     album_match = sql_serialize(Album,*db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album).all())
     city_match = sql_serialize(City,*db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City).all())
-    news_match = sql_serialize(db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).all())
+    news_match = sql_serialize(Article,*db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).all())
 
     final_obj = {"artist":artist_match,"albums":album_match,"cities":city_match,"news":news_match}
     return jsonify(final_obj)
