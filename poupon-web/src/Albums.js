@@ -4,8 +4,7 @@ import {
     Switch
 } from 'react-router-dom';
 
-var data = require('./data.json').data;
-var db = require('./database.json').database;
+const config = require("./config.json");
 
 class Albums extends Component {
     render() {
@@ -31,12 +30,12 @@ class AlbumDetailCard extends Component {
     }
 
     componentWillMount() {
-        fetch(`http://poupon.me/api/albums/${this.id}`)
+        fetch(`${config.API_URL}/albums/${this.id}`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json[0]});
 
-                fetch(`http://poupon.me/api/artists/${this.state.data.artist_id}`)
+                fetch(`${config.API_URL}/artists/${this.state.data.artist_id}`)
                     .then(artistData => artistData.json())
                     .then(artistJson => {
                         this.setState({artistData: artistJson[0]});
@@ -93,7 +92,7 @@ class MultipleAlbums extends Component {
     }
 
     componentWillMount() {
-        fetch("http://poupon.me/api/albums")
+        fetch(`${config.API_URL}/albums`)
             .then(data => data.json())
             .then(json => {
                 this.setState({top: json})

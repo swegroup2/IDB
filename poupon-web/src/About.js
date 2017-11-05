@@ -4,8 +4,8 @@ import {
     Switch
 } from 'react-router-dom';
 
-const API_URL = "http://poupon.me/api"; //TODO: relocate
-const data = require('./about.json');
+const config = require("./config.json");
+const data = require("./about.json");
 
 class About extends Component {
     constructor(props) {
@@ -66,7 +66,7 @@ class APIStatusBadge extends Component {
     }
 
     componentWillMount() {
-        fetch(`${API_URL}/hello`)
+        fetch(`${config.API_URL}/hello`)
             .then(data => data.json())
             .then(json => {
                 this.setState({apiStatus: "hello" in json ? "good" : "bad"});

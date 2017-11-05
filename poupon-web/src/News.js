@@ -4,8 +4,7 @@ import {
     Switch
 } from 'react-router-dom';
 
-var data = require('./data.json').data;
-var db = require('./database.json').database;
+const config = require("./config.json");
 
 const urlGetDomain = url => /.+?\/\/(.+?)(?:\/|$)/.exec(url)[1];
 
@@ -34,7 +33,7 @@ class ArticleDetailCard extends Component {
     }
 
     componentWillMount() {
-        fetch(`http://poupon.me/api/news/${this.id}`)
+        fetch(`${config.API_URL}/news/${this.id}`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json[0]});
@@ -80,7 +79,7 @@ class MultipleArticles extends Component {
     }
 
     componentWillMount() {
-        fetch("http://poupon.me/api/news")
+        fetch(`${config.API_URL}/news`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json})

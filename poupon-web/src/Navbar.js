@@ -3,6 +3,8 @@ import {
     Link
 } from 'react-router-dom';
 
+const config = require("./config.json");
+
 class Navbar extends Component {
     render() {
         //todo: move this?
