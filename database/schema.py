@@ -66,8 +66,8 @@ class Album(Base):
         secondary=articles_albums,
         back_populates='albums')
 
-    def __json__(self):
-    	return ['album_id','name','spotify_id','release_date','album_picture_link','artist_id']
+    # def __json__(self):
+    # 	return ['album_id','name','spotify_id','release_date','album_picture_link','artist_id']
 
 
 class Genre(Base):
