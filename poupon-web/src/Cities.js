@@ -3,6 +3,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
+import LoadingStub from "./Components.js";
 
 const config = require("./config.json");
 
@@ -26,22 +27,42 @@ class CityDetailCard extends Component {
         super(props);
         this.id = this.props.match.params.id;
         this.state = {
+            loaded: false,
             data: {}
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/cities/${this.id}`)
             .then(data => data.json())
             .then(json => {
-                this.setState({data: json[0]});
+                this.setState({data: json, loaded: true});
             })
             .catch(e => {
             });
     }
 
     render() {
-        const {name, city_picture_link, population, state} = this.state.data;
+        if (!this.state.loaded)
+            return <LoadingStub />;
+
+        const {name, city_picture_link, population, state} = this.state.data.City;
+        
+        const albums = this.state.data.Albums.map(album => {
+            return (
+                <tr>
+                    <td><a href={`/albums/${album.album_id}`}>{album.name}</a></td>
+                </tr>
+            );
+        });
+
+        const artists = this.state.data.Artists.map(artist => {
+            return (
+                <tr>
+                    <td><a href={`/artists/${artist.artist_id}`}>{artist.name}</a></td>
+                </tr>
+            );
+        });
 
         return (
             <div className="col-12">
@@ -55,6 +76,26 @@ class CityDetailCard extends Component {
                             <div className="col-sm-12 col-md-6 col-lg-8">
                                 <p><b>Population:&nbsp;</b>{numberCommas(population)}</p>
                                 <p><b>State:&nbsp;</b>{state}</p>
+                            </div>
+                            <div className="col-sm-12 col-md-6 col-lg-6" >
+                                <h3>Artists</h3>
+                                <div style={{"max-height": "300px", "overflow-y": "auto"}}>
+                                    <table className="table table-light">
+                                        <tbody>
+                                        {artists}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div className="col-sm-12 col-md-6 col-lg-6" >
+                                <h3>Albums</h3>
+                                <div style={{"max-height": "300px", "overflow-y": "auto"}}>
+                                    <table className="table table-light">
+                                        <tbody>
+                                        {albums}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -72,7 +113,7 @@ class CityList extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/cities`)
             .then(data => data.json())
             .then(json => {
