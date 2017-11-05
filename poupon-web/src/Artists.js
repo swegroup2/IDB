@@ -4,6 +4,8 @@ import {
     Switch
 } from 'react-router-dom';
 
+const config = require("./config.json");
+
 function popularityRating(val) {
     return val;
 }
@@ -31,7 +33,7 @@ class ArtistDetailCard extends Component {
         };
     }
 componentWillMount() {
-        fetch(`http://poupon.me/api/artists/${this.id}`)
+        fetch(`${config.API_URL}/artists/${this.id}`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json[0]});
@@ -43,7 +45,7 @@ componentWillMount() {
     }
 
     getOwnAlbums() {
-        fetch(`http://poupon.me/api/albums`)
+        fetch(`${config.API_URL}/albums`)
             .then(data => data.json())
             .then(json => {
                 const own = json.filter(album => this.state.data.artist_id === album.artist_id);
@@ -116,7 +118,7 @@ class MultipleArtists extends Component {
     }
 
     componentWillMount() {
-        fetch("http://poupon.me/api/artists")
+        fetch(`${config.API_URL}/artists`)
             .then(data => data.json())
             .then(json => {
                 this.setState({top: json})

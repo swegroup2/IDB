@@ -4,8 +4,7 @@ import {
     Switch
 } from 'react-router-dom';
 
-var data = require('./data.json').data;
-var db = require('./database.json').database;
+const config = require("./config.json");
 
 const numberCommas = (num = 0) => num.toLocaleString();
 
@@ -32,7 +31,7 @@ class CityDetailCard extends Component {
     }
 
     componentWillMount() {
-        fetch(`http://poupon.me/api/cities/${this.id}`)
+        fetch(`${config.API_URL}/cities/${this.id}`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json[0]});
@@ -74,7 +73,7 @@ class CityList extends Component {
     }
 
     componentWillMount() {
-        fetch("http://poupon.me/api/cities")
+        fetch(`${config.API_URL}/cities`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json})
