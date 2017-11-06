@@ -145,10 +145,17 @@ def get_all_albums_by_artist(artist_id): #OK
 # News endpoints
 @app.route('/api/news/<int:news_id>')
 def get_articles_by_id(news_id): #FULL NEWS ID NEEDED???
-    match = db.session.query(Article).get(news_id)
-    if match is None:
+    news_match = sql_single_serialize(Article,db.session.query(Article).get(news_id))
+    if news_match is None:
         return not_found()
-    return jsonify(sql_single_serialize(Article,match))
+    artist_match = db.session.query(Article).filter(Article.article_id==news_id).\
+        join(articles_artists).join(Artist).with_entities(Artist.name,Artist.artist_id).all()
+    album_match = db.session.query(Article).filter(Article.article_id==news_id).\
+        join(articles_albums).join(Album).with_entities(Album.name,Album.album_id).all()
+
+    final_obj = {"news": news_match, "artist": artist_match, "album": album_match}
+
+    return jsonify(final_obj)
 
 
 @app.route('/api/news/date/<int:iso_date>')
@@ -156,26 +163,6 @@ def get_articles_by_date(iso_date): #OK
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article,*matches)
-
-
-# @app.route('/api/cities/artists/<int:city_id>')
-# def get_artists_by_city(city_id): #TO DEPRECATE
-#     matches = db.session.query(cities_artists).filter_by(city_id=city_id).all()
-#     return json.dumps(matches,cls=AlchemyEncoder,indent=4)
-
-
-# @app.route('/api/news/artists/<int:art_id>')
-# def get_artists_by_article(art_id): #TO DEPRECATE
-#     matches = db.session.query(articles_artists).filter_by(article_id=art_id).all()
-
-#     return json.dumps(matches,cls=AlchemyEncoder,indent=4)
-
-
-# @app.route('/api/artists/cities/<int:artist_id>')
-# def get_city_by_artist(artist_id): #TO DEPRECATE
-#     matches = db.session.query(cities_artists).filter_by(artist_id=artist_id).all()
-#     return json.dumps(matches,cls=AlchemyEncoder,indent=4)
-
 
 @app.route('/api/news')
 def get_all_articles(): #OK
