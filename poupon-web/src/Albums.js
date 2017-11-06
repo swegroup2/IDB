@@ -30,7 +30,7 @@ class AlbumDetailCard extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/albums/${this.id}`)
             .then(data => data.json())
             .then(json => {
@@ -50,7 +50,11 @@ class AlbumDetailCard extends Component {
 
         const artist_url = `/artists/${artist.artist_id}`;
         const album_spotify_link = `https://open.spotify.com/album/${album.spotify_id}`;
-        const artist_spotify_link = `https://open.spotify.com/artist/${artist.spotify_id}`;
+
+        let articles = this.state.data.news.map(article =>
+                <tr><td><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
+        if (articles.length === 0)
+            articles = <tr><td className="font-italic">No articles found.</td></tr>;
 
         return (
             <div className="col-12">
@@ -66,9 +70,19 @@ class AlbumDetailCard extends Component {
                                         width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>
                             </div>
                             <div className="col-sm-12 col-md-12 col-lg-4">
-                                <p><b>Artist:&nbsp;</b><a href={artist_spotify_link}>{artist.name}</a></p>
+                                <p><b>Artist:&nbsp;</b><a href={artist_url}>{artist.name}</a></p>
                                 <p><b>Release Date:&nbsp;</b>{album_date.toLocaleDateString()}</p>
                                 <p><a href={album_spotify_link}>Open Spotify</a></p>
+                            </div>
+                            <div className="col-sm-12 col-md-12 col-lg-12">
+                                <h3>News Articles</h3>
+                                <div style={{"max-height": "300px", "overflow-y": "auto"}}>
+                                    <table className="table table-light">
+                                        <tbody>
+                                        {articles || <tr><td><i>No articles available.</i></td></tr>}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,7 +100,7 @@ class MultipleAlbums extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/albums`)
             .then(data => data.json())
             .then(json => {
