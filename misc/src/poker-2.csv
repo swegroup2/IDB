@@ -1,0 +1,14 @@
+sep=;
+Story Title;Estimate;Vote Started;Voting Duration;Avg Voting Time;Fastest;Slowest;
+As a user, I want to filter artists by genre;8;17/10/2017 02:00:44;00:00:42;00:00:28;Christian;William Xu;
+As a user, I want to see the news articles related to an artist;8;17/10/2017 02:01:37;00:01:36;00:00:44;Christian;William Xu;
+As a user, I want to see the news articles related to an album;5;17/10/2017 02:03:16;00:10:03;00:03:37;Christian;William Xu;
+As a user, I want to sort artists by popularity;3;17/10/2017 02:13:22;00:01:36;00:00:39;Christian;William Xu;
+As a user, I want to search for anything by keyword;8;17/10/2017 02:15:11;00:01:35;00:00:59;Christian;William Xu;
+As a user, I want to sort cities by population;3;17/10/2017 02:16:49;00:00:20;00:00:09;Christian;William Xu;
+As a user, I want to filter cities by population;5;17/10/2017 02:17:11;00:00:48;00:00:30;Christian;William Xu;
+As a user, I want to see cities that artists mention in songs;13;17/10/2017 02:18:09;00:00:25;00:00:07;Christian;William Xu;
+As a user, I want to sort a given thing by name;3;17/10/2017 02:18:37;00:03:30;00:00:41;Christian;William Xu;
+As a user, I want to sort albums by release date;5;17/10/2017 02:22:10;00:01:29;00:00:19;Christian;William Xu;
+As a user, I want to filter albums by year;8;17/10/2017 02:23:41;00:01:00;00:00:23;Christian;William Xu;
+As a user, I want to sort news by popularity;5;17/10/2017 02:24:45;00:02:19;00:00:35;Christian;William Xu;
