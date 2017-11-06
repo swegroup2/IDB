@@ -96,7 +96,8 @@ class MultipleAlbums extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            top: []
+            top: [],
+            loaded: false
         };
     }
 
@@ -104,13 +105,16 @@ class MultipleAlbums extends Component {
         fetch(`${config.API_URL}/albums`)
             .then(data => data.json())
             .then(json => {
-                this.setState({top: json})
+                this.setState({top: json, loaded: true});
             })
             .catch(e => {
             });
     }
 
     render() {
+        if (!this.state.loaded)
+                return <LoadingStub />;
+        
         const items = this.state.top.map((item, i) => <AlbumPreviewCard key={i} data={item}/>);
         return (
             <div className="row">
