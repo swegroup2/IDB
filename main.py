@@ -1,8 +1,7 @@
 # [START app]
 import logging
 import os
-from flask import Flask
-from flask import jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from database.schema import *
@@ -41,6 +40,77 @@ db = SQLAlchemy(app)
 #                 data[field] = None
 #         return data
 
+def build_query_dict(user_queries=None,wanted_keys=None):
+    if user_queries is None or wanted_keys is None: #fix this
+        return None
+    ret_dict = dict((k,user_queries[k]) for k in wanted_keys if k in user_queries)
+
+    return ret_dict
+
+def build_query(query,query_dict,model):
+    matches = query
+    for key in query_dict:
+        if key == 'city':
+            matches = city_filter(matches,query_dict[key],model)
+        elif key == 'genre':
+            matches = genre_filter(matches,query_dict[key],model)
+        # elif key == 'region':
+        #     matches = region_filter(matches,query_dict[key],model)
+        elif key == 'popularity':
+            matches = pop_sort(matches,query_dict[key],model)
+        elif key == 'alpha':
+            matches = alpha_sort(matches,query_dict[key],model)
+        else:
+            pass
+    return matches
+
+def city_filter(query,val,model): #check type?
+    if model == "artists":
+        return query.join(cities_artists).join(City).filter(City.name==val)
+    else:
+        pass
+
+def genre_filter(query,val,model):
+    if model == "artists":
+        return query.join(genres_artists).join(Genre).filter(Genre.name==val)
+    if model == "albums":
+        return query.join(Artist).join(genres_artists).join(Genre).filter(Genre.name==val)
+    else:
+        pass
+
+# def region_filter(query,val,model): #explicit join
+#     if model is "artists":
+#         return query.join(cities_artists).join(City).join()
+
+def pop_sort(query,val,model):
+    if model == "artists":
+        if val == "desc":
+            return query.order_by(Artist.popularity.desc())
+        else: #should i change this to elif val is "asc"?
+            return query.order_by(Artist.popularity.asc())
+    elif model == "albums":
+        if val == "desc":
+            return query.order_by(Album.popularity.desc())
+        else: #should i change this to elif val is "asc"?
+            return query.order_by(Album.popularity.asc())
+
+def alpha_sort(query,val,model):
+    if model == "artists":
+        if val == "desc":
+            return query.order_by(Artist.name.desc())
+        else:
+            return query.order_by(Artist.name.asc())
+    elif model == "albums":
+        if val == "desc":
+            return query.order_by(Album.name.desc())
+        else:
+            return query.order_by(Album.name.asc())
+    elif model == "cities":
+        if val == "desc":
+            return query.order_by(City.name.desc())
+        else:
+            return query.order_by(City.name.asc())
+
 @app.route('/artists/')
 @app.route('/artists/<path>')
 @app.route('/about')
@@ -67,7 +137,7 @@ def show_echo(what):
     return jsonify({'text': what})
 
 @app.route('/api/model/artists/<int:art_id>')
-def get_artist_model(art_id):
+def get_artist_model(art_id): #DEPRECATE
     artist_match = db.session.query(Artist).get(art_id)
     if artist_match is None:
         return not_found()
@@ -90,6 +160,9 @@ def get_artist_model(art_id):
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artist_by_id(art_id): #returns the full artist model
+    args_dict = request.args.to_dict() #can hide pagination,sorting, filtering in here? instead of React    
+    return jsonify(args_dict)
+
     artist_match = sql_single_serialize(Artist,db.session.query(Artist).get(art_id))
     if artist_match is None:
         return not_found()
@@ -111,8 +184,16 @@ def get_artists_top(limit=10): #OK
 
 
 @app.route('/api/artists')
-def get_all_artists(): #OK
-    matches = db.session.query(Artist).order_by(Artist.popularity.desc()).all()
+def get_all_artists(): #OK order_by(Artist.popularity.desc())
+    wanted_keys = ['page','city','genre','region','popularity','alpha']
+
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys) #could return none
+
+    base_query = db.session.query(Artist)#.with_entities(Artist.name,Artist.artist_id)
+    matches = build_query(base_query,query_dict,'artists').all()
+
+    #matches = db.session.query(Artist).with_entities(Artist.name,Artist.artist_id).paginate(3,8,False).items
+    #return jsonify(*matches)
     return sql_json(Artist,*matches)
 
 
