@@ -3,6 +3,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
+import LoadingStub from "./Components.js";
 
 const config = require("./config.json");
 
@@ -26,22 +27,26 @@ class ArticleDetailCard extends Component {
         super(props);
         this.id = this.props.match.params.id;
         this.state = {
+            loaded: false,
             data: {},
             artists: [],
             albums: []
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/news/${this.id}`)
             .then(data => data.json())
             .then(json => {
-                this.setState({data: json[0]});
+                this.setState({data: json, loaded: true});
             })
             .catch(e => {});
     }
 
     render() {
+        if (!this.state.loaded)
+            return <LoadingStub />;
+
         const {article_id, media_link, title, upvotes, thumbnail} = this.state.data;
         const date = new Date(this.state.data.date);
         const domain = media_link ? urlGetDomain(media_link) : "";
@@ -74,21 +79,25 @@ class MultipleArticles extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            loaded: false
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/news`)
             .then(data => data.json())
             .then(json => {
-                this.setState({data: json})
+                this.setState({data: json, loaded: true});
             })
             .catch(e => {
             });
     }
 
     render() {
+        if (!this.state.loaded)
+            return <LoadingStub />;
+
         const items = this.state.data.map((item, i) => <ArticlePreviewCard key={i} data={item}/>);
         return (
             <div className="row">

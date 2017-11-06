@@ -148,7 +148,7 @@ def get_articles_by_id(news_id): #FULL NEWS ID NEEDED???
     match = db.session.query(Article).get(news_id)
     if match is None:
         return not_found()
-    return jsonify(sql_single_serialize(Article,matches))
+    return jsonify(sql_single_serialize(Article,match))
 
 
 @app.route('/api/news/date/<int:iso_date>')
