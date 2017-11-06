@@ -110,7 +110,8 @@ class MultipleArtists extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            top: []
+            top: [],
+            loaded: false
         };
     }
 
@@ -118,13 +119,16 @@ class MultipleArtists extends Component {
         fetch(`${config.API_URL}/artists`)
             .then(data => data.json())
             .then(json => {
-                this.setState({top: json})
+                this.setState({top: json, loaded: true});
             })
             .catch(e => {
             });
     }
 
     render() {
+        if (!this.state.loaded)
+            return <LoadingStub />;
+
         const items = this.state.top.map((item, i) => <ArtistPreviewCard key={i} data={item}/>);
         return (
             <div className="row">
