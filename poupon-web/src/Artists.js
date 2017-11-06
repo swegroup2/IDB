@@ -4,6 +4,7 @@ import {
     Switch
 } from 'react-router-dom';
 import LoadingStub from "./Components.js";
+import {ModelController, PaginatedList} from "./Lists.js";
 
 const config = require("./config.json");
 
@@ -107,33 +108,9 @@ class ArtistDetailCard extends Component {
 }
 
 class MultipleArtists extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            top: [],
-            loaded: false
-        };
-    }
-
-    componentDidMount() {
-        fetch(`${config.API_URL}/artists`)
-            .then(data => data.json())
-            .then(json => {
-                this.setState({top: json, loaded: true});
-            })
-            .catch(e => {
-            });
-    }
-
     render() {
-        if (!this.state.loaded)
-            return <LoadingStub />;
-
-        const items = this.state.top.map((item, i) => <ArtistPreviewCard key={i} data={item}/>);
         return (
-            <div className="row">
-                {items}
-            </div>
+            <PaginatedList data={[{name: "test", artist_picture_link: "", id: "420"}]} itemClass={ArtistPreviewCard}/>
         );
     }
 }
