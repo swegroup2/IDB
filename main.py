@@ -132,7 +132,7 @@ def get_album_by_id(alb_id): #returns full album model (Album, Artists, News rel
 
 @app.route('/api/albums')
 def get_all_albums(): #OK
-    matches = db.session.query(Album).all()
+    matches = db.session.query(Album).order_by(Album.popularity.desc()).all()
     return sql_json(Album,*matches)
 
 
