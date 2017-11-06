@@ -3,6 +3,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
+import LoadingStub from "./Components.js";
 
 const config = require("./config.json");
 
@@ -29,27 +30,15 @@ class ArtistDetailCard extends Component {
         this.id = this.props.match.params.id;
         this.state = {
             data: {},
-            albums: []
+            loaded: false
         };
     }
-componentWillMount() {
+
+    componentDidMount() {
         fetch(`${config.API_URL}/artists/${this.id}`)
             .then(data => data.json())
             .then(json => {
-                this.setState({data: json[0]});
-
-                this.getOwnAlbums();
-            })
-            .catch(e => {
-            });
-    }
-
-    getOwnAlbums() {
-        fetch(`${config.API_URL}/albums`)
-            .then(data => data.json())
-            .then(json => {
-                const own = json.filter(album => this.state.data.artist_id === album.artist_id);
-                this.setState({albums: own});
+                this.setState({data: json, loaded: true});
             })
             .catch(e => {
             });
@@ -81,25 +70,33 @@ componentWillMount() {
     }
 
     render() {
-        const name = this.state.data.name;
-        const img = this.state.data.artist_picture_link;
-        const popularity = this.state.data.popularity;
-        const sid = this.state.data.spotify_id;
+        if (!this.state.loaded)
+            return <LoadingStub />;
+
+        const artist = this.state.data.artist;
+        const albums = this.state.data.albums;
+        const cities = this.state.data.cities;
+
+        const cityList = cities.map(city => (
+            <span className="badge badge-light">
+                <a href={`/cities/${city.city_id}`}>{city.name}</a>
+            </span>
+        ));
 
         return (
             <div className="col-12">
                 <div className="card">
                     <div className="card-body">
-                        <h2 className="card-title">{name}</h2>
+                        <h2 className="card-title">{artist.name}</h2>
                         <div className="row">
                             <div className="col-sm-12 col-md-6 col-lg-4">
-                                <img src={img} className="img-fluid" alt={name}/>
+                                <img src={artist.artist_picture_link} className="img-fluid" alt={artist.name}/>
                             </div>
                             <div className="col-sm-12 col-md-6 col-lg-8">
-                                <p><b>Popularity:&nbsp;</b>{popularityRating(popularity)}</p>
-                                <p><a href={`https://open.spotify.com/artist/${sid}`}>Open Spotify</a></p>
-
-                                {this.renderAlbumList(this.state.albums)}
+                                <p><b>Popularity:&nbsp;</b>{popularityRating(artist.popularity)}</p>
+                                <p><b>Related Cities: </b>{cityList}</p>
+                                <p><a href={`https://open.spotify.com/artist/${artist.spotify_id}`}>Open Spotify</a></p>
+                                {this.renderAlbumList(albums)}
                             </div>
                         </div>
                     </div>
@@ -117,7 +114,7 @@ class MultipleArtists extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch(`${config.API_URL}/artists`)
             .then(data => data.json())
             .then(json => {
