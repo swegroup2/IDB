@@ -61,6 +61,7 @@ class Album(Base):
     release_date = DColumn(Date)
     album_picture_link = DColumn(String)
     artist_id = DColumn(Integer, ForeignKey("artists.artist_id"))
+    popularity = DColumn(Integer)
     articles = relationship(
         'Article',
         secondary=articles_albums,
