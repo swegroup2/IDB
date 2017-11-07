@@ -28,9 +28,7 @@ class ArticleDetailCard extends Component {
         this.id = this.props.match.params.id;
         this.state = {
             loaded: false,
-            data: {},
-            artists: [],
-            albums: []
+            data: {}
         };
     }
 
@@ -47,9 +45,14 @@ class ArticleDetailCard extends Component {
         if (!this.state.loaded)
             return <LoadingStub />;
 
-        const {article_id, media_link, title, upvotes, thumbnail} = this.state.data;
-        const date = new Date(this.state.data.date);
+        const {article_id, media_link, title, upvotes, thumbnail} = this.state.data.news;
+        const date = new Date(this.state.data.news.date);
         const domain = media_link ? urlGetDomain(media_link) : "";
+
+        const artists = this.state.data.artist.map(artist =>
+            <span className="badge badge-light"><a href={`/artists/${artist.artist_id}`}>{artist.name}</a></span>);
+        const albums = this.state.data.album.map(album =>
+            <span className="badge badge-light"><a href={`/albums/${album.album_id}`}>{album.name}</a></span>);
 
         return (
             <div className="col-sm-12">
@@ -60,12 +63,12 @@ class ArticleDetailCard extends Component {
                         <img src={thumbnail} className="img-fluid" alt={title}/>
                         </div>
                         <div className="col-sm-12 col-md-8">
-                        <h4 className="card-title"><a href={`/news/${article_id}`}>{title}</a></h4>
+                        <h4 className="card-title">{title}</h4>
                         <h6 className="card-subtitle mb-2 text-muted">{`points: ${upvotes}`}</h6>
                         <p className="card-text">
-                            <b>Related Artists: </b>{this.state.artists.join(",")}<br/>
-                            <b>Related Albums: </b>{this.state.albums.join(",")}</p>
-                        <a href={media_link} className="card-link">{`Open (${domain})`}</a>
+                            <b>Related Artists: </b>{artists}<br/>
+                            <b>Related Albums: </b>{albums}</p>
+                        <a className="btn btn-primary mr-1" href={media_link}>{`Open (${domain})`}</a>
                         </div>
                         </div>
                     </div>
