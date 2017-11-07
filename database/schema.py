@@ -102,7 +102,7 @@ class Article(Base):
 
     article_id = DColumn(Integer, primary_key=True)
     title = DColumn(String)
-    media_link = DColumn(String, unique=True)
+    media_link = DColumn(String)
     date = DColumn(Date)
     upvotes = DColumn(Integer)
     thumbnail = DColumn(String)

@@ -51,6 +51,8 @@ class DataInserter:
         for article in news_data:
             if article['title'] in self.news:
                 continue
+            if 'Discussion' in article['title']:
+                continue
             self.news[article['title']] = self.add_article(article)
         self.s.commit()
 
@@ -115,6 +117,11 @@ class DataInserter:
             thumbnail=article['thumbnail'])
         new_article.artists += [self.artists[name] for name in self.artists if all((len(name) >= 5, name.lower() in title.lower()))]
         new_article.albums += [self.albums[name] for name in self.albums if all((len(name) >= 5, name.lower() in title.lower()))]
+        if new_article.thumbnail == '':
+            if len(new_article.artists) > 0:
+                new_article.thumbnail = new_article.artists[0].artist_picture_link
+            elif len(new_article.albums) > 0:
+                new_article.thumbnail = new_article.albums[0].album_picture_link
         self.s.add(new_article)
 
     # Add a city to the database
@@ -143,17 +150,14 @@ if __name__ == '__main__':
     with open('data/artists.json', 'r') as f:
         artist_data = json.load(f)
     di.update_artists(artist_data)
-
     # Load and update albums
     with open('data/albums.json', 'r') as f:
         album_data = json.load(f)
     di.update_albums(album_data)
-
     # Load and update news
     with open('data/news.json', 'r') as f:
         news_data = json.load(f)
     di.update_news(news_data)
-
     # Load and update cities
     with open('data/cities.json', 'r') as f:
         cities_data = json.load(f)
