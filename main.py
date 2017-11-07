@@ -91,7 +91,7 @@ def alpha_sort(query,val,model):
         else:
             return query.order_by(City.name.asc())
 
-@app.route('/artists/')
+@app.route('/artists')
 @app.route('/artists/<path>')
 @app.route('/about')
 @app.route('/about/<path>')
@@ -104,11 +104,6 @@ def alpha_sort(query,val,model):
 @app.route('/')
 def root(path=""):
     return app.send_static_file('index.html')
-
-
-@app.route('/api/hello')
-def show_hello():
-    return jsonify({'hello': 'world'})
 
 
 # Artist endpoints

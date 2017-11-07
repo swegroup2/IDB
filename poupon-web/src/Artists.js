@@ -53,7 +53,7 @@ class ArtistDetailCard extends Component {
         const cities = this.state.data.cities;
 
         let articles = this.state.data.news.map(article =>
-                <tr><td><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
+                <tr><td width="15%">{new Date(article.date).toDateString()}</td><td width="85%"><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
         if (articles.length === 0) {
             articles = <tr><td className="font-italic">No articles found.</td></tr>;
         }

@@ -52,7 +52,7 @@ class AlbumDetailCard extends Component {
         const album_spotify_link = `https://open.spotify.com/album/${album.spotify_id}`;
 
         let articles = this.state.data.news.map(article =>
-                <tr><td><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
+                <tr><td width="15%">{new Date(article.date).toDateString()}</td><td width="85%"><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
         if (articles.length === 0) {
             articles = <tr><td className="font-italic">No articles found.</td></tr>;
         }
@@ -73,7 +73,7 @@ class AlbumDetailCard extends Component {
                             <div className="col-sm-12 col-md-12 col-lg-4">
                                 <p><a className="btn btn-primary mr-1" href={album_spotify_link}>Open Spotify</a></p>
                                 <p><b>Artist:&nbsp;</b><a href={artist_url}>{artist.name}</a></p>
-                                <p><b>Release Date:&nbsp;</b>{album_date.toLocaleDateString()}</p>
+                                <p><b>Release Date:&nbsp;</b>{album_date.toDateString()}</p>
                             </div>
                             <div className="col-sm-12 col-md-12 col-lg-12">
                                 <h3>News Articles</h3>
