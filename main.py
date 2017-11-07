@@ -8,8 +8,6 @@ from database.schema import *
 from database.util import *
 import json
 
-# from sqlalchemy.ext.declarative import DeclarativeMeta
-
 app = Flask(__name__, static_url_path='', static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -115,7 +113,7 @@ def get_artists_by_id(art_id):
 
     album_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album).all()
     city_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City).all()
-    news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).all()
+    news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).order_by(Article.date.desc()).all()
 
     json_artist = sql_single_serialize(Artist, artist_match)
     json_album = sql_serialize(Album, *album_match)
@@ -152,7 +150,7 @@ def get_album_by_id(alb_id): #returns full album model (Album, Artists, News rel
         return not_found()
 
     artist_match = db.session.query(Album).filter(Album.album_id==alb_id).join(Artist).with_entities(Artist).first()
-    news_match = db.session.query(Album).filter(Album.album_id==alb_id).join(articles_albums).join(Article).with_entities(Article)
+    news_match = db.session.query(Album).filter(Album.album_id==alb_id).join(articles_albums).join(Article).with_entities(Article).order_by(Article.date.desc())
 
     json_album = sql_single_serialize(Album, album_match)
     json_artist = sql_single_serialize(Artist, artist_match)
@@ -215,7 +213,7 @@ def get_city_by_id(c_id): #FULL CITY MODEL (City,Artist,Album)
         return not_found()
 
     artist_match = db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).with_entities(Artist).all()
-    news_match = db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).join(articles_artists).with_entities(Article).all()
+    news_match = db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).join(articles_artists).with_entities(Article).order_by(Article.date.desc()).all()
 
     json_city = sql_single_serialize(City, city_match)
     json_artist = sql_serialize(Artist, *artist_match)
