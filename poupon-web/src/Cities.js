@@ -47,8 +47,8 @@ class CityDetailCard extends Component {
             return <LoadingStub />;
 
         const {name, city_picture_link, population, state} = this.state.data.City;
-        
-        const albums = this.state.data.Albums.map(album => {
+
+        const albums = this.state.data.albums.map(album => {
             return (
                 <tr>
                     <td><a href={`/albums/${album.album_id}`}>{album.name}</a></td>
@@ -56,7 +56,7 @@ class CityDetailCard extends Component {
             );
         });
 
-        const artists = this.state.data.Artists.map(artist => {
+        const artists = this.state.data.artists.map(artist => {
             return (
                 <tr>
                     <td><a href={`/artists/${artist.artist_id}`}>{artist.name}</a></td>
