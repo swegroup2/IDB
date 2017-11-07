@@ -3,8 +3,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import LoadingStub from "./Components.js";
-import {ModelController, PaginatedList} from "./Lists.js";
+import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
 const config = require("./config.json");
 
@@ -108,9 +107,9 @@ class ArtistDetailCard extends Component {
 class MultipleArtists extends Component {
     render() {
         return (
-            <ModelController endpoint="artists">
+            <APIAdapter endpoint="artists">
                 <PaginatedList pageValue={1} itemClass={ArtistPreviewCard}/>
-            </ModelController>
+            </APIAdapter>
         );
     }
 }
