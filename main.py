@@ -118,17 +118,21 @@ def show_echo(what):
 
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
-def get_artist_model(art_id): #DEPRECATE
+def get_artists_by_id(art_id): #DEPRECATE
     artist_match = db.session.query(Artist).get(art_id)
     if artist_match is None:
         return not_found()
 
-    album_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album.name,Album.album_id).all()
-    city_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City.name,City.city_id).all()
-    news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article.title,Article.article_id).all()
+    album_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album).all()
+    city_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City).all()
+    news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).all()
 
     json_artist = sql_single_serialize(Artist, artist_match)
-    final_obj = {"artist":json_artist,"albums":album_match,"cities":city_match,"news":news_match}
+    json_album = sql_serialize(Album, *album_match)
+    json_city = sql_serialize(City, *city_match)
+    json_news = sql_serialize(Article, *news_match)
+
+    final_obj = {"artist":json_artist,"albums":json_album,"cities":json_city,"news":json_news}
     return jsonify(final_obj)
 
 

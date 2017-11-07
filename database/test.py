@@ -2,8 +2,8 @@ import unittest
 import os
 import json
 import datetime
-from database.data import *
-from database.schema import *
+from data import *
+from schema import *
 from sqlalchemy import MetaData
 from flask import jsonify
 
