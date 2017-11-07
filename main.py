@@ -104,6 +104,10 @@ def root(path=""):
     return app.send_static_file('index.html')
 
 
+@app.route('api/hello')
+def test():
+    return jsonify({"hello":"world"})
+
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
 def get_artists_by_id(art_id):
