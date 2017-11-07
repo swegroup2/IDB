@@ -138,6 +138,7 @@ def get_artists_top(limit=10): #OK
     return sql_json(Artist,*matches)
 
 
+@app.route('/api/artists/')
 @app.route('/api/artists')
 def get_all_artists(): #OK order_by(Artist.popularity.desc())
     wanted_keys = ['page','city','genre','region','popularity','alpha']
@@ -165,6 +166,7 @@ def get_album_by_id(alb_id): #returns full album model (Album, Artists, News rel
     return jsonify(final_obj)
 
 
+@app.route('/api/albums/')
 @app.route('/api/albums')
 def get_all_albums(): #OK
     matches = db.session.query(Album).order_by(Album.popularity.desc()).all()
@@ -203,6 +205,7 @@ def get_articles_by_date(iso_date): #OK
     return sql_json(Article,*matches)
 
 
+@app.route('/api/news/')
 @app.route('/api/news')
 def get_all_articles(): #OK
     matches = db.session.query(Article).order_by(Article.date.desc()).all()
@@ -217,7 +220,7 @@ def get_city_by_id(c_id): #FULL CITY MODEL (City,Artist,Album)
         return not_found()
 
     artist_match = db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).with_entities(Artist).all()
-    news_match = db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).join(Article).with_entities(Article).all()
+    news_match = db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).join(articles_artists).with_entities(Article).all()
 
     json_city = sql_single_serialize(City, city_match)
     json_artist = sql_serialize(Artist, *artist_match)
@@ -226,6 +229,7 @@ def get_city_by_id(c_id): #FULL CITY MODEL (City,Artist,Album)
     return jsonify(final_obj)
 
 
+@app.route('/api/cities/')
 @app.route('/api/cities')
 def get_all_cities(): #OK
     matches = db.session.query(City).order_by(City.population.desc()).all()
