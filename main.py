@@ -154,6 +154,7 @@ def get_album_by_id(alb_id): #returns full album model (Album, Artists, News rel
     if album_match is None:
         return not_found()
 
+    print("hi")
     artist_match = sql_single_serialize(Artist,db.session.query(Album).filter(Album.album_id==alb_id).join(Artist).with_entities(Artist).first())
     news_match = sql_serialize(Article,*db.session.query(Album).filter(Album.album_id==alb_id).join(articles_albums).join(Article).with_entities(Article))
 
