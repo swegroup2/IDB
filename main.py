@@ -189,12 +189,15 @@ def get_articles_by_id(news_id): #FULL NEWS ID NEEDED???
         return not_found()
 
     artist_match = db.session.query(Article).filter(Article.article_id==news_id).\
-        join(articles_artists).join(Artist).with_entities(Artist.name,Artist.artist_id).all()
+        join(articles_artists).join(Artist).with_entities(Artist).all()
     album_match = db.session.query(Article).filter(Article.article_id==news_id).\
-        join(articles_albums).join(Album).with_entities(Album.name,Album.album_id).all()
+        join(articles_albums).join(Album).with_entities(Album).all()
 
     json_news = sql_single_serialize(Article, news_match)
-    final_obj = {"news": json_news, "artist": artist_match, "album": album_match}
+    json_artist = sql_serialize(Artist, *artist_match)
+    json_album = sql_serialize(Album, *album_match)
+
+    final_obj = {"news": json_news, "artist": json_artist, "album": json_album}
     return jsonify(final_obj)
 
 
