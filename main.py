@@ -141,7 +141,8 @@ def get_artists_top(limit=10): #OK
 def get_all_artists(): #OK order_by(Artist.popularity.desc())
     wanted_keys = ['page','city','genre','region','popularity','alpha']
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys) #could return none
-    base_query = db.session.query(Artist)#.with_entities(Artist.name,Artist.artist_id)
+    matches = db.session.query(Album).order_by(Album.popularity.desc()).all()
+    base_query = db.session.query(Artist).order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
     matches = build_query(base_query,query_dict,'artists').all()
     return sql_json(Artist,*matches)
 
@@ -157,7 +158,7 @@ def get_album_by_id(alb_id): #returns full album model (Album, Artists, News rel
     news_match = sql_serialize(Article,*db.session.query(Album).filter(Album.album_id==alb_id).join(articles_albums).join(Article).with_entities(Article))
 
     json_album = sql_single_serialize(Album, album_match)
-    final_obj = {"artist":json_album,"album":album_match,"news":news_match}
+    final_obj = {"album":json_album,"artist":artist_match,"news":news_match}
     return jsonify(final_obj)
 
 
