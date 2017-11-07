@@ -110,7 +110,9 @@ class ArtistDetailCard extends Component {
 class MultipleArtists extends Component {
     render() {
         return (
-            <PaginatedList data={[{name: "test", artist_picture_link: "", id: "420"}]} itemClass={ArtistPreviewCard}/>
+            <ModelController endpoint="artists">
+                <PaginatedList pageValue={1} itemClass={ArtistPreviewCard}/>
+            </ModelController>
         );
     }
 }

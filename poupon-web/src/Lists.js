@@ -13,7 +13,7 @@ const config = require("./config.json");
 export class PaginatedList extends Component {
 	constructor(props) {
 		super(props);
-		
+
 		//use prop instead?
 		this.state = {
 			sortValue: this.props.sortValue,
@@ -29,7 +29,7 @@ export class PaginatedList extends Component {
 		const handler = event => this.setState({sortValue: event.target.value});
 
 		return (
-			<select className="custom-select"
+			<select className="custom-select mx-1"
 			 value={this.state.sortValue} onChange={handler}>
 				<option value="0">Most popular</option>
 				<option value="1">Least popular</option>
@@ -41,8 +41,10 @@ export class PaginatedList extends Component {
 	 * Renders the HTML interface for displaying filter options
 	 */
 	renderFilterUI() {
+		//TODO: implement
+
 		return (
-			<div>im working on it</div>
+			<button type="button" className="btn btn-secondary mx-1">Filter</button>
 		);
 	}
 
@@ -58,15 +60,15 @@ export class PaginatedList extends Component {
 			const handler = event => this.setState({pageValue: i});
 			const activeClass = this.state.pageValue === i ? "active" : "";
 			numberedButtons.push(
-				<li className="page-item">
-					<span className={"page-link " + activeClass} onClick={handler}>{i}</span>
+				<li className={"page-item " + activeClass}>
+					<span className="page-link" onClick={handler}>{i}</span>
 				</li>
 			);
 		}
 
 		return (
 			<nav aria-label="Page navigation example">
-				<ul className="pagination">
+				<ul className="pagination justify-content-center">
 					<li className="page-item">
 						<a className="page-link" href="#" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
@@ -99,12 +101,18 @@ export class PaginatedList extends Component {
 
 		//compose elements
 		return (
-			<div class="row">
+			<div className="row">
+				<div className="col-12 bg-light d-flex flex-row-reverse">
 				{filterUI}
 				{sortUI}
+				</div>
+				<div className="col-12">
 				{pageUI}
+				</div>
 				{items}
+				<div className="col-12">
 				{pageUI}
+				</div>
 		  	</div>
 		);
 	}
@@ -146,14 +154,16 @@ export class ModelController extends Component {
 		if (!this.state.loaded)
 			return <LoadingStub />;
 
-		if (this.props.children.length !== 1)
-			throw new Error(`ModelController must have exactly one child (has ${this.props.children.length})`);
+		if (!this.props.children)
+			throw new Error(`ModelController must have exactly one child.`);
 
 		//update child props and render child
-		const child = this.props.children[0];
-		child.props.onUpdate = this.handleUpdate;
-		child.props.data = this.state.data;
-		return child;
+		const child = React.Children.only(this.props.children);
+		const props = {
+			data: this.state.data,
+			onUpdate: this.handleUpdate
+		};
+		return React.cloneElement(child, props);
 	}
 }
 
