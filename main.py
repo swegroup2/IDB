@@ -26,6 +26,9 @@ def build_query_dict(user_queries=None,wanted_keys=None):
 
 def build_query(query,query_dict,model):
     matches = query
+    if not bool(query_dict): #if empty;default
+        return matches.order_by(Artist.popularity.desc())
+
     for key in query_dict:
         if key == 'city':
             matches = city_filter(matches,query_dict[key],model)
@@ -115,17 +118,21 @@ def show_echo(what):
 
 # Artist endpoints
 @app.route('/api/artists/<int:art_id>')
-def get_artist_model(art_id): #DEPRECATE
+def get_artists_by_id(art_id): #DEPRECATE
     artist_match = db.session.query(Artist).get(art_id)
     if artist_match is None:
         return not_found()
 
-    album_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album.name,Album.album_id).all()
-    city_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City.name,City.city_id).all()
-    news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article.title,Article.article_id).all()
+    album_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album).all()
+    city_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City).all()
+    news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).all()
 
     json_artist = sql_single_serialize(Artist, artist_match)
-    final_obj = {"artist":json_artist,"albums":album_match,"cities":city_match,"news":news_match}
+    json_album = sql_serialize(Album, *album_match)
+    json_city = sql_serialize(City, *city_match)
+    json_news = sql_serialize(Article, *news_match)
+
+    final_obj = {"artist":json_artist,"albums":json_album,"cities":json_city,"news":json_news}
     return jsonify(final_obj)
 
 
@@ -141,7 +148,8 @@ def get_artists_top(limit=10): #OK
 def get_all_artists(): #OK order_by(Artist.popularity.desc())
     wanted_keys = ['page','city','genre','region','popularity','alpha']
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys) #could return none
-    base_query = db.session.query(Artist)#.with_entities(Artist.name,Artist.artist_id)
+    # matches = db.session.query(Album).order_by(Album.popularity.desc()).all()
+    base_query = db.session.query(Artist)#.order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
     matches = build_query(base_query,query_dict,'artists').all()
     return sql_json(Artist,*matches)
 
@@ -157,7 +165,7 @@ def get_album_by_id(alb_id): #returns full album model (Album, Artists, News rel
     news_match = sql_serialize(Article,*db.session.query(Album).filter(Album.album_id==alb_id).join(articles_albums).join(Article).with_entities(Article))
 
     json_album = sql_single_serialize(Album, album_match)
-    final_obj = {"artist":json_album,"album":album_match,"news":news_match}
+    final_obj = {"album":json_album,"artist":artist_match,"news":news_match}
     return jsonify(final_obj)
 
 
@@ -181,12 +189,15 @@ def get_articles_by_id(news_id): #FULL NEWS ID NEEDED???
         return not_found()
 
     artist_match = db.session.query(Article).filter(Article.article_id==news_id).\
-        join(articles_artists).join(Artist).with_entities(Artist.name,Artist.artist_id).all()
+        join(articles_artists).join(Artist).with_entities(Artist).all()
     album_match = db.session.query(Article).filter(Article.article_id==news_id).\
-        join(articles_albums).join(Album).with_entities(Album.name,Album.album_id).all()
+        join(articles_albums).join(Album).with_entities(Album).all()
 
     json_news = sql_single_serialize(Article, news_match)
-    final_obj = {"news": json_news, "artist": artist_match, "album": album_match}
+    json_artist = sql_serialize(Artist, *artist_match)
+    json_album = sql_serialize(Album, *album_match)
+
+    final_obj = {"news": json_news, "artist": json_artist, "album": json_album}
     return jsonify(final_obj)
 
 
