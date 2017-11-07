@@ -48,13 +48,11 @@ class CityDetailCard extends Component {
 
         const {name, city_picture_link, population, state} = this.state.data.City;
 
-        const albums = this.state.data.albums.map(album => {
-            return (
-                <tr>
-                    <td><a href={`/albums/${album.album_id}`}>{album.name}</a></td>
-                </tr>
-            );
-        });
+        let articles = this.state.data.news.map(article =>
+                <tr><td><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
+        if (articles.length === 0) {
+            articles = <tr><td className="font-italic">No articles found.</td></tr>;
+        }
 
         const artists = this.state.data.artists.map(artist => {
             return (
@@ -71,11 +69,9 @@ class CityDetailCard extends Component {
                         <h2 className="card-title">{name}</h2>
                         <div className="row">
                             <div className="col-sm-12 col-md-6 col-lg-4">
-                                <img src={city_picture_link} className="img-fluid" alt={name}/>
-                            </div>
-                            <div className="col-sm-12 col-md-6 col-lg-8">
                                 <p><b>Population:&nbsp;</b>{numberCommas(population)}</p>
                                 <p><b>State:&nbsp;</b>{state}</p>
+                                <img src={city_picture_link} className="img-fluid" alt={name}/>
                             </div>
                             <div className="col-sm-12 col-md-6 col-lg-6" >
                                 <h3>Artists</h3>
@@ -87,12 +83,12 @@ class CityDetailCard extends Component {
                                     </table>
                                 </div>
                             </div>
-                            <div className="col-sm-12 col-md-6 col-lg-6" >
-                                <h3>Albums</h3>
+                            <div className="col-sm-12 col-md-12 col-lg-12">
+                                <h3>News Articles</h3>
                                 <div style={{"max-height": "300px", "overflow-y": "auto"}}>
                                     <table className="table table-light">
                                         <tbody>
-                                        {albums}
+                                        {articles}
                                         </tbody>
                                     </table>
                                 </div>
