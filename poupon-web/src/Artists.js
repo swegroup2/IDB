@@ -59,7 +59,7 @@ class ArtistDetailCard extends Component {
         }
 
         let albums = this.state.data.albums.map(album =>
-                <tr><td><a href={`/albums/${album.albums_id}`}>{album.name}</a></td></tr>);
+                <tr><td><a href={`/albums/${album.album_id}`}>{album.name}</a></td></tr>);
         if (albums.length === 0) {
             albums = <tr><td className="font-italic">No albums found.</td></tr>;
         }
