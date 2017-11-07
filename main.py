@@ -26,6 +26,9 @@ def build_query_dict(user_queries=None,wanted_keys=None):
 
 def build_query(query,query_dict,model):
     matches = query
+    if not bool(query_dict): #if empty;default
+        return matches.order_by(Artist.popularity.desc())
+
     for key in query_dict:
         if key == 'city':
             matches = city_filter(matches,query_dict[key],model)
@@ -141,8 +144,8 @@ def get_artists_top(limit=10): #OK
 def get_all_artists(): #OK order_by(Artist.popularity.desc())
     wanted_keys = ['page','city','genre','region','popularity','alpha']
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys) #could return none
-    matches = db.session.query(Album).order_by(Album.popularity.desc()).all()
-    base_query = db.session.query(Artist).order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
+    # matches = db.session.query(Album).order_by(Album.popularity.desc()).all()
+    base_query = db.session.query(Artist)#.order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
     matches = build_query(base_query,query_dict,'artists').all()
     return sql_json(Artist,*matches)
 
