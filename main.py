@@ -17,29 +17,6 @@ CORS(app)  # Enable cross-origin resource sharing
 
 db = SQLAlchemy(app)
 
-# class AlchemyEncoder(json.JSONEncoder):
-#     def default(self, o):
-#         if isinstance(o, tuple):
-#             data = {}
-#             for obj in o:
-#                 data.update(self.parse_sqlalchemy_object(obj))
-#             return data
-#         if isinstance(o.__class__, DeclarativeMeta):
-#             return self.parse_sqlalchemy_object(o)
-#         return json.JSONEncoder.default(self, o)
-
-#     def parse_sqlalchemy_object(self, o):
-#         data = {}
-#         fields = o.__json__() if hasattr(o, '__json__') else dir(o)
-#         for field in [f for f in fields if not f.startswith('_') and f not in ['metadata', 'query', 'query_class']]:
-#             value = o.__getattribute__(field)
-#             try:
-#                 json.dumps(value)
-#                 data[field] = value
-#             except TypeError:
-#                 data[field] = None
-#         return data
-
 def build_query_dict(user_queries=None,wanted_keys=None):
     if user_queries is None or wanted_keys is None: #fix this
         return None
@@ -136,43 +113,20 @@ def show_hello():
 def show_echo(what):
     return jsonify({'text': what})
 
-@app.route('/api/model/artists/<int:art_id>')
+# Artist endpoints
+@app.route('/api/artists/<int:art_id>')
 def get_artist_model(art_id): #DEPRECATE
     artist_match = db.session.query(Artist).get(art_id)
     if artist_match is None:
         return not_found()
 
     album_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album.name,Album.album_id).all()
-    # album_match = db.session.query(Album).\
-    #     join(Artist).filter(Artist.artist_id==art_id).options(defer("spotify_id")).all()
     city_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City.name,City.city_id).all()
     news_match = db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article.title,Article.article_id).all()
 
-    #json_artist = json.dumps(artist_match,cls=AlchemyEncoder,indent=4)
-    json_artist = sql_single_serialize(Artist,artist_match)
-    #return jsonify(album_match)
-
-
+    json_artist = sql_single_serialize(Artist, artist_match)
     final_obj = {"artist":json_artist,"albums":album_match,"cities":city_match,"news":news_match}
     return jsonify(final_obj)
-
-
-# Artist endpoints
-@app.route('/api/artists/<int:art_id>')
-def get_artist_by_id(art_id): #returns the full artist model
-    args_dict = request.args.to_dict() #can hide pagination,sorting, filtering in here? instead of React    
-    return jsonify(args_dict)
-
-    artist_match = sql_single_serialize(Artist,db.session.query(Artist).get(art_id))
-    if artist_match is None:
-        return not_found()
-    album_match = sql_serialize(Album,*db.session.query(Artist).filter(Artist.artist_id==art_id).join(Album).with_entities(Album).all())
-    city_match = sql_serialize(City,*db.session.query(Artist).filter(Artist.artist_id==art_id).join(cities_artists).join(City).with_entities(City).all())
-    news_match = sql_serialize(Article,*db.session.query(Artist).filter(Artist.artist_id==art_id).join(articles_artists).join(Article).with_entities(Article).all())
-
-    final_obj = {"artist":artist_match,"albums":album_match,"cities":city_match,"news":news_match}
-    return jsonify(final_obj)
-
 
 
 @app.route('/api/artists/top/<int:limit>')
@@ -186,28 +140,24 @@ def get_artists_top(limit=10): #OK
 @app.route('/api/artists')
 def get_all_artists(): #OK order_by(Artist.popularity.desc())
     wanted_keys = ['page','city','genre','region','popularity','alpha']
-
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys) #could return none
-
     base_query = db.session.query(Artist)#.with_entities(Artist.name,Artist.artist_id)
     matches = build_query(base_query,query_dict,'artists').all()
-
-    #matches = db.session.query(Artist).with_entities(Artist.name,Artist.artist_id).paginate(3,8,False).items
-    #return jsonify(*matches)
     return sql_json(Artist,*matches)
 
 
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
 def get_album_by_id(alb_id): #returns full album model (Album, Artists, News related to album)
-    album_match = sql_single_serialize(Album,db.session.query(Album).get(alb_id))
+    album_match = db.session.query(Album).get(alb_id)
     if album_match is None:
         return not_found()
-    #fix .first() into something else?
+
     artist_match = sql_single_serialize(Artist,db.session.query(Album).filter(Album.album_id==alb_id).join(Artist).with_entities(Artist).first())
     news_match = sql_serialize(Article,*db.session.query(Album).filter(Album.album_id==alb_id).join(articles_albums).join(Article).with_entities(Article))
 
-    final_obj = {"artist":artist_match,"album":album_match,"news":news_match}
+    json_album = sql_single_serialize(Album, album_match)
+    final_obj = {"artist":json_album,"album":album_match,"news":news_match}
     return jsonify(final_obj)
 
 
@@ -226,16 +176,17 @@ def get_all_albums_by_artist(artist_id): #OK
 # News endpoints
 @app.route('/api/news/<int:news_id>')
 def get_articles_by_id(news_id): #FULL NEWS ID NEEDED???
-    news_match = sql_single_serialize(Article,db.session.query(Article).get(news_id))
+    news_match = db.session.query(Article).get(news_id)
     if news_match is None:
         return not_found()
+
     artist_match = db.session.query(Article).filter(Article.article_id==news_id).\
         join(articles_artists).join(Artist).with_entities(Artist.name,Artist.artist_id).all()
     album_match = db.session.query(Article).filter(Article.article_id==news_id).\
         join(articles_albums).join(Album).with_entities(Album.name,Album.album_id).all()
 
-    final_obj = {"news": news_match, "artist": artist_match, "album": album_match}
-
+    json_news = sql_single_serialize(Article, news_match)
+    final_obj = {"news": json_news, "artist": artist_match, "album": album_match}
     return jsonify(final_obj)
 
 
@@ -244,6 +195,7 @@ def get_articles_by_date(iso_date): #OK
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article,*matches)
+
 
 @app.route('/api/news')
 def get_all_articles(): #OK
@@ -254,14 +206,16 @@ def get_all_articles(): #OK
 # Cities endpoints
 @app.route('/api/cities/<int:c_id>')
 def get_city_by_id(c_id): #FULL CITY MODEL (City,Artist,Album)
-    city_match = sql_single_serialize(City,db.session.query(City).get(c_id))
+    city_match = db.session.query(City).get(c_id)
     if city_match is None:
         return not_found()
+
     artist_match = sql_serialize(Artist,*db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).with_entities(Artist).all())
     album_match = sql_serialize(Album,*db.session.query(City).filter(City.city_id==c_id).join(cities_artists).join(Artist).\
         join(Album).with_entities(Album).all())
 
-    final_obj = {"City":city_match,"Artists":artist_match,"Albums":album_match}
+    json_city = sql_single_serialize(City, city_match)
+    final_obj = {"City":json_city,"Artists":artist_match,"Albums":album_match}
     return jsonify(final_obj)
 
 
