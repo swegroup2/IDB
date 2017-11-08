@@ -48,21 +48,28 @@ def build_query(query, query_dict, model):
             matches = relyear_filter(matches,query_dict[key],model)
         elif key == 'reldate':
             matches = reldate_sort(matches,query_dict[key],model)
+        elif key == 'upvotes':
+            matches = upvote_sort(matches,query_dict[key],model)
+        elif key == 'media':
+            matches = media_filter(matches,query_dict[key],model)
         else:
             pass
     return matches
+
+def media_filter(query,val,model): #(youtube, itunes, soundcloud, reddit) -> buttons from the Front End side imo
+    return query.filter(Article.media_link.contains(val))
 
 def relyear_filter(query,val,model):
     if model == "albums":
         return query.filter(extract('year',Album.release_date)==val)
     else:
-        pass
+        return query
 
 def city_filter(query,val,model): #check type?
     if model == "artists":
         return query.join(cities_artists).join(City).filter(City.name == val)
     else:
-        pass
+        return query
 
 
 def genre_filter(query, val, model):
@@ -71,12 +78,19 @@ def genre_filter(query, val, model):
     if model == "albums":
         return query.join(Artist).join(genres_artists).join(Genre).filter(Genre.name == val)
     else:
-        pass
+        return query
 
 
 # def region_filter(query,val,model): #explicit join
 #     if model is "artists":
 #         return query.join(cities_artists).join(City).join()
+
+def upvote_sort(query,val,model):
+    if model == "news":
+        if val == "desc":
+            return query.order_by(Article.upvotes.desc())
+        else:
+            return query.order_by(Article.upvotes.asc())
 
 def reldate_sort(query,val,model):
     if model == "albums":
@@ -84,6 +98,11 @@ def reldate_sort(query,val,model):
             return query.order_by(Album.release_date.desc())
         else:
             return query.order_by(Album.release_date.asc())
+    if model == "news":
+        if val == "desc":
+            return query.order_by(Article.date.desc())
+        else:
+            return query.order_by(Article.date.asc())
 
 def pop_sort(query,val,model):
     if model == "artists":
@@ -206,7 +225,7 @@ def get_album_by_id(alb_id):  # returns full album model (Album, Artists, News r
 
 @app.route('/api/albums/')
 @app.route('/api/albums')
-def get_all_albums(): #OK
+def get_all_albums(): #TESTED
     wanted_keys = ['page','genre','relyear','reldate','alpha','popularity']
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
 
@@ -217,14 +236,14 @@ def get_all_albums(): #OK
 
 
 @app.route('/api/albums/artists/<int:artist_id>')
-def get_all_albums_by_artist(artist_id):  # OK
+def get_all_albums_by_artist(artist_id):  # DEPRECATE
     matches = db.session.query(Album).filter_by(artist_id=artist_id).all()
     return sql_json(Album, *matches)
 
 
 # News endpoints
 @app.route('/api/news/<int:news_id>')
-def get_articles_by_id(news_id):  # FULL NEWS ID NEEDED???
+def get_articles_by_id(news_id):  # FULL NEWS ID NEEDED??? << NOTE TO WILL: WTF IS THIS FOR
     news_match = db.session.query(Article).get(news_id)
     if news_match is None:
         return not_found()
@@ -242,7 +261,7 @@ def get_articles_by_id(news_id):  # FULL NEWS ID NEEDED???
 
 
 @app.route('/api/news/date/<int:iso_date>')
-def get_articles_by_date(iso_date):  # OK
+def get_articles_by_date(iso_date):  # OK -> to decide to deprecate tbh
     conv_date = datetime.strptime(iso_date, "%Y-%m-%d").date()
     matches = db.session.query(Article).filter_by(date=conv_date).all()
     return sql_json(Article, *matches)
@@ -251,8 +270,13 @@ def get_articles_by_date(iso_date):  # OK
 @app.route('/api/news/')
 @app.route('/api/news')
 def get_all_articles():  # OK
-    matches = db.session.query(Article).order_by(Article.date.desc()).all()
-    return sql_json(Article, *matches)
+    wanted_keys = ['media','upvotes','reldate']
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+
+    base_query = db.session.query(Article)
+    matches = build_query(base_query,query_dict,'news').all()
+
+    return sql_json(Article,*matches)
 
 
 # Cities endpoints
