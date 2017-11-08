@@ -3,7 +3,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import {LoadingStub} from "./Components.js";
+import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
 const config = require("./config.json");
 
@@ -92,33 +92,12 @@ class AlbumDetailCard extends Component {
 }
 
 class MultipleAlbums extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            top: [],
-            loaded: false
-        };
-    }
-
-    componentDidMount() {
-        fetch(`${config.API_URL}/albums`)
-            .then(data => data.json())
-            .then(json => {
-                this.setState({top: json, loaded: true});
-            })
-            .catch(e => {
-            });
-    }
-
     render() {
-        if (!this.state.loaded)
-                return <LoadingStub />;
-
-        const items = this.state.top.map((item, i) => <AlbumPreviewCard key={i} data={item}/>);
         return (
-            <div className="row">
-                {items}
-            </div>
+            <APIAdapter endpoint="albums">
+                <PaginatedList itemClass={AlbumPreviewCard}
+                 sortOptions={{"Newest first": 0, "Oldest first": 1, "A-Z": 2, "Z-A": 3}}/>
+            </APIAdapter>
         );
     }
 }
