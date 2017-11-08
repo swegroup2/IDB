@@ -51,9 +51,27 @@ def build_query(query, query_dict, model):
             matches = upvote_sort(matches,query_dict[key],model)
         elif key == 'media':
             matches = media_filter(matches,query_dict[key],model)
+        elif key == 'population':
+            matches = population_sort(matches,query_dict[key],model)
+        elif key == 'state':
+            matches = state_filter(matches,query_dict[key],model)
+        elif key == 'poprange':
+            matches = poprange_filter(matches,query_dict[key],model)
         else:
             pass
     return matches
+
+def poprange_filter(query,val,model): #TO FIX lol... rip
+    if val == '1': #0-50000
+        return query.filter(City.population.between(0,500000))
+    elif val == '2': #50000-100000
+        return query.filter(City.population.between(500000,1000000))
+    else:
+        return query.filter(City.population > 1000000)
+
+
+def state_filter(query,val,model):
+    return query.filter(City.state==val)
 
 def media_filter(query,val,model): #(youtube, itunes, soundcloud, reddit) -> buttons from the Front End side imo
     return query.filter(Article.media_link.contains(val))
@@ -83,6 +101,12 @@ def genre_filter(query, val, model):
 # def region_filter(query,val,model): #explicit join
 #     if model is "artists":
 #         return query.join(cities_artists).join(City).join()
+
+def population_sort(query,val,model):
+    if val == "desc":
+        return query.order_by(City.population.desc())
+    else:
+        return query.order_by(City.population.asc())
 
 def upvote_sort(query,val,model):
     if model == "news":
@@ -295,7 +319,11 @@ def get_city_by_id(c_id):  # FULL CITY MODEL (City,Artist,Album)
 @app.route('/api/cities/')
 @app.route('/api/cities')
 def get_all_cities():  # OK
-    matches = db.session.query(City).order_by(City.population.desc()).all()
+    wanted_keys = ['state','region','poprange','population','alpha']
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+
+    base_query = db.session.query(City)
+    matches = build_query(base_query,query_dict,'cities').all()
     return sql_json(City, *matches)
 
 

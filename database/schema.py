@@ -48,7 +48,7 @@ class Artist(Base):
         secondary=genres_artists,
         back_populates='artists')
     albums = relationship("Album")
-    search_vector = Column(TSVectorType('name'))
+    #search_vector = Column(TSVectorType('name'))
 
     # def __json__(self):
     # 	return ['artist_id','name','spotify_id','artist_picture_link','popularity']
@@ -68,7 +68,7 @@ class Album(Base):
         'Article',
         secondary=articles_albums,
         back_populates='albums')
-    search_vector = Column(TSVectorType('name'))
+    #search_vector = Column(TSVectorType('name'))
 
     # def __json__(self):
     # 	return ['album_id','name','spotify_id','release_date','album_picture_link','artist_id']
@@ -82,7 +82,7 @@ class Genre(Base):
         'Artist',
         secondary=genres_artists,
         back_populates='genres')
-    search_vector = Column(TSVectorType('name'))
+    #search_vector = Column(TSVectorType('name'))
 
 
 class Track(Base):
@@ -118,7 +118,7 @@ class Article(Base):
         'Artist',
         secondary=articles_artists,
         back_populates='articles')
-    search_vector = Column(TSVectorType('title'))
+    #search_vector = Column(TSVectorType('title'))
 
 
 class City(Base):
@@ -133,4 +133,4 @@ class City(Base):
         'Artist',
         secondary=cities_artists,
         back_populates='cities')
-    search_vector = Column(TSVectorType('name', 'state'))
+    #search_vector = Column(TSVectorType('name', 'state'))
