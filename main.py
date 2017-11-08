@@ -16,13 +16,27 @@ CORS(app)  # Enable cross-origin resource sharing
 
 db = SQLAlchemy(app)
 
+def build_pages(query,page_number,model):
+    if model == 'artists':
+        page_obj = query.paginate(page_number,12,False) #if true this returns 404, WYWD?
+        ser_items = sql_serialize(Artist,*page_obj.items) #can really change the unpacking,packing tbh
+    elif model == 'albums':
+        page_obj = query.paginate(page_number,12,False)
+        ser_items = sql_serialize(Album,*page_obj.items)
+    elif model == 'news':
+        page_obj = query.paginate(page_number,12,False)
+        ser_items = sql_serialize(Article,*page_obj.items)
+
+    page_dict = {"total_pages":page_obj.pages,"current_page":page_number,"items":ser_items}
+    return jsonify(page_dict)
+
 
 def build_query_dict(user_queries=None, wanted_keys=None):
-    if user_queries is None or wanted_keys is None:  # fix this
+    if user_queries is None or wanted_keys is None:  # fix this - WILLIAM
         return None
     ret_dict = dict((k, user_queries[k]) for k in wanted_keys if k in user_queries)
 
-    if "order" not in ret_dict: #default case, order is desc
+    if "order" not in ret_dict and "sort" in ret_dict: #default case, order is desc
         ret_dict["order"] = "desc"
 
     return ret_dict
@@ -30,11 +44,11 @@ def build_query_dict(user_queries=None, wanted_keys=None):
 
 def build_query(query, query_dict, model):
     matches = query
-    if not bool(query_dict): #if empty;default
+    if not bool(query_dict) or ('page' in query_dict and len(query_dict)==1): #if empty;default
         if model == 'artists':
             return matches.order_by(Artist.popularity.desc())
         elif model == 'albums':
-            return matches.order_by(Album.popularity.desc())
+            return matches.order_by(Album.popularity.desc()) #add default for news?
 
     for key in query_dict:
         if key == 'city':
@@ -236,10 +250,15 @@ def get_artists_top(limit=10):  # OK
 def get_all_artists(): #OK order_by(Artist.popularity.desc())
     wanted_keys = ['page','city','genre','region','sort','order'] #valid sort params: popularity,alpha
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
-    # paginate(1,3,False).items
+
     base_query = db.session.query(Artist)#.order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
-    matches = build_query(base_query,query_dict,'artists').all()
-    return sql_json(Artist,*matches)
+    matches = build_query(base_query,query_dict,'artists')#.all()
+
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'artists')
+    else:
+        matches = matches.all()
+        return sql_json(Artist,*matches)
 
 
 @app.route('/api/artists/search/<term>')
@@ -272,9 +291,13 @@ def get_all_albums(): #TESTED
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys)#valid sort params: reldate,alpha,popularity
 
     base_query = db.session.query(Album)
-    matches = build_query(base_query,query_dict,'albums').all()
+    matches = build_query(base_query,query_dict,'albums')#.all()
 
-    return sql_json(Album,*matches)
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'albums')
+    else:
+        matches = matches.all()
+        return sql_json(Album,*matches)
 
 
 @app.route('/api/albums/artists/<int:artist_id>')
@@ -316,9 +339,13 @@ def get_all_articles():  # OK
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
 
     base_query = db.session.query(Article)
-    matches = build_query(base_query,query_dict,'news').all()
+    matches = build_query(base_query,query_dict,'news')#.all()
 
-    return sql_json(Article,*matches)
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'news')
+    else:
+        matches = matches.all()
+        return sql_json(Article,*matches)
 
 
 # Cities endpoints
