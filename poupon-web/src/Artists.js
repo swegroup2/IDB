@@ -108,7 +108,7 @@ class MultipleArtists extends Component {
     render() {
         return (
             <APIAdapter endpoint="artists">
-                <PaginatedList pageValue={1} itemClass={ArtistPreviewCard}/>
+                <PaginatedList itemClass={ArtistPreviewCard}/>
             </APIAdapter>
         );
     }

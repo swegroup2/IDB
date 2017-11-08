@@ -27,23 +27,41 @@ export class PaginatedList extends Component {
 	constructor(props) {
 		super(props);
 
-		//use prop instead?
+		//TODO: nicer way to do this?
 		this.state = {
-			sortValue: this.props.sortValue,
-			filterValue: this.props.filterValue,
-			pageValue: this.props.pageValue
+			sort: 0,
+			filter: 0,
+			page: 1
 		};
+		if (props.hasOwnProperty("sort"))
+			this.state.sort = props.sort;
+		if (props.hasOwnProperty("filter"))
+			this.state.filter = props.filter;
+		if (props.hasOwnProperty("page"))
+			this.state.page = props.page;
+	}
+
+	emitUpdate() {
+		if (!this.props.onUpdate)
+			return;
+		this.props.onUpdate({
+			params: {
+				page: this.state.page,
+				filter: this.state.filter,
+				sort: this.state.sort
+			}
+		});
 	}
 
 	/**
 	 * Renders the HTML interface for displaying sort options
 	 */
 	renderSortUI() {
-		const handler = event => this.setState({sortValue: event.target.value});
+		const handler = event => this.setState({sort: event.target.value}, this.emitUpdate);
 
 		return (
 			<select className="custom-select mx-1"
-			 value={this.state.sortValue} onChange={handler}>
+			 value={this.state.sort} onChange={handler}>
 				<option value="0">Most popular</option>
 				<option value="1">Least popular</option>
 			</select>
@@ -70,11 +88,11 @@ export class PaginatedList extends Component {
 		//create numbered page buttons
 		let numberedButtons = [];
 		for (let i=1; i<=numPages; ++i) {
-			const handler = event => this.setState({pageValue: i});
-			const activeClass = this.state.pageValue === i ? "active" : "";
+			const handler = event => this.setState({page: i}, this.emitUpdate);
+			const activeClass = this.state.page === i ? "active" : "";
 			numberedButtons.push(
 				<li className={"page-item " + activeClass}>
-					<span className="page-link" onClick={handler}>{i}</span>
+					<span className="page-link" style={{cursor: "pointer"}} onClick={handler}>{i}</span>
 				</li>
 			);
 		}
@@ -133,21 +151,30 @@ export class PaginatedList extends Component {
 /**
  * Wraps a component instance and "connects" it to the API.
  * Could potentially control things other than PaginatedList.
+ *
+ * A component contained in an APIAdapter should do two things:
+ * 1. accept a 'data' prop which is the JSON result of a call to the endpoint
+ * 2. accept an 'onUpdate' prop which is a function it should call when the API
+ *    needs to be queried again.
  */
 export class APIAdapter extends Component {
 	constructor(props) {
 		super(props);
-		this.handleUpdate.bind(this);
+		this.handleUpdate = this.handleUpdate.bind(this);
 
 		this.state = {
             data: null,
             loaded: false,
-            error: false
+            error: false,
+            params: {}
         };
 	}
 
-	componentDidMount() {
-        fetch(`${config.API_URL}/${this.props.endpoint}`)
+	updateFromAPI() {
+		this.setState({loaded: false});
+		const queryString = APIAdapter.buildQueryString(this.state.params);
+
+		fetch(`${config.API_URL}/${this.props.endpoint}${queryString}`)
             .then(data => data.json())
             .then(json => {
                 this.setState({data: json, loaded: true});
@@ -155,10 +182,14 @@ export class APIAdapter extends Component {
             .catch(e => {
             	this.setState({error: true});
             });
+	}
+
+	componentDidMount() {
+        this.updateFromAPI();
     }
 
-	handleUpdate(event) {
-		console.log("da ting go skrraa");
+	handleUpdate({params={}} = {}) {
+		this.setState({params: params}, this.updateFromAPI);
 	}
 
 	render() {
@@ -166,15 +197,24 @@ export class APIAdapter extends Component {
 		if (!this.state.loaded)
 			return <LoadingStub />;
 
-		if (!this.props.children)
-			throw new Error(`APIAdapter must have exactly one child.`);
-
-		//update child props and render child
+		//update child props by creating a clone of the child with desired props
 		const child = React.Children.only(this.props.children);
 		const props = {
 			data: this.state.data,
 			onUpdate: this.handleUpdate
 		};
-		return React.cloneElement(child, props);
+
+		//render child
+		return React.cloneElement(child, Object.assign(props, this.state.params));
+	}
+
+	/**
+	 * Builds a query string from a dictionary.
+	 * e.g. {a: 2, b: 3} -> "?a=2&b=3"
+	 */
+	static buildQueryString(params={}) {
+		if (Object.keys(params).length === 0)
+			return "";
+		return "?" + Object.keys(params).map(k => `${k}=${params[k]}`).join("&");
 	}
 }
