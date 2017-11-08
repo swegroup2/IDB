@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey, extract
 from sqlalchemy.orm import relationship
 from functools import partial
 from flask.ext.jsontools import JsonSerializableBase
