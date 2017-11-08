@@ -1,5 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey
+from sqlalchemy_utils.types import TSVectorType
 from sqlalchemy.orm import relationship
 from functools import partial
 from flask.ext.jsontools import JsonSerializableBase
@@ -47,6 +48,7 @@ class Artist(Base):
         secondary=genres_artists,
         back_populates='artists')
     albums = relationship("Album")
+    search_vector = Column(TSVectorType('name'))
 
     # def __json__(self):
     # 	return ['artist_id','name','spotify_id','artist_picture_link','popularity']
@@ -66,6 +68,7 @@ class Album(Base):
         'Article',
         secondary=articles_albums,
         back_populates='albums')
+    search_vector = Column(TSVectorType('name'))
 
     # def __json__(self):
     # 	return ['album_id','name','spotify_id','release_date','album_picture_link','artist_id']
@@ -79,6 +82,7 @@ class Genre(Base):
         'Artist',
         secondary=genres_artists,
         back_populates='genres')
+    search_vector = Column(TSVectorType('name'))
 
 
 class Track(Base):
@@ -114,6 +118,7 @@ class Article(Base):
         'Artist',
         secondary=articles_artists,
         back_populates='articles')
+    search_vector = Column(TSVectorType('title'))
 
 
 class City(Base):
@@ -128,3 +133,4 @@ class City(Base):
         'Artist',
         secondary=cities_artists,
         back_populates='cities')
+    search_vector = Column(TSVectorType('name', 'state'))
