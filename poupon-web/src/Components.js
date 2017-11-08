@@ -91,7 +91,7 @@ export class PaginatedList extends Component {
 			const handler = event => this.setState({page: i}, this.emitUpdate);
 			const activeClass = this.state.page === i ? "active" : "";
 			numberedButtons.push(
-				<li className={"page-item " + activeClass}>
+				<li className={"page-item " + activeClass} key={i}>
 					<span className="page-link" style={{cursor: "pointer"}} onClick={handler}>{i}</span>
 				</li>
 			);
