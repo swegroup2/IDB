@@ -22,7 +22,7 @@ function Home() {
                 <div className="col-md-6 col-sm-12">
                     <h1 className="display-4 text-white mb-4">Welcome to Poupon.me</h1>
                     <iframe width="100%" height="315" src="https://www.youtube.com/embed/jOgPk5T1xi0?rel=0"
-                            frameborder="0" style={{border: 0}} className="mb-5" allowfullscreen></iframe>
+                            frameBorder="0" style={{border: 0}} className="mb-5" allowFullScreen></iframe>
                 </div>
             </div>
         </div>
