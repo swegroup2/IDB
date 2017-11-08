@@ -14,6 +14,9 @@ def sql_serialize(cls, *inst):
 def sql_single_serialize(cls,inst):
 	return {col.name: convert(getattr(inst, col.name)) for col in cls.__table__.columns}
 
+def related_col_serialize(vals,*inst):
+    return [dict(zip(vals,i)) for i in inst]
+
 
 def sql_json(cls, *inst):
     return jsonify(sql_serialize(cls, *inst))

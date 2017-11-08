@@ -59,11 +59,14 @@ export class PaginatedList extends Component {
 	renderSortUI() {
 		const handler = event => this.setState({sort: event.target.value}, this.emitUpdate);
 
+		const sortOptions = this.props.sortOptions || {};
+		const renderedOptions = Object.keys(sortOptions)
+			.map(k => <option value={sortOptions[k]}>{k}</option>);
+
 		return (
 			<select className="custom-select mx-1"
 			 value={this.state.sort} onChange={handler}>
-				<option value="0">Most popular</option>
-				<option value="1">Least popular</option>
+				{renderedOptions}
 			</select>
 		);
 	}
