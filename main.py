@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 from database.schema import *
 from database.util import *
+from sqlalchemy_searchable import search
 import json
 
 app = Flask(__name__, static_url_path='', static_folder='poupon-web/build')
@@ -222,6 +223,11 @@ def get_all_artists(): #OK order_by(Artist.popularity.desc())
     matches = build_query(base_query,query_dict,'artists').all()
     return sql_json(Artist,*matches)
 
+
+@app.route('/api/artists/search/<term>')
+def search_artists(term):
+    matches = search(db.session.query(Artist), term, sort=True)
+    return sql_json(Artist, *matches)
 
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
