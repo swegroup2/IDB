@@ -3,8 +3,7 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import LoadingStub from "./Components.js";
-import {ModelController, PaginatedList} from "./Lists.js";
+import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
 const config = require("./config.json");
 
@@ -45,38 +44,24 @@ class ArtistDetailCard extends Component {
             });
     }
 
-    renderAlbumList(albums) {
-        const items = albums.map((item) => {
-            const {name, artist_id, album_id} = item;
-
-            return (
-                <tr>
-                    <td><a href={`/albums/${album_id}`}>{name}</a></td>
-                </tr>
-            );
-        });
-
-        return (
-            <table className="table">
-                <thead className="thead-light">
-                <tr>
-                    <th>Albums</th>
-                </tr>
-                </thead>
-                <tbody>
-                {items}
-                </tbody>
-            </table>
-        );
-    }
-
     render() {
         if (!this.state.loaded)
             return <LoadingStub />;
 
         const artist = this.state.data.artist;
-        const albums = this.state.data.albums;
         const cities = this.state.data.cities;
+
+        let articles = this.state.data.news.map(article =>
+                <tr><td width="15%">{new Date(article.date).toDateString()}</td><td width="85%"><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
+        if (articles.length === 0) {
+            articles = <tr><td className="font-italic">No articles found.</td></tr>;
+        }
+
+        let albums = this.state.data.albums.map(album =>
+                <tr><td><a href={`/albums/${album.album_id}`}>{album.name}</a></td></tr>);
+        if (albums.length === 0) {
+            albums = <tr><td className="font-italic">No albums found.</td></tr>;
+        }
 
         const cityList = cities.map(city => (
             <span className="badge badge-light">
@@ -90,14 +75,26 @@ class ArtistDetailCard extends Component {
                     <div className="card-body">
                         <h2 className="card-title">{artist.name}</h2>
                         <div className="row">
-                            <div className="col-sm-12 col-md-6 col-lg-4">
+                            <div className="col-sm-12 col-md-12 col-lg-4">
                                 <img src={artist.artist_picture_link} className="img-fluid" alt={artist.name}/>
                             </div>
-                            <div className="col-sm-12 col-md-6 col-lg-8">
-                                <p><b>Popularity:&nbsp;</b>{popularityRating(artist.popularity)}</p>
+                            <div className="col-sm-12 col-md-12 col-lg-8">
+                                <p><a className="btn btn-primary mr-1" href={`https://open.spotify.com/artist/${artist.spotify_id}`}>Open Spotify</a></p>
                                 <p><b>Related Cities: </b>{cityList}</p>
-                                <p><a href={`https://open.spotify.com/artist/${artist.spotify_id}`}>Open Spotify</a></p>
-                                {this.renderAlbumList(albums)}
+                                <p><b>Albums: </b></p>
+                                    <table className="table table-light table-sm table-hover">
+                                        <tbody>
+                                        {albums}
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div className="col-sm-12 col-md-12 col-lg-12">
+                                <h3>News Articles</h3>
+                                    <table className="table table-light table-sm table-hover">
+                                        <tbody>
+                                        {articles}
+                                        </tbody>
+                                    </table>
                             </div>
                         </div>
                     </div>
@@ -110,9 +107,9 @@ class ArtistDetailCard extends Component {
 class MultipleArtists extends Component {
     render() {
         return (
-            <ModelController endpoint="artists">
-                <PaginatedList pageValue={1} itemClass={ArtistPreviewCard}/>
-            </ModelController>
+            <APIAdapter endpoint="artists">
+                <PaginatedList itemClass={ArtistPreviewCard}/>
+            </APIAdapter>
         );
     }
 }
