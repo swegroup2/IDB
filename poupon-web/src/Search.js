@@ -43,7 +43,7 @@ class SearchResults extends Component {
             const activeClass = index === this.state.currentTab ? "active" : "";
 
             return (
-                <li className="nav-item">
+                <li className="nav-item" style={{cursor: "pointer"}}>
                     <span className={`nav-link ${activeClass}`} onClick={handler}>
                         {tab.title}
                     </span>
@@ -55,17 +55,20 @@ class SearchResults extends Component {
         const tab = this.props.tabs[this.state.currentTab];
         const resultsList = (
             <APIAdapter endpoint={tab.endpoint} defaultParams={{page: 1}}>
-                <PaginatedList itemClass={tab.itemClass} 
+                <PaginatedList itemClass={tab.itemClass}
                  hideSortFilter={true} />
             </APIAdapter>
         );
 
         return (
             <div className="row">
-                <div className="col-12">
-                    <ul className="nav nav-pills nav-fill bg-light p-2">
+                <div className="col-12 text-light p-2">
+                    <h3 className="mb-3">Search results for "{this.props.query}":</h3>
+                    <ul className="nav nav-pills nav-fill">
                         {tabs}
                     </ul>
+                </div>
+                <div className="col-12">
                     {resultsList}
                 </div>
             </div>
@@ -76,7 +79,7 @@ class SearchResults extends Component {
 class SearchPage extends Component {
     render() {
         return (
-            <SearchResults tabs={[
+            <SearchResults query={this.props.match.params.query} tabs={[
                 {title: "Artists", endpoint: "artists", itemClass: ArtistPreviewCard},
                 {title: "Albums", endpoint: "albums", itemClass: AlbumPreviewCard},
                 {title: "News", endpoint: "news", itemClass: ArticlePreviewCard},
