@@ -84,7 +84,6 @@ class Genre(Base):
         'Artist',
         secondary=genres_artists,
         back_populates='genres')
-    #search_vector = Column(TSVectorType('name'))
 
 
 class Track(Base):
@@ -120,7 +119,7 @@ class Article(Base):
         'Artist',
         secondary=articles_artists,
         back_populates='articles')
-    #search_vector = Column(TSVectorType('title'))
+    search_vector = Column(TSVectorType('title'))
 
 
 class City(Base):

@@ -319,7 +319,7 @@ def get_all_albums_by_artist(artist_id):  # DEPRECATE
 
 @app.route('/api/albums/search/<term>')
 def search_albums(term):
-    matches = search(db.session.query(Artist), term, sort=True).all()
+    matches = search(db.session.query(Album), term, sort=True).all()
     if matches is None:
         return not_found()
     return sql_json(Album, *matches)
@@ -365,6 +365,14 @@ def get_all_articles():  # OK
     else:
         matches = matches.all()
         return sql_json(Article,*matches)
+
+
+@app.route('/api/news/search/<term>')
+def search_articles(term):
+    matches = search(db.session.query(Article), term, sort=True).all()
+    if matches is None:
+        return not_found()
+    return sql_json(Article, *matches)
 
 
 # Cities endpoints
