@@ -23,14 +23,14 @@ Story Title,Estimate,Vote Started,Voting Duration,Avg Voting Time,Fastest,Slowes
 "As a user, I want to see the news articles related to an album",5,17/10/2017 02:03:16,0:10:03,0:03:37,Christian,William Xu
 "As a user, I want to search for anything by keyword",8,17/10/2017 02:15:11,0:01:35,0:00:59,Christian,William Xu
 "As a user, I want to sort news by date",5,9/11/2017 14:07:21,0:00:34,0:00:25,Christian,William Xu
-"As a user, I want to filter albums by genre",8,9/11/2017 14:11:17,0:00:39,0:00:31,Zach Burky,William Xu
-"As a user, I want to filter cities by region",8,9/11/2017 14:13:51,0:00:51,0:00:42,Christian,William Xu
-"As a user, I want to see different models that match my search when I search something",13,9/11/2017 14:14:45,0:03:19,0:00:51,Zach Burky,William Xu
-"As a user, I want to be able to view an artist or album in spotify when I click the spotify button",3,9/11/2017 14:17:09,0:00:29,0:00:16,Christian,William Xu
-"As a user, I want to be able to view rich media related to an article when I click on the rich media link",3,9/11/2017 14:18:29,0:02:36,0:01:09,Christian,William Xu
-"As a user, I want to see the albums that an artist has released on the individual artist's page",3,9/11/2017 14:20:31,0:00:28,0:00:16,Christian,William Xu
-"As a user, I want to see the artists related to a news article on the individual article's page",5,9/11/2017 14:21:07,0:00:32,0:00:21,Christian,William Xu
-"As a user, I want to see the albums related to a news article on the individual article's page",5,9/11/2017 14:22:12,0:00:45,0:00:31,Christian,William Xu
-"As a user, I want to be able to see instances of each model by pages in each tab",8,9/11/2017 14:24:55,0:01:32,0:00:51,Zach Burky,William Xu
-"As a user, I want to see the number of commits, issues, and unit tests for each contributor in the about page",5,9/11/2017 14:25:14,0:01:03,0:00:39,Christian,William Xu
-"As a user, I want to see if the API is publicly available in the about page",3,9/11/2017 14:26:34,0:02:27,0:01:19,Zach Burky,William Xu
+"As a user, I want to filter albums by genre",8,09/11/2017 14:11:17,0:00:39,0:00:31,Zach Burky,William Xu
+"As a user, I want to filter cities by region",8,09/11/2017 14:13:51,0:00:51,0:00:42,Christian,William Xu
+"As a user, I want to see different models that match my search when I search something",13,09/11/2017 14:14:45,0:03:19,0:00:51,Zach Burky,William Xu
+"As a user, I want to be able to view an artist or album in spotify when I click the spotify button",3,09/11/2017 14:17:09,0:00:29,0:00:16,Christian,William Xu
+"As a user, I want to be able to view rich media related to an article when I click on the rich media link",3,09/11/2017 14:18:29,0:02:36,0:01:09,Christian,William Xu
+"As a user, I want to see the albums that an artist has released on the individual artist's page",3,09/11/2017 14:20:31,0:00:28,0:00:16,Christian,William Xu
+"As a user, I want to see the artists related to a news article on the individual article's page",5,09/11/2017 14:21:07,0:00:32,0:00:21,Christian,William Xu
+"As a user, I want to see the albums related to a news article on the individual article's page",5,09/11/2017 14:22:12,0:00:45,0:00:31,Christian,William Xu
+"As a user, I want to be able to see instances of each model by pages in each tab",8,09/11/2017 14:24:55,0:01:32,0:00:51,Zach Burky,William Xu
+"As a user, I want to see the number of commits, issues, and unit tests for each contributor in the about page",5,09/11/2017 14:25:14,0:01:03,0:00:39,Christian,William Xu
+"As a user, I want to see if the API is publicly available in the about page",3,09/11/2017 14:26:34,0:02:27,0:01:19,Zach Burky,William Xu
