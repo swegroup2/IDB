@@ -405,6 +405,14 @@ def get_all_cities():  # OK
     return sql_json(City, *matches)
 
 
+@app.route('/api/cities/search/<term>')
+def search_citiess(term):
+    matches = search(db.session.query(City), term, sort=True).all()
+    if matches is None:
+        return not_found()
+    return sql_json(City, *matches)
+
+
 # Error handler
 @app.errorhandler(500)
 def server_error(e):

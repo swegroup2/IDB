@@ -134,4 +134,4 @@ class City(Base):
         'Artist',
         secondary=cities_artists,
         back_populates='cities')
-    #search_vector = Column(TSVectorType('name', 'state'))
+    search_vector = Column(TSVectorType('name', 'state'))
