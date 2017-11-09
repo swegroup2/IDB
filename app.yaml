@@ -13,7 +13,7 @@ skip_files:
 
 env_variables:
     SQLALCHEMY_DATABASE_URI: >-
-      postgresql+psycopg2://postgres:downing@/postgres?host=/cloudsql/poupon-181003:us-central1:db-test
+      postgresql+psycopg2://postgres:downing@/postgres?host=/cloudsql/poupon-181003:us-central1:db-clone
 
 beta_settings:
     cloud_sql_instances: poupon-181003:us-central1:db-test
