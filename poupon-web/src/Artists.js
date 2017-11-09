@@ -17,57 +17,52 @@ class Artists extends Component {
             <div className="Container">
                 <Switch>
                     <Route exact path="/artists" component={MultipleArtists}/>
-                    <Route path="/artists/:id" component={ArtistDetailCard}/>
+                    <Route path="/artists/:id" component={SingleArtist}/>
                 </Switch>
             </div>
         );
     }
 }
 
-class ArtistDetailCard extends Component {
-    constructor(props) {
-        super(props);
-        this.id = this.props.match.params.id;
-        this.state = {
-            data: {},
-            loaded: false
-        };
-    }
-
-    componentDidMount() {
-        fetch(`${config.API_URL}/artists/${this.id}`)
-            .then(data => data.json())
-            .then(json => {
-                this.setState({data: json, loaded: true});
-            })
-            .catch(e => {
-            });
-    }
-
+class SingleArtist extends Component {
     render() {
-        if (!this.state.loaded)
-            return <LoadingStub />;
+        return (
+            <APIAdapter endpoint={`artists/${this.props.match.params.id}`}>
+                <ArtistDetailCard/>
+            </APIAdapter>
+        );
+    }
+}
 
-        const artist = this.state.data.artist;
-        const cities = this.state.data.cities;
-
-        let articles = this.state.data.news.map(article =>
-                <tr><td width="15%">{new Date(article.date).toDateString()}</td><td width="85%"><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
-        if (articles.length === 0) {
-            articles = <tr><td className="font-italic">No articles found.</td></tr>;
-        }
-
-        let albums = this.state.data.albums.map(album =>
+class ArtistDetailCard extends Component {
+    renderAlbums() {
+        let albums = this.props.data.albums.map(album =>
                 <tr><td><a href={`/albums/${album.album_id}`}>{album.name}</a></td></tr>);
         if (albums.length === 0) {
             albums = <tr><td className="font-italic">No albums found.</td></tr>;
         }
+        return albums;
+    }
 
-        const cityList = cities.map(city => (
-            <span className="badge badge-light">
-                <a href={`/cities/${city.city_id}`}>{city.name}</a>
-            </span>
-        ));
+    renderArticles() {
+        let articles = this.props.data.news.map(article =>
+                <tr><td width="15%">{new Date(article.date).toDateString()}</td><td width="85%"><a href={`/news/${article.article_id}`}>{article.title}</a></td></tr>);
+        if (articles.length === 0) {
+            articles = <tr><td className="font-italic">No articles found.</td></tr>;
+        }
+        return articles;
+    }
+
+    render() {
+        if (!this.props.data)
+            return <LoadingStub message="Error"/>;
+        const artist = this.props.data.artist;
+        const cities = this.props.data.cities;
+        const albums = this.renderAlbums();
+        const articles = this.renderArticles();
+        
+        const cityList = cities.map(city => 
+            <span className="badge badge-light"><a href={`/cities/${city.city_id}`}>{city.name}</a></span>);
 
         return (
             <div className="col-12">
@@ -79,7 +74,12 @@ class ArtistDetailCard extends Component {
                                 <img src={artist.artist_picture_link} className="img-fluid" alt={artist.name}/>
                             </div>
                             <div className="col-sm-12 col-md-12 col-lg-8">
-                                <p><a className="btn btn-primary mr-1" href={`https://open.spotify.com/artist/${artist.spotify_id}`}>Open Spotify</a></p>
+                                <p>
+                                    <a className="btn btn-primary mr-1" 
+                                       href={`https://open.spotify.com/artist/${artist.spotify_id}`}>
+                                        Open Spotify
+                                    </a>
+                                </p>
                                 <p><b>Related Cities: </b>{cityList}</p>
                                 <p><b>Albums: </b></p>
                                     <table className="table table-light table-sm table-hover">

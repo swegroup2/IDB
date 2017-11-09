@@ -8,9 +8,10 @@ const config = require("./config.json");
  */
 export class LoadingStub extends Component {
 	render() {
+		const message = this.props.message || "Loading...";
 		return (
 			<div className="alert alert-primary" role="alert">
-				Loading...
+				{message}
 			</div>
 		);
 	}
@@ -183,7 +184,8 @@ export class APIAdapter extends Component {
                 this.setState({data: json, loaded: true});
             })
             .catch(e => {
-            	this.setState({error: true});
+            	console.error(e);
+            	// this.setState({error: true});
             });
 	}
 
