@@ -213,6 +213,26 @@ This provides the top N artists (sorting is by popularity)
           }
         ]
 
+## Artist Search [/api/artists/search/{term}]
+
+### Search Artists[GET]
+This will contain a list of the City models that match the search term used.
+
++ Parameters
+    + term: 'Lamar' (String) - the term to search for
+    
++ Response 200 (application/json)
+
+        [
+             {
+               “artist_id”: 454,
+               “artist_picture_link”: “https://i.scdn.co/image/106c76de27f7e556ebb43947aadd1228862d6cd7 (208 kB)“,
+               “name”: “Kendrick Lamar”,
+               “popularity”: 96,
+               “search_vector”: “‘kendrick’:1 ‘lamar’:2”,
+               “spotify_id”: “2YZyLoL8N0Wb9xBt1NhZWg”
+             }
+        ]
 
 
 # Group Albums
@@ -443,6 +463,31 @@ specified.
           }
         ]
 
+## Album Search [/api/albums/search/{term}]
+
+### Search Albums[GET]
+This will contain a list of the Album models that match the search term used.
+
++ Parameters
+    + term: 'DAMN' (String) - the term to search for
+    
++ Response 200 (application/json)
+
+        [
+          {
+            "album_id": 3968, 
+            "album_picture_link": "https://i.scdn.co/image/661e1a935e2eacdd45c05ef618565535e7bed2ad", 
+            "artist_id": 454, 
+            "name": "DAMN.", 
+            "popularity": 92, 
+            "release_date": "Fri, 14 Apr 2017 00:00:00 GMT", 
+            "search_vector": "'damn':1", 
+            "spotify_id": "4eLPsYPBmXABThSJ821sqY"
+          }
+        ]
+        
+
+
 # Group News
             
 ## News Collection [/api/news{?page,media,sort,order}]
@@ -519,6 +564,82 @@ news articles are not sorted. By default, there is no paging
                 "title": "Tyler, The Creator comes out as gay on his new album", 
                 "upvotes": 11031
             }
+        ]
+        
+## News Search [/api/cities/search/{term}]
+
+### Search News[GET]
+This will contain a list of the article models that match the search term used.
+
++ Parameters
+    + term: 'los' (String) - the term to search for
+    
++ Response 200 (application/json)
+
+        [
+          {
+            "article_id": 609, 
+            "date": "Tue, 24 Oct 2017 00:00:00 GMT", 
+            "media_link": "http://www.abc.net.au/news/2017-10-25/new-zealand-nationals-lose-eminem-court-case/9084730?sf125022096=1", 
+            "search_vector": "'500k':5 'copyright':14 'due':11 'eminem':1 'infring':15 'lose':17 'made':3 'nation':9 'nz':8 'parti':10", 
+            "thumbnail": "", 
+            "title": "Eminem just made over $500k from the NZ National Party due to their copyright infringement of 'Lose Yourself'", 
+            "upvotes": 1558
+          }, 
+          {
+            "article_id": 586, 
+            "date": "Thu, 26 Oct 2017 00:00:00 GMT", 
+            "media_link": "http://variety.com/2017/music/news/eminem-to-donate-lose-yourself-new-zealand-lawsuit-proceeds-to-hurricane-relief-1202599966/", 
+            "search_vector": "'000':5 '415':4 'donat':3 'eminem':1 'hurrican':12 'lawsuit':10 'lose':8 'relief':13 'win':6", 
+            "thumbnail": "", 
+            "title": "Eminem to Donate $415,000 winnings from :Lose Yourself\" lawsuit to Hurricane Relief", 
+            "upvotes": 5183
+          }, 
+          {
+            "article_id": 732, 
+            "date": "Tue, 15 Mar 2016 00:00:00 GMT", 
+            "media_link": "https://www.reddit.com/r/hiphopheads/comments/4aimx8/5_years_ago_today_the_hiphop_community_lost_west/", 
+            "search_vector": "'03/15/2011':19 '08/19/1969':18 '41':20 '5':1 'ago':3 'coast':12 'communiti':9 'dogg':16 'hale':17 'hip':7 'hip-hop':6 'hop':8 'lost':10 'nate':15 'nathaniel':14 'pioneer':13 'today':4 'west':11 'year':2,21 'young':22", 
+            "thumbnail": "", 
+            "title": "5 Years Ago Today, The Hip-hop Community lost West Coast Pioneer, Nathaniel \u201cNate Dogg\u201d Hale, 08/19/1969 - 03/15/2011 (41 YEARS YOUNG!)", 
+            "upvotes": 4451
+          }, 
+          {
+            "article_id": 774, 
+            "date": "Sun, 16 Jul 2017 00:00:00 GMT", 
+            "media_link": "http://blkdmnds.com/2017/07/quavo-loses-hard-drive-culture-2-was-recorded-on/", 
+            "search_vector": "'2':6 'cultur':5 'drive':4 'hard':3 'lose':2 'quavo':1 'record':8", 
+            "thumbnail": "https://i.scdn.co/image/f56f23cbd3783f8594a4871ca0424ffb9de7a5cd", 
+            "title": "Quavo Loses Hard Drive Culture 2 Was Recorded On", 
+            "upvotes": 4154
+          }, 
+          {
+            "article_id": 1139, 
+            "date": "Fri, 28 Jul 2017 00:00:00 GMT", 
+            "media_link": "https://www.reddit.com/r/hiphopheads/comments/6q8vwa/tyler_the_creators_flower_boy_sells_104k_first/", 
+            "search_vector": "'104k':8 '31k':29 '37k':20 '6k':32 '72k':11 '87k':19 'boomin':24 'boy':6 'creator':3 'first':9,30 'flower':5 'loss':17 'meek':13 'metro':23 'mill':14 'nav':22 'perfect':26 'pure':12,21,33 'sell':7,18,28 'time':27 'tyler':1 'week':10,31 'win':16", 
+            "thumbnail": "https://i.scdn.co/image/b67411789ff4f8014fc63cc231ea49f2ec184f44", 
+            "title": "Tyler, the Creator's \"Flower Boy\" sells 104K first week (72K Pure). Meek Mill's \"Wins & Losses\" sells 87K (37K Pure). Nav & Metro Boomin's \"Perfect Timing\" sells 31K first week (6K Pure).", 
+            "upvotes": 3119
+          }, 
+          {
+            "article_id": 1145, 
+            "date": "Tue, 18 Jul 2017 00:00:00 GMT", 
+            "media_link": "https://www.youtube.com/watch?v=Kk8NVDzAF1s", 
+            "search_vector": "'brown':4 'danni':3 'fresh':1 'lost':5 'video':2", 
+            "thumbnail": "https://i.ytimg.com/vi/Kk8NVDzAF1s/hqdefault.jpg", 
+            "title": "[FRESH VIDEO] Danny Brown - Lost", 
+            "upvotes": 3104
+          }, 
+          {
+            "article_id": 1381, 
+            "date": "Mon, 20 Jun 2016 00:00:00 GMT", 
+            "media_link": "http://www.xxlmag.com/news/2016/06/drake-loses-bet-french-montana/", 
+            "search_vector": "'000':4 '2016':7 '60':3 'bet':5 'drake':1 'final':9 'french':11 'lose':2 'montana':12 'nba':8", 
+            "thumbnail": "https://i.scdn.co/image/cb080366dc8af1fe4dc90c4b9959794794884c66", 
+            "title": "Drake Loses $60,000 Bet on 2016 NBA Finals to French Montana", 
+            "upvotes": 2501
+          }
         ]
 
 # Group Cities
@@ -614,3 +735,24 @@ contains related artists and news associated with the city id specified.
               "news": []
             }
         }
+
+## City Search [/api/news/search/{term}]
+
+### Search Cities[GET]
+This will contain a list of the City models that match the search term used.
+
++ Parameters
+    + term: 'Angeles' (String) - the term to search for
+    
++ Response 200 (application/json)
+
+        [
+          {
+            "city_id": 14, 
+            "city_picture_link": "https://upload.wikimedia.org/wikipedia/en/6/62/Los_Angeles_County_California_Incorporated_and_Unincorporated_areas_Compton_Highlighted_0615044.svg", 
+            "name": "Los Angeles", 
+            "population": 3976322, 
+            "search_vector": "'angel':2 'ca':3 'los':1", 
+            "state": "CA"
+          }
+        ]
