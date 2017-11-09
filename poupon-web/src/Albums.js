@@ -109,7 +109,7 @@ class MultipleAlbums extends Component {
     }
 }
 
-class AlbumPreviewCard extends Component {
+export class AlbumPreviewCard extends Component {
     render() {
         const name = this.props.data.name;
         const img = this.props.data.album_picture_link;

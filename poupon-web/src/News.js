@@ -97,7 +97,7 @@ class MultipleArticles extends Component {
     }
 }
 
-class ArticlePreviewCard extends Component {
+export class ArticlePreviewCard extends Component {
     render() {
         const {name, title, media_link, upvotes, article_id, thumbnail} = this.props.data;
         const date = new Date(this.props.data.date);
