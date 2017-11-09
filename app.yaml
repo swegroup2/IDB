@@ -16,7 +16,7 @@ env_variables:
       postgresql+psycopg2://postgres:downing@/postgres?host=/cloudsql/poupon-181003:us-central1:db-clone
 
 beta_settings:
-    cloud_sql_instances: poupon-181003:us-central1:db-test
+    cloud_sql_instances: poupon-181003:us-central1:db-clone
 
 handlers:
 - url: /.*
