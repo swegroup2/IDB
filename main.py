@@ -27,7 +27,7 @@ def build_query_dict(user_queries=None, wanted_keys=None):
 
 def build_query(query, query_dict, model):
     matches = query
-    if not bool(query_dict): #if empty;default
+    if not bool(query_dict):  # if empty;default
         if model == 'artists':
             return matches.order_by(Artist.popularity.desc())
         elif model == 'albums':
@@ -43,47 +43,51 @@ def build_query(query, query_dict, model):
         elif key == 'popularity':
             matches = pop_sort(matches, query_dict[key], model)
         elif key == 'alpha':
-            matches = alpha_sort(matches,query_dict[key],model)
+            matches = alpha_sort(matches, query_dict[key], model)
         elif key == 'relyear':
-            matches = relyear_filter(matches,query_dict[key],model)
+            matches = relyear_filter(matches, query_dict[key], model)
         elif key == 'reldate':
-            matches = reldate_sort(matches,query_dict[key],model)
+            matches = reldate_sort(matches, query_dict[key], model)
         elif key == 'upvotes':
-            matches = upvote_sort(matches,query_dict[key],model)
+            matches = upvote_sort(matches, query_dict[key], model)
         elif key == 'media':
-            matches = media_filter(matches,query_dict[key],model)
+            matches = media_filter(matches, query_dict[key], model)
         elif key == 'population':
-            matches = population_sort(matches,query_dict[key],model)
+            matches = population_sort(matches, query_dict[key], model)
         elif key == 'state':
-            matches = state_filter(matches,query_dict[key],model)
+            matches = state_filter(matches, query_dict[key], model)
         elif key == 'poprange':
-            matches = poprange_filter(matches,query_dict[key],model)
+            matches = poprange_filter(matches, query_dict[key], model)
         else:
             pass
     return matches
 
-def poprange_filter(query,val,model): #TO FIX lol... rip
-    if val == '1': #0-50000
-        return query.filter(City.population.between(0,500000))
-    elif val == '2': #50000-100000
-        return query.filter(City.population.between(500000,1000000))
+
+def poprange_filter(query, val, model):  # TO FIX lol... rip
+    if val == '1':  # 0-50000
+        return query.filter(City.population.between(0, 500000))
+    elif val == '2':  # 50000-100000
+        return query.filter(City.population.between(500000, 1000000))
     else:
         return query.filter(City.population > 1000000)
 
 
-def state_filter(query,val,model):
-    return query.filter(City.state==val)
+def state_filter(query, val, model):
+    return query.filter(City.state == val)
 
-def media_filter(query,val,model): #(youtube, itunes, soundcloud, reddit) -> buttons from the Front End side imo
+
+def media_filter(query, val, model):  # (youtube, itunes, soundcloud, reddit) -> buttons from the Front End side imo
     return query.filter(Article.media_link.contains(val))
 
-def relyear_filter(query,val,model):
+
+def relyear_filter(query, val, model):
     if model == "albums":
-        return query.filter(extract('year',Album.release_date)==val)
+        return query.filter(extract('year', Album.release_date) == val)
     else:
         return query
 
-def city_filter(query,val,model): #check type?
+
+def city_filter(query, val, model):  # check type?
     if model == "artists":
         return query.join(cities_artists).join(City).filter(City.name == val)
     else:
@@ -103,20 +107,22 @@ def genre_filter(query, val, model):
 #     if model is "artists":
 #         return query.join(cities_artists).join(City).join()
 
-def population_sort(query,val,model):
+def population_sort(query, val, model):
     if val == "desc":
         return query.order_by(City.population.desc())
     else:
         return query.order_by(City.population.asc())
 
-def upvote_sort(query,val,model):
+
+def upvote_sort(query, val, model):
     if model == "news":
         if val == "desc":
             return query.order_by(Article.upvotes.desc())
         else:
             return query.order_by(Article.upvotes.asc())
 
-def reldate_sort(query,val,model):
+
+def reldate_sort(query, val, model):
     if model == "albums":
         if val == "desc":
             return query.order_by(Album.release_date.desc())
@@ -128,7 +134,8 @@ def reldate_sort(query,val,model):
         else:
             return query.order_by(Article.date.asc())
 
-def pop_sort(query,val,model):
+
+def pop_sort(query, val, model):
     if model == "artists":
         if val == "desc":
             return query.order_by(Artist.popularity.desc())
@@ -197,10 +204,10 @@ def get_artists_by_id(art_id):
     json_city = sql_serialize(City, *city_match)
     json_news = sql_serialize(Article, *news_match)
 
-    #test = ['name','city_id']
-    #json_city = related_col_serialize(test,*city_match)
+    # test = ['name','city_id']
+    # json_city = related_col_serialize(test,*city_match)
 
-    final_obj = {"artist":json_artist,"albums":json_album,"cities":json_city,"news":json_news}
+    final_obj = {"artist": json_artist, "albums": json_album, "cities": json_city, "news": json_news}
 
     return jsonify(final_obj)
 
@@ -215,19 +222,23 @@ def get_artists_top(limit=10):  # OK
 
 @app.route('/api/artists/')
 @app.route('/api/artists')
-def get_all_artists(): #OK order_by(Artist.popularity.desc())
-    wanted_keys = ['page','city','genre','region','popularity','alpha']
-    query_dict = build_query_dict(request.args.to_dict(),wanted_keys) #could return none
+def get_all_artists():  # OK order_by(Artist.popularity.desc())
+    wanted_keys = ['page', 'city', 'genre', 'region', 'popularity', 'alpha']
+    query_dict = build_query_dict(request.args.to_dict(), wanted_keys)  # could return none
     # paginate(1,3,False).items
-    base_query = db.session.query(Artist)#.order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
-    matches = build_query(base_query,query_dict,'artists').all()
-    return sql_json(Artist,*matches)
+    base_query = db.session.query(
+        Artist)  # .order_by(Artist.popularity.desc()).all()#.with_entities(Artist.name,Artist.artist_id)
+    matches = build_query(base_query, query_dict, 'artists').all()
+    return sql_json(Artist, *matches)
 
 
 @app.route('/api/artists/search/<term>')
 def search_artists(term):
-    matches = search(db.session.query(Artist), term, sort=True)
+    matches = search(db.session.query(Artist), term, sort=True).all()
+    if matches.size == 0:
+        return not_found()
     return sql_json(Artist, *matches)
+
 
 # Album endpoints
 @app.route('/api/albums/<int:alb_id>')
@@ -249,14 +260,14 @@ def get_album_by_id(alb_id):  # returns full album model (Album, Artists, News r
 
 @app.route('/api/albums/')
 @app.route('/api/albums')
-def get_all_albums(): #TESTED
-    wanted_keys = ['page','genre','relyear','reldate','alpha','popularity']
-    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+def get_all_albums():  # TESTED
+    wanted_keys = ['page', 'genre', 'relyear', 'reldate', 'alpha', 'popularity']
+    query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
 
     base_query = db.session.query(Album)
-    matches = build_query(base_query,query_dict,'albums').all()
+    matches = build_query(base_query, query_dict, 'albums').all()
 
-    return sql_json(Album,*matches)
+    return sql_json(Album, *matches)
 
 
 @app.route('/api/albums/artists/<int:artist_id>')
@@ -294,13 +305,13 @@ def get_articles_by_date(iso_date):  # OK -> to decide to deprecate tbh
 @app.route('/api/news/')
 @app.route('/api/news')
 def get_all_articles():  # OK
-    wanted_keys = ['media','upvotes','reldate']
-    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+    wanted_keys = ['media', 'upvotes', 'reldate']
+    query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
 
     base_query = db.session.query(Article)
-    matches = build_query(base_query,query_dict,'news').all()
+    matches = build_query(base_query, query_dict, 'news').all()
 
-    return sql_json(Article,*matches)
+    return sql_json(Article, *matches)
 
 
 # Cities endpoints
@@ -325,11 +336,11 @@ def get_city_by_id(c_id):  # FULL CITY MODEL (City,Artist,Album)
 @app.route('/api/cities/')
 @app.route('/api/cities')
 def get_all_cities():  # OK
-    wanted_keys = ['state','region','poprange','population','alpha']
-    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+    wanted_keys = ['state', 'region', 'poprange', 'population', 'alpha']
+    query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
 
     base_query = db.session.query(City)
-    matches = build_query(base_query,query_dict,'cities').all()
+    matches = build_query(base_query, query_dict, 'cities').all()
     return sql_json(City, *matches)
 
 

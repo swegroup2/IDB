@@ -4,8 +4,10 @@ from sqlalchemy import Column, Integer, String, Date, Table, ForeignKey, extract
 from sqlalchemy.orm import relationship
 from functools import partial
 from flask.ext.jsontools import JsonSerializableBase
+from sqlalchemy_searchable import make_searchable
 
 Base = declarative_base(cls=(JsonSerializableBase,))
+make_searchable()
 
 # Apply defaults to a new Column
 DColumn = partial(Column, nullable=False)
@@ -48,7 +50,7 @@ class Artist(Base):
         secondary=genres_artists,
         back_populates='artists')
     albums = relationship("Album")
-    #search_vector = Column(TSVectorType('name'))
+    search_vector = Column(TSVectorType('name'))
 
     # def __json__(self):
     # 	return ['artist_id','name','spotify_id','artist_picture_link','popularity']
