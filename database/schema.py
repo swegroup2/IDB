@@ -70,7 +70,7 @@ class Album(Base):
         'Article',
         secondary=articles_albums,
         back_populates='albums')
-    #search_vector = Column(TSVectorType('name'))
+    search_vector = Column(TSVectorType('name'))
 
     # def __json__(self):
     # 	return ['album_id','name','spotify_id','release_date','album_picture_link','artist_id']

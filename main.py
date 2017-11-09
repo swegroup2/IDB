@@ -272,7 +272,7 @@ def get_all_artists(): #OK order_by(Artist.popularity.desc())
 @app.route('/api/artists/search/<term>')
 def search_artists(term):
     matches = search(db.session.query(Artist), term, sort=True).all()
-    if matches.size == 0:
+    if matches is None:
         return not_found()
     return sql_json(Artist, *matches)
 
@@ -314,6 +314,14 @@ def get_all_albums(): #TESTED
 @app.route('/api/albums/artists/<int:artist_id>')
 def get_all_albums_by_artist(artist_id):  # DEPRECATE
     matches = db.session.query(Album).filter_by(artist_id=artist_id).all()
+    return sql_json(Album, *matches)
+
+
+@app.route('/api/albums/search/<term>')
+def search_albums(term):
+    matches = search(db.session.query(Artist), term, sort=True).all()
+    if matches is None:
+        return not_found()
     return sql_json(Album, *matches)
 
 
