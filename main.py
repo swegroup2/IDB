@@ -396,7 +396,7 @@ def get_all_cities():  # OK
 
 
 @app.route('/api/cities/search/<term>')
-def search_citiess(term):
+def search_cities(term):
     matches = search(db.session.query(City), term, sort=True).all()
     if matches is None:
         return not_found()
