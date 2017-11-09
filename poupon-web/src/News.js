@@ -84,13 +84,20 @@ class MultipleArticles extends Component {
         return (
             <APIAdapter endpoint="news" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={ArticlePreviewCard}
-                 sortOptions={{"Newest first": 0, "Oldest first": 1}}/>
+                 sortOptions={{
+                    "Newest": {sort: "reldate", order: "desc"},
+                    "Oldest": {sort: "reldate", order: "asc"}, 
+                    "Most popular": {sort: "upvotes", order: "desc"},
+                    "Least popular": {sort: "upvotes", order: "asc"}, 
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"}
+                 }}/>
             </APIAdapter>
         );
     }
 }
 
-class ArticlePreviewCard extends Component {
+export class ArticlePreviewCard extends Component {
     render() {
         const {name, title, media_link, upvotes, article_id, thumbnail} = this.props.data;
         const date = new Date(this.props.data.date);

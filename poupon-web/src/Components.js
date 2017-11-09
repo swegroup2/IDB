@@ -17,6 +17,17 @@ export class LoadingStub extends Component {
 	}
 }
 
+export class ErrorStub extends Component {
+	render() {
+		const message = this.props.message || "We ran into an error. Please try again.";
+		return (
+			<div className="alert alert-danger" role="alert">
+				{message}
+			</div>
+		);
+	}
+}
+
 /**
  * Abstracts the UI for a list of models with sorted and filtered pages.
  * Requires a prop "itemClass" which is a React component class to render for each item.
@@ -31,42 +42,70 @@ export class PaginatedList extends Component {
 		//TODO: nicer way to do this?
 		this.state = {
 			sort: 0,
+			order: 0,
 			filter: 0,
 			page: 1
 		};
-		if (props.hasOwnProperty("sort"))
-			this.state.sort = props.sort;
-		if (props.hasOwnProperty("filter"))
-			this.state.filter = props.filter;
-		if (props.hasOwnProperty("page"))
-			this.state.page = props.page;
-	}
 
+		//load parameters from props
+		const params = props.params || {};
+		if (params.hasOwnProperty("sort"))
+			this.state.sort = params.sort;
+		if (params.hasOwnProperty("order"))
+			this.state.order = params.order;
+		if (params.hasOwnProperty("filter"))
+			this.state.filter = params.filter;
+		if (params.hasOwnProperty("page"))
+			this.state.page = params.page;
+
+		//map sort/order pair back to sort name
+		const sortOptions = this.props.sortOptions || {};
+		const sortKey = Object.entries(sortOptions)
+			.find(([k,v]) => v.sort === this.state.sort && v.order === this.state.order);
+		if (sortKey)
+			this.state.sortKey = sortKey[0];
+		else
+			this.state.sortKey = Object.keys(sortOptions)[0];
+	}
+	
 	emitUpdate() {
 		if (!this.props.onUpdate)
 			return;
-		this.props.onUpdate({
-			params: {
-				page: this.state.page,
-				filter: this.state.filter,
-				sort: this.state.sort
-			}
-		});
+
+		if (!this.props.sortOptions) {
+			this.props.onUpdate({
+				params: {
+					page: this.state.page,
+					filter: this.state.filter
+				}
+			});
+		}
+		else {
+			const sortOptions = this.props.sortOptions;
+			this.props.onUpdate({
+				params: {
+					page: this.state.page,
+					filter: this.state.filter,
+					sort: sortOptions[this.state.sortKey].sort,
+					order: sortOptions[this.state.sortKey].order
+				}
+			});
+		}
 	}
 
 	/**
 	 * Renders the HTML interface for displaying sort options
 	 */
 	renderSortUI() {
-		const handler = event => this.setState({sort: event.target.value}, this.emitUpdate);
+		const handler = event => this.setState({sortKey: event.target.value}, this.emitUpdate);
 
 		const sortOptions = this.props.sortOptions || {};
 		const renderedOptions = Object.keys(sortOptions)
-			.map(k => <option value={sortOptions[k]}>{k}</option>);
+			.map(k => <option value={k}>{k}</option>);
 
 		return (
 			<select className="custom-select mx-1"
-			 value={this.state.sort} onChange={handler}>
+			 value={this.state.sortKey} onChange={handler}>
 				{renderedOptions}
 			</select>
 		);
@@ -129,8 +168,15 @@ export class PaginatedList extends Component {
 			throw new Error("PaginatedList must have itemClass set to a Component.");
 
 		//build UI elements
-		const sortUI = this.renderSortUI();
-		const filterUI = this.renderFilterUI();
+		let sortFilterUI = null;
+		if (!this.props.hideSortFilter) {
+			sortFilterUI = (
+				<div className="col-12 bg-light d-flex flex-row-reverse">
+					{this.renderSortUI()}
+					{this.renderFilterUI()}
+				</div>
+			);
+		}
 		const pageUI = this.renderPageUI();
 		
 		//create item instances
@@ -140,10 +186,7 @@ export class PaginatedList extends Component {
 		//compose elements
 		return (
 			<div className="row">
-				<div className="col-12 bg-light d-flex flex-row-reverse">
-					{filterUI}
-					{sortUI}
-				</div>
+				{sortFilterUI}
 				<div className="col-12">{pageUI}</div>
 				{items}
 				<div className="col-12">{pageUI}</div>
@@ -160,6 +203,10 @@ export class PaginatedList extends Component {
  * 1. accept a 'data' prop which is the JSON result of a call to the endpoint
  * 2. accept an 'onUpdate' prop which is a function it should call when the API
  *    needs to be queried again.
+ *    It can pass some information to the onUpdate callback. Namely, an object containing:
+ *      params: a {name: value} map that will be converted to query parameters
+ *    When the APIAdapter renders its child component, it will pass params back
+ *    to it as a prop. The child component can use this to decide how to render itself.
  */
 export class APIAdapter extends Component {
 	constructor(props) {
@@ -174,19 +221,22 @@ export class APIAdapter extends Component {
         };
 	}
 
-	updateFromAPI() {
+	updateFromAPI(altProps={}) {
+		const props = Object.assign({}, this.props, altProps);
+
 		this.setState({loaded: false});
 		const queryString = APIAdapter.buildQueryString(this.state.params);
 
-		fetch(`${config.API_URL}/${this.props.endpoint}${queryString}`)
+		fetch(`${config.API_URL}/${props.endpoint}${queryString}`)
             .then(data => data.json())
+            .catch(e => this.setState({error: true}))
             .then(json => {
                 this.setState({data: json, loaded: true});
             })
-            .catch(e => {
-            	console.error(e);
-            	// this.setState({error: true});
-            });
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.updateFromAPI(nextProps);
 	}
 
 	componentDidMount() {
@@ -194,11 +244,12 @@ export class APIAdapter extends Component {
     }
 
 	handleUpdate({params={}} = {}) {
-		this.setState({params: params}, this.updateFromAPI);
+		this.setState({params}, this.updateFromAPI);
 	}
 
 	render() {
-		//TODO: handle error
+		if (this.state.error)
+			return <ErrorStub />;
 		if (!this.state.loaded)
 			return <LoadingStub />;
 
@@ -206,11 +257,12 @@ export class APIAdapter extends Component {
 		const child = React.Children.only(this.props.children);
 		const props = {
 			data: this.state.data,
-			onUpdate: this.handleUpdate
+			onUpdate: this.handleUpdate,
+			params: Object.assign({}, this.state.params)
 		};
 
 		//render child
-		return React.cloneElement(child, Object.assign(props, this.state.params));
+		return React.cloneElement(child, props);
 	}
 
 	/**

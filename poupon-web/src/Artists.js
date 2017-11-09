@@ -109,13 +109,18 @@ class MultipleArtists extends Component {
         return (
             <APIAdapter endpoint="artists" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={ArtistPreviewCard}
-                 sortOptions={{"Most popular": 0, "Least popular": 1, "A-Z": 2, "Z-A": 3}}/>
+                 sortOptions={{
+                    "Most popular": {sort: "popularity", order: "desc"},
+                    "Least popular": {sort: "popularity", order: "asc"}, 
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"}
+                 }}/>
             </APIAdapter>
         );
     }
 }
 
-class ArtistPreviewCard extends Component {
+export class ArtistPreviewCard extends Component {
     render() {
         const name = this.props.data.name;
         const img = this.props.data.artist_picture_link;

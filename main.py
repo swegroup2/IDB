@@ -67,16 +67,6 @@ def build_query(query, query_dict, model):
             matches = poprange_filter(matches,query_dict[key],model)
         elif key == 'sort':
             matches = det_sort(matches,query_dict[key],query_dict["order"],model)
-        # elif key == 'population':
-        #     matches = population_sort(matches,query_dict[key],model)
-        # elif key == 'reldate':
-        #     matches = reldate_sort(matches,query_dict[key],model)
-        # elif key == 'popularity':
-        #     matches = pop_sort(matches, query_dict[key], model)
-        # elif key == 'alpha':
-        #     matches = alpha_sort(matches,query_dict[key],model)
-        # elif key == 'upvotes':
-        #     matches = upvote_sort(matches,query_dict[key],model)
         else: #order parameter should pass here
             pass
     return matches
@@ -247,7 +237,7 @@ def get_artists_by_id(art_id):
 
 @app.route('/api/artists/top/<int:limit>')
 @app.route('/api/artists/top')
-def get_artists_top(limit=10):  # OK
+def get_artists_top(limit=10):  #DEPRECATE?
     num = max(1, limit)
     matches = db.session.query(Artist).order_by(Artist.popularity.desc()).limit(num).all()
     return sql_json(Artist, *matches)
