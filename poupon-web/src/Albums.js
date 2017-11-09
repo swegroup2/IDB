@@ -96,7 +96,14 @@ class MultipleAlbums extends Component {
         return (
             <APIAdapter endpoint="albums" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={AlbumPreviewCard}
-                 sortOptions={{"Newest first": 0, "Oldest first": 1, "A-Z": 2, "Z-A": 3}}/>
+                 sortOptions={{
+                    "Newest": {sort: "reldate", order: "desc"},
+                    "Oldest": {sort: "reldate", order: "asc"}, 
+                    "Most popular": {sort: "popular", order: "desc"},
+                    "Least popular": {sort: "popular", order: "asc"}, 
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"}
+                 }}/>
             </APIAdapter>
         );
     }

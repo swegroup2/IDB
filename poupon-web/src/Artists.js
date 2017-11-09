@@ -112,15 +112,15 @@ class MultipleArtists extends Component {
                  sortOptions={{
                     "Most popular": {sort: "popularity", order: "desc"},
                     "Least popular": {sort: "popularity", order: "asc"}, 
-                    "A-Z": {sort: "alphabetical", order: "desc"}, 
-                    "Z-A": {sort: "alphabetical", order: "asc"}
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"}
                  }}/>
             </APIAdapter>
         );
     }
 }
 
-class ArtistPreviewCard extends Component {
+export class ArtistPreviewCard extends Component {
     render() {
         const name = this.props.data.name;
         const img = this.props.data.artist_picture_link;

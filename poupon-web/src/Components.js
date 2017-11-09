@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tabs, Tab, TabContainer, FormGroup, FormControl} from 'react-bootstrap';
+// import {Tabs, Tab, TabContainer, FormGroup, FormControl} from 'react-bootstrap';
 
 const config = require("./config.json");
 
@@ -60,8 +60,12 @@ export class PaginatedList extends Component {
 
 		//map sort/order pair back to sort name
 		const sortOptions = this.props.sortOptions || {};
-		this.state.sortKey = Object.entries(sortOptions)
+		const sortKey = Object.entries(sortOptions)
 			.find(([k,v]) => v.sort === this.state.sort && v.order === this.state.order);
+		if (sortKey)
+			this.state.sortKey = sortKey[0];
+		else
+			this.state.sortKey = Object.keys(sortOptions)[0];
 	}
 
 	emitUpdate() {
