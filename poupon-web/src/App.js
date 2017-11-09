@@ -12,6 +12,7 @@ import Albums from './Albums';
 import News from './News';
 import Cities from './Cities';
 import About from './About';
+import Search from './Search';
 
 const config = require("./config.json");
 
@@ -51,6 +52,7 @@ class App extends Component {
                             <Route path="/news" component={News}/>
                             <Route path="/cities" component={Cities}/>
                             <Route path="/about" component={About}/>
+                            <Route path="/search" component={Search}/>
                             <Route component={NotFound}/>
                         </Switch>
                     </div>
