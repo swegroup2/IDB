@@ -16,7 +16,7 @@ Poupon is a simple API allowing consumers to grab data about hip hop.
 
 # Group Artists
 
-## Artist Collection [/api/artists{?city,genre,sort,order,page}]
+## Artist Collection [/api/artists?page={page}&city={city}&genre={genre}&sort={sort}&order={order}]
 
 ### Get All Artists [GET]
 This will return all of the artist objects in the database. By default, sorting
@@ -237,7 +237,7 @@ This will contain a list of the City models that match the search term used.
 
 # Group Albums
 
-## Albums Collection [/api/albums{?genre,relyear,sort,order,page}]
+## Albums Collection [/api/albums?genre={genre}&relyear={relyear}&sort={sort}&order={order}&page={page}]
 
 ### Get All Albums [GET]
 This will return all of the albums in the database. By default, the albums
@@ -490,7 +490,7 @@ This will contain a list of the Album models that match the search term used.
 
 # Group News
             
-## News Collection [/api/news{?page,media,sort,order}]
+## News Collection [/api/news?page={page}&media={media}&sort={sort}&order={order}]
 
 ### Get All Articles [GET]
 This will return all of the news articles in the database. By default, the
@@ -644,7 +644,7 @@ This will contain a list of the article models that match the search term used.
 
 # Group Cities
             
-## Cities Collection [/api/cities{?page,state,poprange,sort,order}]
+## Cities Collection [/api/cities?page={page}&state={state}&poprange={poprange}&sort={sort}&order={order}]
 
 ### List All Cities [GET]
 This will return all of the cities in the database. By default, the
