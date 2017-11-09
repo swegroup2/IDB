@@ -17,6 +17,17 @@ export class LoadingStub extends Component {
 	}
 }
 
+export class ErrorStub extends Component {
+	render() {
+		const message = this.props.message || "We ran into an error. Please try again.";
+		return (
+			<div className="alert alert-danger" role="alert">
+				{message}
+			</div>
+		);
+	}
+}
+
 /**
  * Abstracts the UI for a list of models with sorted and filtered pages.
  * Requires a prop "itemClass" which is a React component class to render for each item.
@@ -31,25 +42,38 @@ export class PaginatedList extends Component {
 		//TODO: nicer way to do this?
 		this.state = {
 			sort: 0,
+			order: 0,
 			filter: 0,
 			page: 1
 		};
+
+		//load parameters from props
 		if (props.hasOwnProperty("sort"))
 			this.state.sort = props.sort;
+		if (props.hasOwnProperty("order"))
+			this.state.order = props.order;
 		if (props.hasOwnProperty("filter"))
 			this.state.filter = props.filter;
 		if (props.hasOwnProperty("page"))
 			this.state.page = props.page;
+
+		//map sort/order pair back to sort name
+		const sortOptions = this.props.sortOptions || {};
+		this.state.sortKey = Object.entries(sortOptions)
+			.find(([k,v]) => v.sort === this.state.sort && v.order === this.state.order);
 	}
 
 	emitUpdate() {
 		if (!this.props.onUpdate)
 			return;
+
+		const sortOptions = this.props.sortOptions || {};
 		this.props.onUpdate({
 			params: {
 				page: this.state.page,
 				filter: this.state.filter,
-				sort: this.state.sort
+				sort: sortOptions[this.state.sortKey].sort,
+				order: sortOptions[this.state.sortKey].order
 			}
 		});
 	}
@@ -58,15 +82,15 @@ export class PaginatedList extends Component {
 	 * Renders the HTML interface for displaying sort options
 	 */
 	renderSortUI() {
-		const handler = event => this.setState({sort: event.target.value}, this.emitUpdate);
+		const handler = event => this.setState({sortKey: event.target.value}, this.emitUpdate);
 
 		const sortOptions = this.props.sortOptions || {};
 		const renderedOptions = Object.keys(sortOptions)
-			.map(k => <option value={sortOptions[k]}>{k}</option>);
+			.map(k => <option value={k}>{k}</option>);
 
 		return (
 			<select className="custom-select mx-1"
-			 value={this.state.sort} onChange={handler}>
+			 value={this.state.sortKey} onChange={handler}>
 				{renderedOptions}
 			</select>
 		);
@@ -180,13 +204,11 @@ export class APIAdapter extends Component {
 
 		fetch(`${config.API_URL}/${this.props.endpoint}${queryString}`)
             .then(data => data.json())
+            .catch(e => this.setState({error: true}))
             .then(json => {
                 this.setState({data: json, loaded: true});
             })
-            .catch(e => {
-            	console.error(e);
-            	// this.setState({error: true});
-            });
+            .catch(e => this.setState({error: true}));
 	}
 
 	componentDidMount() {
@@ -198,7 +220,8 @@ export class APIAdapter extends Component {
 	}
 
 	render() {
-		//TODO: handle error
+		if (this.state.error)
+			return <ErrorStub />;
 		if (!this.state.loaded)
 			return <LoadingStub />;
 
