@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Tabs, Tab, TabContainer, FormGroup, FormControl} from 'react-bootstrap';
 
 const config = require("./config.json");
 
