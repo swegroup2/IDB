@@ -319,7 +319,7 @@ def get_all_albums_by_artist(artist_id):  # DEPRECATE
 
 @app.route('/api/albums/search/<term>')
 def search_albums(term):
-    matches = search(db.session.query(Artist), term, sort=True).all()
+    matches = search(db.session.query(Album), term, sort=True).all()
     if matches is None:
         return not_found()
     return sql_json(Album, *matches)
@@ -367,6 +367,14 @@ def get_all_articles():  # OK
         return sql_json(Article,*matches)
 
 
+@app.route('/api/news/search/<term>')
+def search_articles(term):
+    matches = search(db.session.query(Article), term, sort=True).all()
+    if matches is None:
+        return not_found()
+    return sql_json(Article, *matches)
+
+
 # Cities endpoints
 @app.route('/api/cities/<int:c_id>')
 def get_city_by_id(c_id):  # FULL CITY MODEL (City,Artist,Album)
@@ -394,6 +402,14 @@ def get_all_cities():  # OK
 
     base_query = db.session.query(City)
     matches = build_query(base_query, query_dict, 'cities').all()
+    return sql_json(City, *matches)
+
+
+@app.route('/api/cities/search/<term>')
+def search_citiess(term):
+    matches = search(db.session.query(City), term, sort=True).all()
+    if matches is None:
+        return not_found()
     return sql_json(City, *matches)
 
 
