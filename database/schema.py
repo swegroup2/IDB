@@ -50,7 +50,8 @@ class Artist(Base):
         secondary=genres_artists,
         back_populates='artists')
     albums = relationship("Album")
-    search_vector = Column(TSVectorType('name'))
+    search_vector = Column(TSVectorType('name', 'albums.name', 'cities.name',
+                                        'cities.state', 'genres.name', 'articles.title'))
 
     # def __json__(self):
     # 	return ['artist_id','name','spotify_id','artist_picture_link','popularity']
@@ -78,6 +79,7 @@ class Album(Base):
 
 class Genre(Base):
     __tablename__ = "genres"
+
     name = DColumn(String, unique=True)
     genre_id = DColumn(Integer, primary_key=True)
     artists = relationship(
