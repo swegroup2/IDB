@@ -86,7 +86,7 @@ export class PaginatedList extends Component {
 	 * Renders the HTML interface for displaying pagination buttons
 	 */
 	renderPageUI() {
-		const numPages = 3;
+		const numPages = this.props.data.total_pages;
 
 		//create numbered page buttons
 		let numberedButtons = [];
@@ -134,7 +134,7 @@ export class PaginatedList extends Component {
 		
 		//create item instances
 		const ItemClass = this.props.itemClass;
-		const items = this.props.data.map((item, i) => <ItemClass key={i} data={item}/>);
+		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item}/>);
 
 		//compose elements
 		return (
@@ -169,7 +169,7 @@ export class APIAdapter extends Component {
             data: null,
             loaded: false,
             error: false,
-            params: {}
+            params: this.props.defaultParams || {}
         };
 	}
 
@@ -196,7 +196,7 @@ export class APIAdapter extends Component {
 	}
 
 	render() {
-		//todo: handle error
+		//TODO: handle error
 		if (!this.state.loaded)
 			return <LoadingStub />;
 

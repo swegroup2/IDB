@@ -82,7 +82,7 @@ class ArticleDetailCard extends Component {
 class MultipleArticles extends Component {
     render() {
         return (
-            <APIAdapter endpoint="news">
+            <APIAdapter endpoint="news" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={ArticlePreviewCard}
                  sortOptions={{"Newest first": 0, "Oldest first": 1}}/>
             </APIAdapter>

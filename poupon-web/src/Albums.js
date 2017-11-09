@@ -94,7 +94,7 @@ class AlbumDetailCard extends Component {
 class MultipleAlbums extends Component {
     render() {
         return (
-            <APIAdapter endpoint="albums">
+            <APIAdapter endpoint="albums" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={AlbumPreviewCard}
                  sortOptions={{"Newest first": 0, "Oldest first": 1, "A-Z": 2, "Z-A": 3}}/>
             </APIAdapter>

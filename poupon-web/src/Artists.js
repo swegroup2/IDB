@@ -107,7 +107,7 @@ class ArtistDetailCard extends Component {
 class MultipleArtists extends Component {
     render() {
         return (
-            <APIAdapter endpoint="artists">
+            <APIAdapter endpoint="artists" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={ArtistPreviewCard}
                  sortOptions={{"Most popular": 0, "Least popular": 1, "A-Z": 2, "Z-A": 3}}/>
             </APIAdapter>
