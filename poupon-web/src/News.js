@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
+const Highlight = require("react-highlighter");
 const config = require("./config.json");
 
 const urlGetDomain = url => /.+?\/\/(.+?)(?:\/|$)/.exec(url)[1];
@@ -84,13 +85,23 @@ class MultipleArticles extends Component {
         return (
             <APIAdapter endpoint="news" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={ArticlePreviewCard}
-                 sortOptions={{"Newest first": 0, "Oldest first": 1}}/>
+                 sortOptions={{
+                    "Newest": {sort: "reldate", order: "desc"},
+                    "Oldest": {sort: "reldate", order: "asc"}, 
+                    "Most popular": {sort: "upvotes", order: "desc"},
+                    "Least popular": {sort: "upvotes", order: "asc"}, 
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"}
+                 }}
+                 filterOptions={{
+                    "sites": ["YouTube", "iTunes", "SoundCloud", "Reddit"]
+                 }}/>/>
             </APIAdapter>
         );
     }
 }
 
-class ArticlePreviewCard extends Component {
+export class ArticlePreviewCard extends Component {
     render() {
         const {name, title, media_link, upvotes, article_id, thumbnail} = this.props.data;
         const date = new Date(this.props.data.date);
@@ -106,7 +117,7 @@ class ArticlePreviewCard extends Component {
                         </div>
                         <div className="col-sm-12 col-md-8">
                         <p><h5 className="card-title text-muted">{date.toDateString()}</h5></p>
-                        <p><h5 className="card-title">{title}</h5></p>
+                        <p><h5 className="card-title"><Highlight search={this.props.query}>{title}</Highlight></h5></p>
                         <p><h6 className="text-muted">{`Points: ${upvotes}`}</h6></p>
                         <a className="btn btn-primary mr-1" href={media_link}>{`Open (${domain})`}</a>
                         <a className="btn btn-primary" href={`/news/${article_id}`}>{`Details`}</a>

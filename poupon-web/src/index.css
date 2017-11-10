@@ -1,3 +1,7 @@
 .img-fullwidth {
 	width: 100%;
 }
+
+.highlight {
+	background: yellow !important;
+}

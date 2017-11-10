@@ -4,70 +4,98 @@ import {
     Switch
 } from 'react-router-dom';
 import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
-import {Tabs, Tab, TabContainer} from 'react-bootstrap';
+import {ArtistPreviewCard} from "./Artists.js";
+import {AlbumPreviewCard} from "./Albums.js";
+import {ArticlePreviewCard} from "./News.js";
+import {CityPreviewCard} from "./Cities.js";
 
-
+const Highlight = require("react-highlighter");
 const config = require("./config.json");
-
-function popularityRating(val) {
-    return val;
-}
 
 class Search extends Component {
     render() {
         return (
             <div className="Container">
                 <Switch>
-                    <Route path="/search/:query" component={MultipleArtists}/>
+                    <Route path="/search/:query" component={SearchPage}/>
                 </Switch>
             </div>
         );
     }
 }
 
-class MultipleArtists extends Component {
-    render() {
-        return (
-            <div>
-                <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-                    <Tab eventKey={1} title="Artists"><p>Tab 1 content</p></Tab>
-                    <Tab eventKey={2} title="Albums">Tab 2 content</Tab>
-                    <Tab eventKey={3} title="News">Tab 3 content</Tab>
-                    <Tab eventKey={4} title="Cities">Tab 4 content</Tab>
+class SearchResults extends Component {
+    constructor(props) {
+        super(props);
 
-                </Tabs>
-                <APIAdapter endpoint="artists" defaultParams={{page: 1}}>
-                    <PaginatedList itemClass={ArtistPreviewCard}
-                    sortOptions={{
-                        "Most popular": {sort: "popularity", order: "desc"},
-                        "Least popular": {sort: "popularity", order: "asc"}, 
-                        "A-Z": {sort: "alphabetical", order: "desc"}, 
-                        "Z-A": {sort: "alphabetical", order: "asc"}
-                    }}/>
-                </APIAdapter>
+        this.state = {
+            currentTab: 0
+        };
+
+        //load current tab from props
+        if (props.hasOwnProperty("currentTab"))
+            this.state.currentTab = props.currentTab;
+    }
+
+    render() {
+        //render tabs
+        const tabs = this.props.tabs.map((tab, index) => {
+            const handler = event => this.setState({currentTab: index});
+            const activeClass = index === this.state.currentTab ? "active" : "";
+
+            return (
+                <li className="nav-item" style={{cursor: "pointer"}}>
+                    <span className={`nav-link ${activeClass}`} onClick={handler}>
+                        {tab.title}
+                    </span>
+                </li>
+            );
+        })
+
+        //render the list of results for this tab
+        const tab = this.props.tabs[this.state.currentTab];
+        const resultsList = (
+            <APIAdapter endpoint={`${tab.endpoint}/${this.props.query}`} defaultParams={{page: 1}}>
+                <PaginatedList itemClass={tab.itemClass} itemProps={{query: this.props.query}}
+                 hideSortFilter={true} />
+            </APIAdapter>
+        );
+
+        return (
+            <div className="row">
+                <div className="col-12 text-light p-2">
+                    <h3 className="mb-3">Search results for "{this.props.query}":</h3>
+                    <ul className="nav nav-pills nav-fill">
+                        {tabs}
+                    </ul>
+                </div>
+                <div className="col-12">
+                    {resultsList}
+                </div>
             </div>
         );
     }
 }
 
-class ArtistPreviewCard extends Component {
+class CityResultCard extends Component {
     render() {
-        const name = this.props.data.name;
-        const img = this.props.data.artist_picture_link;
-        const id = this.props.data.artist_id;
-
         return (
-            <div className="col-sm-12 col-md-6 col-lg-4">
-                <div className="card">
-                    <div className="Container">
-                        <img src={img} className="img-fluid" alt={name}/>
-                    </div>
+            <tr><td>
+                <Highlight search={this.props.query}>{this.props.data.name}</Highlight>
+            </td></tr>
+        );
+    }
+}
 
-                    <div className="card-body">
-                        <h4><a href={`/artists/${id}`} className="card-title">{name}</a></h4>
-                    </div>
-                </div>
-            </div>
+class SearchPage extends Component {
+    render() {
+        return (
+            <SearchResults query={this.props.match.params.query} tabs={[
+                {title: "Artists", endpoint: "artists/search", itemClass: ArtistPreviewCard},
+                {title: "Albums", endpoint: "albums/search", itemClass: AlbumPreviewCard},
+                {title: "News", endpoint: "news/search", itemClass: ArticlePreviewCard},
+                {title: "Cities", endpoint: "cities/search", itemClass: CityResultCard}
+            ]}/>
         );
     }
 }

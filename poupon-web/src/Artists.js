@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
+const Highlight = require("react-highlighter");
 const config = require("./config.json");
 
 function popularityRating(val) {
@@ -112,29 +113,33 @@ class MultipleArtists extends Component {
                  sortOptions={{
                     "Most popular": {sort: "popularity", order: "desc"},
                     "Least popular": {sort: "popularity", order: "asc"}, 
-                    "A-Z": {sort: "alphabetical", order: "desc"}, 
-                    "Z-A": {sort: "alphabetical", order: "asc"}
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"}
+                 }}
+                 filterOptions={{
+                    "genres": ["Rap", "Pop Rap", "Trap Music", "Southern Hip Hop", "Hip Hop", "Indie R&B", "Underground Hip Hop", "Dance Pop", "Pop", "R&B"]
                  }}/>
             </APIAdapter>
         );
     }
 }
 
-class ArtistPreviewCard extends Component {
+export class ArtistPreviewCard extends Component {
     render() {
         const name = this.props.data.name;
         const img = this.props.data.artist_picture_link;
         const id = this.props.data.artist_id;
 
         return (
-            <div className="col-sm-12 col-md-6 col-lg-4">
+            <div className="col-sm-12 col-md-6 col-lg-3">
                 <div className="card">
                     <div className="Container">
                         <img src={img} className="img-fluid" alt={name}/>
                     </div>
 
                     <div className="card-body">
-                        <h4><a href={`/artists/${id}`} className="card-title">{name}</a></h4>
+                        <h4><a href={`/artists/${id}`} className="card-title">
+                        <Highlight search={this.props.query}>{name}</Highlight></a></h4>
                     </div>
                 </div>
             </div>

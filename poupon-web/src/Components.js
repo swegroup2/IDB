@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Tabs, Tab, TabContainer, FormGroup, FormControl} from 'react-bootstrap';
+import ReactPaginate from 'react-paginate';
 
 const config = require("./config.json");
 
@@ -49,34 +49,49 @@ export class PaginatedList extends Component {
 		};
 
 		//load parameters from props
-		if (props.hasOwnProperty("sort"))
-			this.state.sort = props.sort;
-		if (props.hasOwnProperty("order"))
-			this.state.order = props.order;
-		if (props.hasOwnProperty("filter"))
-			this.state.filter = props.filter;
-		if (props.hasOwnProperty("page"))
-			this.state.page = props.page;
+		const params = props.params || {};
+		if (params.hasOwnProperty("sort"))
+			this.state.sort = params.sort;
+		if (params.hasOwnProperty("order"))
+			this.state.order = params.order;
+		if (params.hasOwnProperty("filter"))
+			this.state.filter = params.filter;
+		if (params.hasOwnProperty("page"))
+			this.state.page = params.page;
 
 		//map sort/order pair back to sort name
 		const sortOptions = this.props.sortOptions || {};
-		this.state.sortKey = Object.entries(sortOptions)
+		const sortKey = Object.entries(sortOptions)
 			.find(([k,v]) => v.sort === this.state.sort && v.order === this.state.order);
+		if (sortKey)
+			this.state.sortKey = sortKey[0];
+		else
+			this.state.sortKey = Object.keys(sortOptions)[0];
 	}
-
+	
 	emitUpdate() {
 		if (!this.props.onUpdate)
 			return;
 
-		const sortOptions = this.props.sortOptions || {};
-		this.props.onUpdate({
-			params: {
-				page: this.state.page,
-				filter: this.state.filter,
-				sort: sortOptions[this.state.sortKey].sort,
-				order: sortOptions[this.state.sortKey].order
-			}
-		});
+		if (!this.props.sortOptions) {
+			this.props.onUpdate({
+				params: {
+					page: this.state.page,
+					filter: this.state.filter
+				}
+			});
+		}
+		else {
+			const sortOptions = this.props.sortOptions;
+			this.props.onUpdate({
+				params: {
+					page: this.state.page,
+					filter: this.state.filter,
+					sort: sortOptions[this.state.sortKey].sort,
+					order: sortOptions[this.state.sortKey].order
+				}
+			});
+		}
 	}
 
 	/**
@@ -113,37 +128,27 @@ export class PaginatedList extends Component {
 	 */
 	renderPageUI() {
 		const numPages = this.props.data.total_pages;
-
-		//create numbered page buttons
-		let numberedButtons = [];
-		for (let i=1; i<=numPages; ++i) {
-			const handler = event => this.setState({page: i}, this.emitUpdate);
-			const activeClass = this.state.page === i ? "active" : "";
-			numberedButtons.push(
-				<li className={"page-item " + activeClass} key={i}>
-					<span className="page-link" style={{cursor: "pointer"}} onClick={handler}>{i}</span>
-				</li>
-			);
-		}
+		const handler = event => this.setState({page: event.selected + 1}, this.emitUpdate);
 
 		return (
-			<nav aria-label="Page navigation example">
-				<ul className="pagination justify-content-center">
-					<li className="page-item">
-						<a className="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-							<span className="sr-only">Previous</span>
-						</a>
-					</li>
-					{numberedButtons}
-					<li className="page-item">
-						<a className="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-							<span className="sr-only">Next</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+			<ReactPaginate previousLabel={"<<"}
+						   previousClassName={"page-item"}
+						   previousLinkClassName={"page-link"}
+			               nextLabel={">>"}
+			               nextClassName={"page-item"}
+						   nextLinkClassName={"page-link"}
+			               breakLabel={<span className="page-link">...</span>}
+			               breakClassName={"page-item"}
+			               forcePage={this.state.page-1}
+                       	   pageCount={numPages}
+                           marginPagesDisplayed={2}
+                           pageRangeDisplayed={5}
+                           onPageChange={handler}
+                           containerClassName={"pagination justify-content-center"}
+                           pageClassName={"page-item"}
+                           pageLinkClassName={"page-link"}
+                           activeClassName={"active"} />
+
 		);
 	}
 
@@ -154,21 +159,26 @@ export class PaginatedList extends Component {
 			throw new Error("PaginatedList must have itemClass set to a Component.");
 
 		//build UI elements
-		const sortUI = this.renderSortUI();
-		const filterUI = this.renderFilterUI();
+		let sortFilterUI = null;
+		if (!this.props.hideSortFilter) {
+			sortFilterUI = (
+				<div className="col-12 bg-light d-flex flex-row-reverse">
+					{this.renderSortUI()}
+					{this.renderFilterUI()}
+				</div>
+			);
+		}
 		const pageUI = this.renderPageUI();
 		
 		//create item instances
 		const ItemClass = this.props.itemClass;
-		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item}/>);
+		const itemProps = this.props.itemProps || {};
+		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item} {...itemProps}/>);
 
 		//compose elements
 		return (
 			<div className="row">
-				<div className="col-12 bg-light d-flex flex-row-reverse">
-					{filterUI}
-					{sortUI}
-				</div>
+				{sortFilterUI}
 				<div className="col-12">{pageUI}</div>
 				{items}
 				<div className="col-12">{pageUI}</div>
@@ -185,6 +195,10 @@ export class PaginatedList extends Component {
  * 1. accept a 'data' prop which is the JSON result of a call to the endpoint
  * 2. accept an 'onUpdate' prop which is a function it should call when the API
  *    needs to be queried again.
+ *    It can pass some information to the onUpdate callback. Namely, an object containing:
+ *      params: a {name: value} map that will be converted to query parameters
+ *    When the APIAdapter renders its child component, it will pass params back
+ *    to it as a prop. The child component can use this to decide how to render itself.
  */
 export class APIAdapter extends Component {
 	constructor(props) {
@@ -199,17 +213,22 @@ export class APIAdapter extends Component {
         };
 	}
 
-	updateFromAPI() {
+	updateFromAPI(altProps={}) {
+		const props = Object.assign({}, this.props, altProps);
+
 		this.setState({loaded: false});
 		const queryString = APIAdapter.buildQueryString(this.state.params);
 
-		fetch(`${config.API_URL}/${this.props.endpoint}${queryString}`)
+		fetch(`${config.API_URL}/${props.endpoint}${queryString}`)
             .then(data => data.json())
             .catch(e => this.setState({error: true}))
             .then(json => {
                 this.setState({data: json, loaded: true});
             })
-            .catch(e => this.setState({error: true}));
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.updateFromAPI(nextProps);
 	}
 
 	componentDidMount() {
@@ -217,7 +236,7 @@ export class APIAdapter extends Component {
     }
 
 	handleUpdate({params={}} = {}) {
-		this.setState({params: params}, this.updateFromAPI);
+		this.setState({params}, this.updateFromAPI);
 	}
 
 	render() {
@@ -230,11 +249,12 @@ export class APIAdapter extends Component {
 		const child = React.Children.only(this.props.children);
 		const props = {
 			data: this.state.data,
-			onUpdate: this.handleUpdate
+			onUpdate: this.handleUpdate,
+			params: Object.assign({}, this.state.params)
 		};
 
 		//render child
-		return React.cloneElement(child, Object.assign(props, this.state.params));
+		return React.cloneElement(child, props);
 	}
 
 	/**
