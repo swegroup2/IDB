@@ -3004,14 +3004,14 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "poupon.me/api/news/100000",
+							"raw": "poupon.me/api/cities/100000",
 							"host": [
 								"poupon",
 								"me"
 							],
 							"path": [
 								"api",
-								"news",
+								"cities",
 								"100000"
 							]
 						},
