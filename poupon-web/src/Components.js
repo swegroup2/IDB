@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactPaginate from 'react-paginate';
 
 const config = require("./config.json");
 
@@ -39,58 +40,49 @@ export class PaginatedList extends Component {
 	constructor(props) {
 		super(props);
 
-		//TODO: nicer way to do this?
-		this.state = {
+		let stateObj = {
 			sort: 0,
 			order: 0,
-			filter: 0,
+			filter: {},
 			page: 1
 		};
 
 		//load parameters from props
 		const params = props.params || {};
-		if (params.hasOwnProperty("sort"))
-			this.state.sort = params.sort;
-		if (params.hasOwnProperty("order"))
-			this.state.order = params.order;
-		if (params.hasOwnProperty("filter"))
-			this.state.filter = params.filter;
-		if (params.hasOwnProperty("page"))
-			this.state.page = params.page;
+		Object.keys(params).forEach(k => stateObj[k] = params[k]);
 
 		//map sort/order pair back to sort name
 		const sortOptions = this.props.sortOptions || {};
 		const sortKey = Object.entries(sortOptions)
-			.find(([k,v]) => v.sort === this.state.sort && v.order === this.state.order);
+			.find(([k,v]) => v.sort === stateObj.sort && v.order === stateObj.order);
 		if (sortKey)
-			this.state.sortKey = sortKey[0];
+			stateObj.sortKey = sortKey[0];
 		else
-			this.state.sortKey = Object.keys(sortOptions)[0];
+			stateObj.sortKey = Object.keys(sortOptions)[0];
+
+		this.state = stateObj;
 	}
 	
 	emitUpdate() {
 		if (!this.props.onUpdate)
 			return;
 
-		if (!this.props.sortOptions) {
-			this.props.onUpdate({
-				params: {
-					page: this.state.page,
-					filter: this.state.filter
-				}
-			});
-		}
-		else {
+		let params = {
+			page: this.state.page
+		};
+		
+		if (this.props.sortOptions) {
 			const sortOptions = this.props.sortOptions;
-			this.props.onUpdate({
-				params: {
-					page: this.state.page,
-					filter: this.state.filter,
-					sort: sortOptions[this.state.sortKey].sort,
-					order: sortOptions[this.state.sortKey].order
-				}
-			});
+			params.sort = sortOptions[this.state.sortKey].sort;
+			params.order = sortOptions[this.state.sortKey].order;
 		}
+		
+		if (this.props.filterOptions) {
+			const filterOptions = this.props.filterOptions;
+			Object.keys(filterOptions).forEach(name => params[name] = this.state[name]);
+		}
+
+		this.props.onUpdate({params});
 	}
 
 	/**
@@ -115,10 +107,50 @@ export class PaginatedList extends Component {
 	 * Renders the HTML interface for displaying filter options
 	 */
 	renderFilterUI() {
-		//TODO: implement
+		const filterOptions = this.props.filterOptions || {};
+		
+		const renderedSelect = Object.keys(filterOptions).map(k => {
+			const options = filterOptions[k].map(v => 
+				<option value={v}>{v}</option>);
+			const handler = event => this.setState({[k]: event.target.value})
+			return (
+				<div>
+					<span>{k}: </span>
+					<select className="custom-select"
+					 value={this.state[k]} onChange={handler}>
+					 	{options}
+					</select>
+				</div>
+			);
+		});
+
+		const applyHandler = event => this.emitUpdate();
 
 		return (
-			<button type="button" className="btn btn-secondary mx-1">Filter</button>
+			<div>
+			<button type="button" className="btn btn-secondary mx-1" 
+			 data-toggle="modal" data-target="#filterModal">Filter...</button>
+
+			<div className="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+			  <div className="modal-dialog" role="document">
+			    <div className="modal-content">
+			      <div className="modal-header">
+			        <h5 className="modal-title" id="filterModalLabel">Filter options</h5>
+			        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div className="modal-body">
+			        {renderedSelect}
+			      </div>
+			      <div className="modal-footer">
+			        <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={applyHandler}>Apply</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			</div>
 		);
 	}
 
@@ -127,37 +159,27 @@ export class PaginatedList extends Component {
 	 */
 	renderPageUI() {
 		const numPages = this.props.data.total_pages;
-
-		//create numbered page buttons
-		let numberedButtons = [];
-		for (let i=1; i<=numPages; ++i) {
-			const handler = event => this.setState({page: i}, this.emitUpdate);
-			const activeClass = this.state.page === i ? "active" : "";
-			numberedButtons.push(
-				<li className={"page-item " + activeClass} key={i}>
-					<span className="page-link" style={{cursor: "pointer"}} onClick={handler}>{i}</span>
-				</li>
-			);
-		}
+		const handler = event => this.setState({page: event.selected + 1}, this.emitUpdate);
 
 		return (
-			<nav aria-label="Page navigation example">
-				<ul className="pagination justify-content-center">
-					<li className="page-item">
-						<a className="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-							<span className="sr-only">Previous</span>
-						</a>
-					</li>
-					{numberedButtons}
-					<li className="page-item">
-						<a className="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-							<span className="sr-only">Next</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+			<ReactPaginate previousLabel={"<<"}
+						   previousClassName={"page-item"}
+						   previousLinkClassName={"page-link"}
+			               nextLabel={">>"}
+			               nextClassName={"page-item"}
+						   nextLinkClassName={"page-link"}
+			               breakLabel={<span className="page-link">...</span>}
+			               breakClassName={"page-item"}
+			               forcePage={this.state.page-1}
+                       	   pageCount={numPages}
+                           marginPagesDisplayed={2}
+                           pageRangeDisplayed={5}
+                           onPageChange={handler}
+                           containerClassName={"pagination justify-content-center"}
+                           pageClassName={"page-item"}
+                           pageLinkClassName={"page-link"}
+                           activeClassName={"active"} />
+
 		);
 	}
 
@@ -181,7 +203,8 @@ export class PaginatedList extends Component {
 		
 		//create item instances
 		const ItemClass = this.props.itemClass;
-		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item}/>);
+		const itemProps = this.props.itemProps || {};
+		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item} {...itemProps}/>);
 
 		//compose elements
 		return (

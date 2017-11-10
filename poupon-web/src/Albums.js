@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
+const Highlight = require("react-highlighter");
 const config = require("./config.json");
 
 class Albums extends Component {
@@ -97,9 +98,9 @@ class MultipleAlbums extends Component {
             <APIAdapter endpoint="albums" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={AlbumPreviewCard}
                  sortOptions={{
+                    "Most popular": {sort: "popularity", order: "desc"},
                     "Newest": {sort: "reldate", order: "desc"},
                     "Oldest": {sort: "reldate", order: "asc"}, 
-                    "Most popular": {sort: "popular", order: "desc"},
                     "Least popular": {sort: "popular", order: "asc"}, 
                     "A-Z": {sort: "alpha", order: "asc"}, 
                     "Z-A": {sort: "alpha", order: "desc"}
@@ -116,14 +117,15 @@ export class AlbumPreviewCard extends Component {
         const id = this.props.data.album_id;
 
         return (
-            <div className="col-sm-12 col-md-6 col-lg-4">
+            <div className="col-sm-12 col-md-6 col-lg-3">
                 <div className="card">
                     <div className="Container">
                         <img src={img} className="img-fluid" alt={name}/>
                     </div>
 
                     <div className="card-body">
-                        <h4><a href={`/albums/${id}`} className="card-title">{name}</a></h4>
+                        <h4><a href={`/albums/${id}`} className="card-title">
+                        <Highlight search={this.props.query}>{name}</Highlight></a></h4>
                     </div>
                 </div>
             </div>

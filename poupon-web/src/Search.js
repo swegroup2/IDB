@@ -9,6 +9,7 @@ import {AlbumPreviewCard} from "./Albums.js";
 import {ArticlePreviewCard} from "./News.js";
 import {CityPreviewCard} from "./Cities.js";
 
+const Highlight = require("react-highlighter");
 const config = require("./config.json");
 
 class Search extends Component {
@@ -54,8 +55,8 @@ class SearchResults extends Component {
         //render the list of results for this tab
         const tab = this.props.tabs[this.state.currentTab];
         const resultsList = (
-            <APIAdapter endpoint={tab.endpoint} defaultParams={{page: 1}}>
-                <PaginatedList itemClass={tab.itemClass}
+            <APIAdapter endpoint={`${tab.endpoint}/${this.props.query}`} defaultParams={{page: 1}}>
+                <PaginatedList itemClass={tab.itemClass} itemProps={{query: this.props.query}}
                  hideSortFilter={true} />
             </APIAdapter>
         );
@@ -76,14 +77,24 @@ class SearchResults extends Component {
     }
 }
 
+class CityResultCard extends Component {
+    render() {
+        return (
+            <tr><td>
+                <Highlight search={this.props.query}>{this.props.data.name}</Highlight>
+            </td></tr>
+        );
+    }
+}
+
 class SearchPage extends Component {
     render() {
         return (
             <SearchResults query={this.props.match.params.query} tabs={[
-                {title: "Artists", endpoint: "artists", itemClass: ArtistPreviewCard},
-                {title: "Albums", endpoint: "albums", itemClass: AlbumPreviewCard},
-                {title: "News", endpoint: "news", itemClass: ArticlePreviewCard},
-                {title: "Cities", endpoint: "cities", itemClass: null}
+                {title: "Artists", endpoint: "artists/search", itemClass: ArtistPreviewCard},
+                {title: "Albums", endpoint: "albums/search", itemClass: AlbumPreviewCard},
+                {title: "News", endpoint: "news/search", itemClass: ArticlePreviewCard},
+                {title: "Cities", endpoint: "cities/search", itemClass: CityResultCard}
             ]}/>
         );
     }
