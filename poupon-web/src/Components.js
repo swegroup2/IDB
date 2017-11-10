@@ -134,7 +134,7 @@ export class PaginatedList extends Component {
 		const applyHandler = event => this.emitUpdate();
 
 		return (
-			<div>
+			<span>
 			<button type="button" className="btn btn-secondary mx-1" 
 			 data-toggle="modal" data-target="#filterModal">Filter...</button>
 
@@ -157,7 +157,7 @@ export class PaginatedList extends Component {
 			    </div>
 			  </div>
 			</div>
-			</div>
+			</span>
 		);
 	}
 
@@ -200,7 +200,7 @@ export class PaginatedList extends Component {
 		let sortFilterUI = null;
 		if (!this.props.hideSortFilter) {
 			sortFilterUI = (
-				<div className="col-12 bg-light d-flex flex-row-reverse">
+				<div>
 					{this.renderSortUI()}
 					{this.renderFilterUI()}
 				</div>
@@ -216,8 +216,11 @@ export class PaginatedList extends Component {
 		//compose elements
 		return (
 			<div className="row">
-				{sortFilterUI}
-				<div className="col-12">{pageUI}</div>
+				<div className="col-12">
+					<div className="mb-2 d-flex justify-content-center">
+					{pageUI} {sortFilterUI}
+					</div>
+				</div>
 				{items}
 				<div className="col-12">{pageUI}</div>
 		  	</div>

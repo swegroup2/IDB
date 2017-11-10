@@ -89,9 +89,7 @@ class MultipleArticles extends Component {
                     "Newest": {sort: "reldate", order: "desc"},
                     "Oldest": {sort: "reldate", order: "asc"}, 
                     "Most popular": {sort: "upvotes", order: "desc"},
-                    "Least popular": {sort: "upvotes", order: "asc"}, 
-                    "A-Z": {sort: "alpha", order: "asc"}, 
-                    "Z-A": {sort: "alpha", order: "desc"}
+                    "Least popular": {sort: "upvotes", order: "asc"}
                  }}
                  filterOptions={{
                     "media": ["YouTube", "iTunes", "SoundCloud", "Reddit"]

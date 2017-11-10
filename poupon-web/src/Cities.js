@@ -3,8 +3,9 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import {LoadingStub} from "./Components.js";
+import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 
+const Highlight = require("react-highlighter");
 const config = require("./config.json");
 
 const numberCommas = (num = 0) => num.toLocaleString();
@@ -14,7 +15,7 @@ class Cities extends Component {
         return (
             <div className="Container">
                 <Switch>
-                    <Route exact path="/cities" component={CityList}/>
+                    <Route exact path="/cities" component={MultipleCities}/>
                     <Route path="/cities/:id" component={CityDetailCard}/>
                 </Switch>
             </div>
@@ -86,54 +87,42 @@ class CityDetailCard extends Component {
     }
 }
 
-class CityList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        };
-    }
-
-    componentDidMount() {
-        fetch(`${config.API_URL}/cities`)
-            .then(data => data.json())
-            .then(json => {
-                this.setState({data: json})
-            })
-            .catch(e => {
-            });
-    }
-
+export class MultipleCities extends Component {
     render() {
-        const items = this.state.data.map((item, i) => {
-            const {name, population, state, city_id} = item;
-
-            return (
-                <tr>
-                    <th scope="row">{i + 1}</th>
-                    <td><a href={`/cities/${city_id}`}>{name}</a></td>
-                    <td>{numberCommas(population)}</td>
-                    <td>{state}</td>
-                </tr>
-            )
-        });
         return (
-            <div className="row">
-                <div className="col-12">
-                    <table className="table table-light">
-                        <thead className="thead-inverse">
-                        <tr>
-                            <th>#</th>
-                            <th>City</th>
-                            <th>Population</th>
-                            <th>State</th>
+            <APIAdapter endpoint="cities" defaultParams={{page: 1}}>
+                <PaginatedList itemClass={CityPreview}
+                 sortOptions={{
+                    "A-Z": {sort: "alpha", order: "asc"}, 
+                    "Z-A": {sort: "alpha", order: "desc"},
+                    "Biggest": {sort: "population", order: "desc"},
+                    "Smallest": {sort: "population", order: "asc"}
+                 }}
+                 filterOptions={{
+                    "pop": ["range0"]
+                 }}/>
+            </APIAdapter>
+        );
+    }
+}
+
+export class CityPreview extends Component {
+    render() {
+        const {city_id, name, population, state} = this.props.data;
+
+        return (
+            <div className="col-12 p-0">
+            <table className="table table-light m-0">
+                <thead className="thead-inverse">
+                    <tbody className="w-100" style={{"display": "inline-table"}}>
+                        <tr className="w-100">
+                            <td style={{width: "30%"}}><a href={`/cities/${city_id}`}>{name}</a></td>
+                            <td style={{width: "40%"}}>{numberCommas(population)}</td>
+                            <td style={{width: "30%"}}>{state}</td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {items}
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </thead>
+            </table>
             </div>
         );
     }
