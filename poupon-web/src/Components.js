@@ -302,6 +302,6 @@ export class APIAdapter extends Component {
 	static buildQueryString(params={}) {
 		if (Object.keys(params).length === 0)
 			return "";
-		return "?" + Object.keys(params).map(k => `${k}=${params[k]}`).join("&");
+		return "?" + Object.keys(params).map(k => `${k}=${encodeURIComponent(params[k])}`).join("&");
 	}
 }
