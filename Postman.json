@@ -1,0 +1,3208 @@
+{
+	"info": {
+		"name": "Poupon Tests",
+		"_postman_id": "c027ea94-9d9a-a9d4-45e8-e4008cc87bca",
+		"description": "Test suite for poupon.me API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Artist",
+			"description": "Tests endpoints related to the artist model",
+			"item": [
+				{
+					"name": "Sort",
+					"description": "Tests endpoints related to getting artists in a sorted order",
+					"item": [
+						{
+							"name": "Most Popular",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].popularity >= resp[i].popularity).to.equal(true);",
+											"    }",
+											"});",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/artists?sort=popularity&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"artists"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "popularity",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets artists in order from most popular to least popular."
+							},
+							"response": []
+						},
+						{
+							"name": "Least Popular",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].popularity <= resp[i].popularity).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/artists?sort=popularity&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"artists"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "popularity",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets artists in order from least popular to most popular."
+							},
+							"response": []
+						},
+						{
+							"name": "Alphabetical (A-Z)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    var count = 0;",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        count += (resp[i-1].name <= resp[i].name) ? 1 : 0;",
+											"    }",
+											"    // javascript string comparison is slightly different from SQL comparison",
+											"    pm.expect(count >= resp.length-15).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/artists?sort=alpha&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"artists"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "alpha",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets artists in alphabetical order from A-Z."
+							},
+							"response": []
+						},
+						{
+							"name": "Alphabetical (Z-A)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    var count = 0;",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        count += (resp[i-1].name >= resp[i].name) ? 1 : 0;",
+											"    }",
+											"    // javascript string comparison is slightly different from SQL comparison",
+											"    pm.expect(count >= resp.length-15).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/artists?sort=alpha&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"artists"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "alpha",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets artists in alphabetical order from Z-A."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pages",
+					"description": "Tests getting pages of artists",
+					"item": [
+						{
+							"name": "Page Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 12).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/artists?page=1",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"artists"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that exists, should have 12 objects"
+							},
+							"response": []
+						},
+						{
+							"name": "Page Not Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 0).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/artists?page=1000",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"artists"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1000",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that doesn't exist, should have 0 objects"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Artist by ID Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"albums\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"album_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"album_picture_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"release_date\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t\t",
+									"",
+									"\t\t},",
+									"\t\t\"artist\": {",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"artist_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t},",
+									"\t\t\"cities\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"city_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"city_picture_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":false",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"population\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"state\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t},",
+									"\t\t\"news\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"article_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"date\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"media_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"thumbnail\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"title\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"upvotes\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/artists/472",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"artists",
+								"472"
+							]
+						},
+						"description": "Get an artist by ID that exists.\n\nExpects an artist object, a list of album objects, and a list of city objects that the artist is associated with."
+					},
+					"response": []
+				},
+				{
+					"name": "Artist by ID Not Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"$schema\": \"http://json-schema.org/draft-03/schema\",",
+									"\t\"id\": \"http://jsonschema.net\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"Error\": {",
+									"\t\t\t\"type\":\"string\",",
+									"\t\t\t\"id\": \"http://jsonschema.net/Error\",",
+									"\t\t\t\"required\":true",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/artists/100000",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"artists",
+								"100000"
+							]
+						},
+						"description": "Get an artist by ID that doesn't exist.\n\nExpects a json indicating that there was an error and the resource was not found."
+					},
+					"response": []
+				},
+				{
+					"name": "All artists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"array\",",
+									"\t\"required\":true,",
+									"\t\"items\":",
+									"\t\t{",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":false,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"artist_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t}",
+									"    };",
+									"",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/artists",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"artists"
+							]
+						},
+						"description": "Get all artists.\n\nExpects a list of artist objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Artist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Found search object\", function() {",
+									"   pm.expect(pm.response.json()[0].name == \"Kanye West\").to.equal(true);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/artists/search/Kanye",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"artists",
+								"search",
+								"Kanye"
+							]
+						},
+						"description": "Search an artist by keyword"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Album",
+			"description": "Tests endpoints related to the album model",
+			"item": [
+				{
+					"name": "Sort",
+					"description": "Tests endpoints related to getting albums in a sorted order",
+					"item": [
+						{
+							"name": "Most Popular",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].popularity >= resp[i].popularity).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?sort=popularity&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "popularity",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets albums in order from most popular to least popular."
+							},
+							"response": []
+						},
+						{
+							"name": "Least Popular",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].popularity <= resp[i].popularity).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?sort=popularity&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "popularity",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets albums in order from least popular to most popular."
+							},
+							"response": []
+						},
+						{
+							"name": "Alphabetical (A-Z)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    var count = 0;",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        count += (resp[i-1].name <= resp[i].name) ? 1 : 0;",
+											"    }",
+											"    // javascript string comparison is slightly different from SQL comparison",
+											"    pm.expect(count >= resp.length-200).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?sort=alpha&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "alpha",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets albums in alphabetical order from A-Z."
+							},
+							"response": []
+						},
+						{
+							"name": "Alphabetical (Z-A)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    var count = 0;",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        count += (resp[i-1].name >= resp[i].name) ? 1 : 0;",
+											"    }",
+											"    // javascript string comparison is slightly different from SQL comparison",
+											"    pm.expect(count >= resp.length-200).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?sort=alpha&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "alpha",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets albums in alphabetical order from Z-A."
+							},
+							"response": []
+						},
+						{
+							"name": "Most Recent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(Date.parse(resp[i-1].release_date) >= Date.parse(resp[i].release_date)).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?sort=reldate&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "reldate",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets albums in order from most recent to least recent"
+							},
+							"response": []
+						},
+						{
+							"name": "Least Recent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(Date.parse(resp[i-1].release_date) <= Date.parse(resp[i].release_date)).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?sort=reldate&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "reldate",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets albums in order from least recent to most recent"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pages",
+					"description": "Tests getting pages of albums",
+					"item": [
+						{
+							"name": "Page Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 12).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?page=1",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that exists, should have 12 objects"
+							},
+							"response": []
+						},
+						{
+							"name": "Page Not Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 0).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/albums?page=1000",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"albums"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1000",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that doesn't exist, should have 0 objects"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Filter by Release Year",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"All objects are from the specified year\", function() {",
+									"    var resp = pm.response.json()",
+									"    for(var i = 0; i < resp.length; i++) {",
+									"        var d = new Date(resp[i].release_date);",
+									"        pm.expect(d.getFullYear() == 2017).to.equal(true);",
+									"    }",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/albums?relyear=2017",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"albums"
+							],
+							"query": [
+								{
+									"key": "relyear",
+									"value": "2017",
+									"equals": true
+								}
+							]
+						},
+						"description": "Filter albums by release year"
+					},
+					"response": []
+				},
+				{
+					"name": "Album by ID Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"album\": {",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"album_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"album_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"release_date\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t},",
+									"\t\t\"artist\": {",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"artist_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t},",
+									"\t\t\"news\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"article_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"date\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"media_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"thumbnail\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"title\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"upvotes\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/albums/4201",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"albums",
+								"4201"
+							]
+						},
+						"description": "Get an album by ID that exists.\n\nExpects an album object, an artist object, and a list of news objects that the album is associated with."
+					},
+					"response": []
+				},
+				{
+					"name": "Album by ID Not Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"$schema\": \"http://json-schema.org/draft-03/schema\",",
+									"\t\"id\": \"http://jsonschema.net\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"Error\": {",
+									"\t\t\t\"type\":\"string\",",
+									"\t\t\t\"id\": \"http://jsonschema.net/Error\",",
+									"\t\t\t\"required\":true",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/albums/100000",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"albums",
+								"100000"
+							]
+						},
+						"description": "Get an album by ID that doesn't exist.\n\nExpects a json indicating that there was an error and the resource was not found."
+					},
+					"response": []
+				},
+				{
+					"name": "All albums",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"array\",",
+									"\t\"required\":true,",
+									"\t\"items\":",
+									"\t\t{",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":false,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"album_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"album_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"release_date\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t}",
+									"    };",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/albums",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"albums"
+							]
+						},
+						"description": "Get all albums.\n\nExpects a list of album objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Album",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Found search object\", function() {",
+									"   pm.expect(pm.response.json()[0].name == \"DAMN.\").to.equal(true);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/albums/search/damn",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"albums",
+								"search",
+								"damn"
+							]
+						},
+						"description": "Search an album by keyword"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "News",
+			"description": "Tests endpoints related to the album model",
+			"item": [
+				{
+					"name": "Sort",
+					"description": "Tests endpoints related to getting articles in a sorted order",
+					"item": [
+						{
+							"name": "Most Recent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(Date.parse(resp[i-1].date) >= Date.parse(resp[i].date)).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/news?sort=reldate&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"news"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "reldate",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets articles in order from most recent to least recent"
+							},
+							"response": []
+						},
+						{
+							"name": "Least Recent",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(Date.parse(resp[i-1].date) <= Date.parse(resp[i].date)).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/news?sort=reldate&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"news"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "reldate",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets articles in order from least recent to most recent"
+							},
+							"response": []
+						},
+						{
+							"name": "Most Popular",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].upvotes >= resp[i].upvotes).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://poupon.me/api/news?sort=upvotes&order=desc",
+									"protocol": "http",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"news"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "upvotes",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets articles in order from most to least upvotes"
+							},
+							"response": []
+						},
+						{
+							"name": "Least Popular",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].upvotes <= resp[i].upvotes).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/news?sort=upvotes&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"news"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "upvotes",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets articles in order from least to most upvotes"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pages",
+					"description": "Tests getting pages of news",
+					"item": [
+						{
+							"name": "Page Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 12).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/news?page=1",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"news"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that exists, should have 12 objects"
+							},
+							"response": []
+						},
+						{
+							"name": "Page Not Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 0).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/news?page=1000",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"news"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1000",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that doesn't exist, should have 0 objects"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Filter by Rich Media",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"All objects are from the specified domain\", function() {",
+									"    var resp = pm.response.json()",
+									"    for(var i = 0; i < resp.length; i++) {",
+									"        pm.expect(resp[i].media_link.match(\"youtube\") < 0).to.equal(false);",
+									"    }",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/news?media=youtube",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"news"
+							],
+							"query": [
+								{
+									"key": "media",
+									"value": "youtube",
+									"equals": true
+								}
+							]
+						},
+						"description": "Filter articles by rich media"
+					},
+					"response": []
+				},
+				{
+					"name": "Article by ID Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"albums\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"album_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"album_picture_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"release_date\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t},",
+									"\t\t\"artists\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"artist_picture_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t\t",
+									"",
+									"\t\t},",
+									"\t\t\"news\": {",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"article_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"date\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"media_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"thumbnail\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"title\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"upvotes\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/news/386",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"news",
+								"386"
+							]
+						},
+						"description": "Get an article by ID that exists.\n\nExpects an article object, a list of artist objects that the article is associated with, and a list of album objects that the article is associated with."
+					},
+					"response": []
+				},
+				{
+					"name": "Article by ID Not Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"$schema\": \"http://json-schema.org/draft-03/schema\",",
+									"\t\"id\": \"http://jsonschema.net\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"Error\": {",
+									"\t\t\t\"type\":\"string\",",
+									"\t\t\t\"id\": \"http://jsonschema.net/Error\",",
+									"\t\t\t\"required\":true",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/news/100000",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"news",
+								"100000"
+							]
+						},
+						"description": "Get an article by ID that doesn't exist.\n\nExpects a json indicating that there was an error and the resource was not found."
+					},
+					"response": []
+				},
+				{
+					"name": "All articles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"array\",",
+									"\t\"required\":true,",
+									"\t\"items\":",
+									"\t\t{",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":false,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"article_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"date\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"media_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"thumbnail\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"title\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"upvotes\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t}",
+									"\t};",
+									"",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/news",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"news"
+							]
+						},
+						"description": "Get all articles.\n\nExpects a list of article objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Search News",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Found search object\", function() {",
+									"    var resp = pm.response.json();",
+									"    for(var i = 0; i < resp.length; i++) {",
+									"        pm.expect(resp[i].title.match(\"Frank Ocean\") < 0).to.equal(false);",
+									"    }",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/news/search/frank%20ocean",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"news",
+								"search",
+								"frank%20ocean"
+							]
+						},
+						"description": "Search an article by keyword"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "City",
+			"description": "Tests endpoints related to the album model",
+			"item": [
+				{
+					"name": "Sort",
+					"description": "Tests endpoints related to getting cities in a sorted order",
+					"item": [
+						{
+							"name": "Most Populous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].population >= resp[i].population).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/cities?sort=population&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"cities"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "population",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets cities in order from highest population to lowest population"
+							},
+							"response": []
+						},
+						{
+							"name": "Least Populous",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        pm.expect(resp[i-1].population <= resp[i].population).to.equal(true);",
+											"    }",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/cities?sort=population&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"cities"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "population",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets cities in order from lowest population to highest population"
+							},
+							"response": []
+						},
+						{
+							"name": "Alphabetical (A-Z)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    var count = 0;",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        count += (resp[i-1].name <= resp[i].name) ? 1 : 0;",
+											"    }",
+											"    // javascript string comparison is slightly different from SQL comparison",
+											"    pm.expect(count >= resp.length-5).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/cities?sort=alpha&order=asc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"cities"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "alpha",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "asc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets cities in alphabetical order from A-Z."
+							},
+							"response": []
+						},
+						{
+							"name": "Alphabetical (Z-A)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"var resp = pm.response.json();",
+											"pm.test(\"Items are sorted correctly\", function () {",
+											"    var count = 0;",
+											"    for(var i = 1; i < resp.length; i++) {",
+											"        count += (resp[i-1].name >= resp[i].name) ? 1 : 0;",
+											"    }",
+											"    // javascript string comparison is slightly different from SQL comparison",
+											"    pm.expect(count >= resp.length-5).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/cities?sort=alpha&order=desc",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"cities"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "alpha",
+											"equals": true
+										},
+										{
+											"key": "order",
+											"value": "desc",
+											"equals": true
+										}
+									]
+								},
+								"description": "Gets cities in alphabetical order from Z-A."
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pages",
+					"description": "Tests getting pages of cities",
+					"item": [
+						{
+							"name": "Page Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 12).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/cities?page=1",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"cities"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that exists, should have 12 objects"
+							},
+							"response": []
+						},
+						{
+							"name": "Page Not Exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Content-Type is json\", function () {",
+											"    pm.response.headers.has(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Found search object\", function() {",
+											"   pm.expect(pm.response.json().items.length == 0).to.equal(true);",
+											"});"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "poupon.me/api/cities?page=1000",
+									"host": [
+										"poupon",
+										"me"
+									],
+									"path": [
+										"api",
+										"cities"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1000",
+											"equals": true
+										}
+									]
+								},
+								"description": "Tests getting a page that doesn't exist, should have 0 objects"
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "City by ID Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"artists\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"artist_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"artist_picture_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"popularity\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"spotify_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t\t",
+									"",
+									"\t\t},",
+									"\t\t\"city\": {",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":true,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"city_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"city_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"population\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"state\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t},",
+									"\t\t\"news\": {",
+									"\t\t\t\"type\":\"array\",",
+									"\t\t\t\"required\":false,",
+									"\t\t\t\"items\":",
+									"\t\t\t\t{",
+									"\t\t\t\t\t\"type\":\"object\",",
+									"\t\t\t\t\t\"required\":false,",
+									"\t\t\t\t\t\"properties\":{",
+									"\t\t\t\t\t\t\"article_id\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"date\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"media_link\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"thumbnail\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"title\": {",
+									"\t\t\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t},",
+									"\t\t\t\t\t\t\"upvotes\": {",
+									"\t\t\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\t\t\"required\":true",
+									"\t\t\t\t\t\t}",
+									"\t\t\t\t\t}",
+									"\t\t\t\t}",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/cities/18",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"cities",
+								"18"
+							]
+						},
+						"description": "Get a city by ID that exists.\n\nExpects a city object, a list of artist objects that the city is associated with, and a list of news objects that the city is associated with."
+					},
+					"response": []
+				},
+				{
+					"name": "City by ID Not Exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"object\",",
+									"\t\"$schema\": \"http://json-schema.org/draft-03/schema\",",
+									"\t\"id\": \"http://jsonschema.net\",",
+									"\t\"required\":true,",
+									"\t\"properties\":{",
+									"\t\t\"Error\": {",
+									"\t\t\t\"type\":\"string\",",
+									"\t\t\t\"id\": \"http://jsonschema.net/Error\",",
+									"\t\t\t\"required\":true",
+									"\t\t}",
+									"\t}",
+									"};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/news/100000",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"news",
+								"100000"
+							]
+						},
+						"description": "Get a city by ID that doesn't exist.\n\nExpects a json indicating that there was an error and the resource was not found."
+					},
+					"response": []
+				},
+				{
+					"name": "All cities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"var schema = {",
+									"\t\"type\":\"array\",",
+									"\t\"required\":true,",
+									"\t\"items\":",
+									"\t\t{",
+									"\t\t\t\"type\":\"object\",",
+									"\t\t\t\"required\":false,",
+									"\t\t\t\"properties\":{",
+									"\t\t\t\t\"city_id\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"city_picture_link\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":false",
+									"\t\t\t\t},",
+									"\t\t\t\t\"name\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"population\": {",
+									"\t\t\t\t\t\"type\":\"number\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t},",
+									"\t\t\t\t\"state\": {",
+									"\t\t\t\t\t\"type\":\"string\",",
+									"\t\t\t\t\t\"required\":true",
+									"\t\t\t\t}",
+									"\t\t\t}",
+									"\t\t}",
+									"\t};",
+									"",
+									"pm.test('Schema is valid', function() {",
+									"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/cities",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"cities"
+							]
+						},
+						"description": "Get all cities.\n\nExpects a list of city objects."
+					},
+					"response": []
+				},
+				{
+					"name": "Search City",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Found search object\", function() {",
+									"   pm.expect(pm.response.json()[0].name == \"Oakland\").to.equal(true);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/cities/search/oakland",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"cities",
+								"search",
+								"oakland"
+							]
+						},
+						"description": "Search a city by keyword"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter by Population Range",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is json\", function () {",
+									"    pm.response.headers.has(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"All objects are from the specified population range\", function() {",
+									"    var resp = pm.response.json()",
+									"    for(var i = 0; i < resp.length; i++) {",
+									"        pm.expect(resp[i].population > 0).to.equal(true);",
+									"        pm.expect(resp[i].population < 500000).to.equal(true);",
+									"    }",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "poupon.me/api/cities?poprange=1",
+							"host": [
+								"poupon",
+								"me"
+							],
+							"path": [
+								"api",
+								"cities"
+							],
+							"query": [
+								{
+									"key": "poprange",
+									"value": "1",
+									"equals": true
+								}
+							]
+						},
+						"description": "Filter cities by population range"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
