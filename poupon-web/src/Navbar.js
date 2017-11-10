@@ -6,6 +6,14 @@ import {
 const config = require("./config.json");
 
 class Navbar extends Component {
+    constructor(params) {
+        super(params);
+
+        this.state = {
+            searchQuery: ""
+        };
+    }
+
     render() {
         //todo: move this?
         const tabs = [
@@ -31,6 +39,12 @@ class Navbar extends Component {
             </li>
         });
 
+        const searchSubmit = event => {
+            event.preventDefault();
+            document.location.href = "/search/" + this.state.searchQuery;
+        };
+        const searchChange = event => this.setState({searchQuery: event.target.value});
+
         //render navbar template
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-light">
@@ -45,9 +59,9 @@ class Navbar extends Component {
                     <ul className="navbar-nav mr-auto">
                         {navtabs}
                     </ul>
-                    <form className="form-inline my-2 my-lg-0">
+                    <form className="form-inline my-2 my-lg-0" onSubmit={searchSubmit}>
                         <input className="form-control mr-sm-2" type="text" placeholder="Search"
-                               aria-label="Search"></input>
+                               aria-label="Search" onChange={searchChange} value={this.state.searchQuery}></input>
                         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
