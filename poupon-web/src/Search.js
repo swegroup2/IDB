@@ -77,12 +77,12 @@ class SearchResults extends Component {
     }
 }
 
-class ArtistDumbCard extends Component {
+class CityResultCard extends Component {
     render() {
         return (
-            <div className="alert alert-primary">
+            <tr><td>
                 <Highlight search={this.props.query}>{this.props.data.name}</Highlight>
-            </div>
+            </td></tr>
         );
     }
 }
@@ -91,10 +91,10 @@ class SearchPage extends Component {
     render() {
         return (
             <SearchResults query={this.props.match.params.query} tabs={[
-                {title: "Artists", endpoint: "artists/search", itemClass: ArtistDumbCard},
+                {title: "Artists", endpoint: "artists/search", itemClass: ArtistPreviewCard},
                 {title: "Albums", endpoint: "albums/search", itemClass: AlbumPreviewCard},
                 {title: "News", endpoint: "news/search", itemClass: ArticlePreviewCard},
-                {title: "Cities", endpoint: "cities/search", itemClass: null}
+                {title: "Cities", endpoint: "cities/search", itemClass: CityResultCard}
             ]}/>
         );
     }
