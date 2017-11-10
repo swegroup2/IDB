@@ -40,58 +40,49 @@ export class PaginatedList extends Component {
 	constructor(props) {
 		super(props);
 
-		//TODO: nicer way to do this?
-		this.state = {
+		let stateObj = {
 			sort: 0,
 			order: 0,
-			filter: 0,
+			filter: {},
 			page: 1
 		};
 
 		//load parameters from props
 		const params = props.params || {};
-		if (params.hasOwnProperty("sort"))
-			this.state.sort = params.sort;
-		if (params.hasOwnProperty("order"))
-			this.state.order = params.order;
-		if (params.hasOwnProperty("filter"))
-			this.state.filter = params.filter;
-		if (params.hasOwnProperty("page"))
-			this.state.page = params.page;
+		Object.keys(params).forEach(k => stateObj[k] = params[k]);
 
 		//map sort/order pair back to sort name
 		const sortOptions = this.props.sortOptions || {};
 		const sortKey = Object.entries(sortOptions)
-			.find(([k,v]) => v.sort === this.state.sort && v.order === this.state.order);
+			.find(([k,v]) => v.sort === stateObj.sort && v.order === stateObj.order);
 		if (sortKey)
-			this.state.sortKey = sortKey[0];
+			stateObj.sortKey = sortKey[0];
 		else
-			this.state.sortKey = Object.keys(sortOptions)[0];
+			stateObj.sortKey = Object.keys(sortOptions)[0];
+
+		this.state = stateObj;
 	}
 	
 	emitUpdate() {
 		if (!this.props.onUpdate)
 			return;
 
-		if (!this.props.sortOptions) {
-			this.props.onUpdate({
-				params: {
-					page: this.state.page,
-					filter: this.state.filter
-				}
-			});
-		}
-		else {
+		let params = {
+			page: this.state.page
+		};
+		
+		if (this.props.sortOptions) {
 			const sortOptions = this.props.sortOptions;
-			this.props.onUpdate({
-				params: {
-					page: this.state.page,
-					filter: this.state.filter,
-					sort: sortOptions[this.state.sortKey].sort,
-					order: sortOptions[this.state.sortKey].order
-				}
-			});
+			params.sort = sortOptions[this.state.sortKey].sort;
+			params.order = sortOptions[this.state.sortKey].order;
 		}
+		
+		if (this.props.filterOptions) {
+			const filterOptions = this.props.filterOptions;
+			Object.keys(filterOptions).forEach(name => params[name] = this.state[name]);
+		}
+
+		this.props.onUpdate({params});
 	}
 
 	/**
@@ -117,18 +108,23 @@ export class PaginatedList extends Component {
 	 */
 	renderFilterUI() {
 		const filterOptions = this.props.filterOptions || {};
-		const renderedOptions = Object.keys(filterOptions).map(k => {
+		
+		const renderedSelect = Object.keys(filterOptions).map(k => {
 			const options = filterOptions[k].map(v => 
 				<option value={v}>{v}</option>);
+			const handler = event => this.setState({[k]: event.target.value})
 			return (
 				<div>
-				<span>{k}: </span>
-				<select>{options}</select>
+					<span>{k}: </span>
+					<select className="custom-select"
+					 value={this.state[k]} onChange={handler}>
+					 	{options}
+					</select>
 				</div>
 			);
 		});
 
-		const applyHandler = event => {};
+		const applyHandler = event => this.emitUpdate();
 
 		return (
 			<div>
@@ -145,11 +141,11 @@ export class PaginatedList extends Component {
 			        </button>
 			      </div>
 			      <div className="modal-body">
-			        {renderedOptions}
+			        {renderedSelect}
 			      </div>
 			      <div className="modal-footer">
 			        <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-			        <button type="button" className="btn btn-primary" onClick={applyHandler}>Apply</button>
+			        <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={applyHandler}>Apply</button>
 			      </div>
 			    </div>
 			  </div>

@@ -117,7 +117,7 @@ class MultipleArtists extends Component {
                     "Z-A": {sort: "alpha", order: "desc"}
                  }}
                  filterOptions={{
-                    "genres": ["Rap", "Pop Rap", "Trap Music", "Southern Hip Hop", "Hip Hop", "Indie R&B", "Underground Hip Hop", "Dance Pop", "Pop", "R&B"]
+                    "genre": ["rap", "pop rap", "trap music", "southern hip hop", "hip hop", "indie r&b", "underground hip hop", "dance pop", "pop", "r&b"]
                  }}/>
             </APIAdapter>
         );
