@@ -115,6 +115,9 @@ class MultipleArtists extends Component {
                     "Least popular": {sort: "popularity", order: "asc"}, 
                     "A-Z": {sort: "alpha", order: "asc"}, 
                     "Z-A": {sort: "alpha", order: "desc"}
+                 }}
+                 filterOptions={{
+                    "genres": ["Rap", "Pop Rap", "Trap Music", "Southern Hip Hop", "Hip Hop", "Indie R&B", "Underground Hip Hop", "Dance Pop", "Pop", "R&B"]
                  }}/>
             </APIAdapter>
         );
