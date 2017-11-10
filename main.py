@@ -17,14 +17,14 @@ CORS(app)  # Enable cross-origin resource sharing
 db = SQLAlchemy(app)
 
 def build_pages(query,page_number,model):
-    if model == 'artists':
-        page_obj = query.paginate(page_number,12,False) #if true this returns 404, WYWD?
+    if model == 'artists': #order_by(Artist.name.asc())
+        page_obj = query.order_by(Artist.name.asc()).paginate(page_number,12,False) #if true this returns 404, WYWD?
         ser_items = sql_serialize(Artist,*page_obj.items) #can really change the unpacking,packing tbh
     elif model == 'albums':
-        page_obj = query.paginate(page_number,12,False)
+        page_obj = query.order_by(Album.name.asc()).paginate(page_number,12,False)
         ser_items = sql_serialize(Album,*page_obj.items)
     elif model == 'news':
-        page_obj = query.paginate(page_number,12,False)
+        page_obj = query.order_by(Article.title.asc()).paginate(page_number,12,False)
         ser_items = sql_serialize(Article,*page_obj.items)
 
     page_dict = {"total_pages":page_obj.pages,"current_page":page_number,"items":ser_items}
@@ -261,10 +261,17 @@ def get_all_artists(): #OK order_by(Artist.popularity.desc())
 
 @app.route('/api/artists/search/<term>')
 def search_artists(term):
-    matches = search(db.session.query(Artist), term, sort=True).all()
+    wanted_keys = ['page']
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+    matches = search(db.session.query(Artist), term, sort=True)
     if matches is None:
         return not_found()
-    return sql_json(Artist, *matches)
+
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'artists')
+    else:
+        matches = matches.all()
+        return sql_json(Artist, *matches)
 
 
 # Album endpoints
@@ -309,10 +316,17 @@ def get_all_albums_by_artist(artist_id):  # DEPRECATE
 
 @app.route('/api/albums/search/<term>')
 def search_albums(term):
-    matches = search(db.session.query(Album), term, sort=True).all()
+    wanted_keys = ['page']
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+    matches = search(db.session.query(Album), term, sort=True)
     if matches is None:
         return not_found()
-    return sql_json(Album, *matches)
+
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'albums')
+    else:
+        matches = matches.all()
+        return sql_json(Album, *matches)
 
 
 # News endpoints
@@ -359,10 +373,17 @@ def get_all_articles():  # OK
 
 @app.route('/api/news/search/<term>')
 def search_articles(term):
-    matches = search(db.session.query(Article), term, sort=True).all()
+    wanted_keys = ['page']
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
+    matches = search(db.session.query(Article), term, sort=True)
     if matches is None:
         return not_found()
-    return sql_json(Article, *matches)
+
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'news')
+    else:
+        matches = matches.all()
+        return sql_json(Article, *matches)
 
 
 # Cities endpoints
@@ -397,11 +418,17 @@ def get_all_cities():  # OK
 
 @app.route('/api/cities/search/<term>')
 def search_cities(term):
+    wanted_keys = ['page']
+    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
     matches = search(db.session.query(City), term, sort=True).all()
     if matches is None:
         return not_found()
-    return sql_json(City, *matches)
 
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'cities')
+    else:
+        matches = matches.all()
+        return sql_json(City, *matches)
 
 # Error handler
 @app.errorhandler(500)
