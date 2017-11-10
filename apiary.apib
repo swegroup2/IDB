@@ -566,7 +566,7 @@ news articles are not sorted. By default, there is no paging
             }
         ]
         
-## News Search [/api/cities/search/{term}]
+## News Search [/api/news/search/{term}]
 
 ### Search News[GET]
 This will contain a list of the article models that match the search term used.
@@ -656,7 +656,7 @@ to the fewer number of cities in comparison to other models.
     the state to filter by. The state is given by its two letter abreviation.
     + sort: 'alpha' (String,optional) - query variable to denote sorting type;
     only alpha,population are valid sorting types
-    + poprange: '1' (String optional) - query variable denoting the
+    + poprange: '1' (String, optional) - query variable denoting the
     population range to filter by. The variable given is a flag representing a range (e.g 1 => [0-500000])
     + order: 'desc' (String,optional) - query variable to denote the sorting order;
     only desc,asc are valid sorting orders (by default it will sort by desc)
@@ -736,7 +736,7 @@ contains related artists and news associated with the city id specified.
             }
         }
 
-## City Search [/api/news/search/{term}]
+## City Search [/api/cities/search/{term}]
 
 ### Search Cities[GET]
 This will contain a list of the City models that match the search term used.
