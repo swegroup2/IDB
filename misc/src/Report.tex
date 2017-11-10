@@ -52,8 +52,9 @@
     While our original attention is for poupon.me to contain information on only Hip-Hop and R\&B, the structure of the API allows for other genres and even single albums, artists, cities, and articles to be added without any worries.
 
     \section{RESTful API}\label{sec:restfulApi}
-    The first API that we used was the Spotify API: \begin{verbatim}
-                                                        https://developer.spotify.com/web-api/endpoint-reference/
+    The first API that we used was the Spotify API:
+    \begin{verbatim}
+https://developer.spotify.com/web-api/endpoint-reference/
     \end{verbatim}
 
     While intimidating at first, making use of the Spotify API became much easier as we familiarized ourselves with Spotify's Web API over the course of the week.
@@ -114,6 +115,7 @@
     In the future, we will explore whether we want to use the Reddit API directly or continue using PRAW.
     We will need to pull many more articles and we will have many more artists in our database, which may make it easier to just use the Reddit API.\\
 
+    \newpage
     \noindent
     The third (and final so far) API that we will use is the US Census Bureau API:
     \begin{verbatim}
@@ -143,6 +145,7 @@
     However, in the earliest iteration of the site, we are keeping it so that the number of attributes connected to any given node is minimal, so as to avoid confusion when learning how to integrate all the different pieces that combine to make a functional stack.
     Once we have a more functional working product (and practical understanding of web dev), it will be a lot more feasible to consider expanding the models' attributes.
 
+    \newpage
     \subsection{Album}\label{subsec:album}
     An album is a collection of songs released as a group.
     This model contains a list of songs as well as metadata about the album.
@@ -204,6 +207,7 @@
     Our database is crucial to the function of our website.
     Rather than having React make calls to external APIs every time we want to display data on artists, albums, articles, or cities, and then having to set up rules to be able to legibly parse those calls on the fly, we designed a database schema that we can use to reliably store and retrieve data from a local source in a consistent manner.
 
+    \newpage
     The first step to designing this schema was to identify the four classes based on our four models - artists, albums, articles, and cities.
     We identified attributes for these models, using a surrogate ID for artists, albums, and cities (which was actually a Spotify external key for artists and albums, and possibly a PRAW external key for articles).
     From there, we identified a few supplementary tables that we anticipate being useful, such as tracks for albums, genres for albums and artists, regions for cities, and aliases for cities (for future use in the lyrical analysis portion of Poupon).
@@ -224,6 +228,7 @@
 
     DISCLAIMER: as of right now, the table for city aliases is unused and unpopulated - we plan to implement this alongside our text analysis of news titles for mentions of instances of other models.
 
+    \newpage
     \section{Search}\label{sec:search}
     We made the decision to implement full-text searching utilizing the built-in capabilities of PostgreSQL, as well as an addition to SQLAlchemy called SQLAlchemy-Searchable.
     We discovered the existence of a PostgreSQL type called a tsvector.
@@ -249,8 +254,12 @@ def search_artists(term):
     return sql_json(Artist, *matches)
     \end{verbatim}
 
+
     All these changes segments serve to integrate the server-side search implementation with the database's search implementation.
     We've made each model searchable by all its related fields that it makes sense to search over: e.g. for artists, we allow for the related searching of the artists' albums.
+    We've obviously omitted fields such as links, integers, and IDs, as those make no sense to search over.
+    Finally, we used react-highlight to implement the highlighting of searched phrases in our results - this makes it so that a user can see exactly what caused their search term to match any given object.
+    These results are displayed in a paginated manner on a separate search page, as we decided that agglomerating all the results for each model would be too difficult to understand from a user point of view, and that having a preview on the search bar would be too difficult to implement, given the time we all had to work on the project.
 
     \section{Tools}\label{sec:tools}
 
@@ -282,6 +291,7 @@ def search_artists(term):
     JSX enables HTML templates and JavaScript logic to be written in the same file.
     This means that there is no unnecessary shoehorning of data and logic into HTML-based templates.
 
+    \newpage
     \subsection{create-react-app}\label{subsec:create-react-app}
     create-react-app automates the process of creating the skeleton for a React web app.
     Additionally, it automatically configures Webpack to build an optimized production version of our React website.
@@ -310,6 +320,7 @@ def search_artists(term):
     Essentially, it acts a Python framework that allows you to construct SQL statements in a manner that is understandable from the Python level.
     As an example, if we wanted to have a table named 'artists' (which we do) with an attribute 'artist\_id' that acted as a integer primary key, and an attribute 'spotify\_link' that is unique and of variable length, we could implement that in Python/SQLAlchemy as follows:
 
+    \newpage
     \begin{verbatim}
         from sqlalchemy.ext.declarative import declarative_base
         from sqlalchemy import Column, Integer, String
@@ -347,6 +358,7 @@ def search_artists(term):
     We use Docker back-end testing and local deployment, but for deployment to the production version of Poupon, we elected not to.
     Due to numerous problems with how Docker interacted with GCP, we thought it would better / more efficient to not use it on the deployed side of the site.
 
+    \newpage
     \section{Hosting}\label{sec:hosting}
     Our web app is hosted on Google Cloud Platform.
     We use Google App Engine to simplify the process of running our Flask backend and serving the static files for our React web app.
@@ -359,19 +371,19 @@ def search_artists(term):
     From there, we were able to edit the records inside the poupon.me domain, including adding four A-level Records, 4 AAAA-level Records, a TXT Record, and a CNAME Record.
     From there, GCP was able to integrate itself with our domain.
 
+
     \section{Future Plans}\label{sec:futurePlans}
-    We have a few things we intend to implement in the next phase of the project.
+    Our goals for the future of the project are as of yet unknown, as we have yet to receive the instructions for the final phase - however, given the right set of reqirements and a plethora of time, we have some features we'd like to implement:
 
-    First is pagination - in the sections of our site dealing with models, it is beneficial to not have to store all the instances on the same "page" - this would make it so that the database has to eagerly load resources, rather than lazily grabbing them as the user requests them.
-    By implementing pagination, we not only make our site look better, we make it take less of a toll on our database.
+    For one, it would be good to implement previewing on searches.
+    This would obviously be more desirable than a separate search page for very quick searches from a user's point of view.
+    This would be very difficult to actually do, as the only member with the front-end expertise necessary to implement highlighting on variable-length previews is Logan, and he'll be working on studying for tests and OS after this phase, but given the time, it's something we'd like to implement.
 
-    Second is sorting - each model has a number of different attributes, which a few each which are logically sortable, i.e. name, population, popularity, genre.
-    By allowing our users to arrange our cards in the way they see fit in order for the to be able to understand more, we give our site greater utility.
+    Another idea would be to rank search results by relevance.
+    We already partially do this, but in order to fully implement it, we'd have to designate weights for each level of the search vectors, which would require a non-significant amount of tweaking.
+    We'll have to wait and see what the actual requirements of the final phase are before committing to anything too drastically difficult.
 
-    Finally, we'll be implementing filtering.
-    Much like sorting, filtering will allow a user to view more succinctly the information they set out to view.
-    We'll implement this in a global way - i.e., if a user searches for Compton, they should see a result for the city, as well as the 2015 album by Dr.
-        Dre.
-        Perhaps, they'll also be able to view the song 'Compton' off of Kendrick Lamar's \textit{Good Kid, m.A.A.d city}.
-    We'll see how the exact implementation turns out, but these are our goals.
+    Finally, we're hoping for a very slight redesign of the UI - some members feel the layout could be improved with not too much effort, so we'll spend some time exploring the feasibility of that.
+    In particular, some of cards could be a bit prettier, so that we can paginate and at normal screen size, not make the user scroll.
+    We've implemented all of our user stories and everything, so now we just have to wait and see what is required of us to turn Poupon.me to the best it can be!
 \end{document}
