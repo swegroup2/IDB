@@ -43,9 +43,13 @@ export class PaginatedList extends Component {
 		let stateObj = {
 			sort: 0,
 			order: 0,
-			filter: {},
+			filter: filterDefaults,
 			page: 1
 		};
+
+		const filterOptions = this.props.filterOptions || {};
+		let filterDefaults = {};
+		Object.keys(filterOptions).forEach(k => stateObj[k] = "!null");
 
 		//load parameters from props
 		const params = props.params || {};
@@ -79,7 +83,8 @@ export class PaginatedList extends Component {
 		
 		if (this.props.filterOptions) {
 			const filterOptions = this.props.filterOptions;
-			Object.keys(filterOptions).forEach(name => params[name] = this.state[name]);
+			Object.keys(filterOptions).filter(name => this.state[name] !== "!null")
+				.forEach(name => params[name] = this.state[name].toLowerCase());
 		}
 
 		this.props.onUpdate({params});
@@ -112,6 +117,8 @@ export class PaginatedList extends Component {
 		const renderedSelect = Object.keys(filterOptions).map(k => {
 			const options = filterOptions[k].map(v => 
 				<option value={v}>{v}</option>);
+			options.unshift(<option value={"!null"}></option>);
+
 			const handler = event => this.setState({[k]: event.target.value})
 			return (
 				<div>

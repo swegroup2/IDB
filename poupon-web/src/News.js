@@ -94,8 +94,8 @@ class MultipleArticles extends Component {
                     "Z-A": {sort: "alpha", order: "desc"}
                  }}
                  filterOptions={{
-                    "sites": ["YouTube", "iTunes", "SoundCloud", "Reddit"]
-                 }}/>/>
+                    "media": ["YouTube", "iTunes", "SoundCloud", "Reddit"]
+                 }}/>
             </APIAdapter>
         );
     }

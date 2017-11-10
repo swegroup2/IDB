@@ -94,6 +94,13 @@ class AlbumDetailCard extends Component {
 
 class MultipleAlbums extends Component {
     render() {
+        let filterOpts = {
+            "genre": ["rap", "pop rap", "trap music", "southern hip hop", "hip hop", "indie r&b", "underground hip hop", "dance pop", "pop", "r&b"],
+            "relyear": []
+        };
+        for (let i=(new Date()).getFullYear(); i>=1988; i--)
+            filterOpts.relyear.push(i);
+
         return (
             <APIAdapter endpoint="albums" defaultParams={{page: 1}}>
                 <PaginatedList itemClass={AlbumPreviewCard}
@@ -104,7 +111,8 @@ class MultipleAlbums extends Component {
                     "Least popular": {sort: "popular", order: "asc"}, 
                     "A-Z": {sort: "alpha", order: "asc"}, 
                     "Z-A": {sort: "alpha", order: "desc"}
-                 }}/>
+                 }}
+                 filterOptions={filterOpts}/>
             </APIAdapter>
         );
     }
