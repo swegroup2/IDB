@@ -27,6 +27,9 @@ def build_pages(query, page_number, model):
     elif model == 'news':
         page_obj = query.order_by(Article.title.asc()).paginate(page_number, 12, False)
         ser_items = sql_serialize(Article, *page_obj.items)
+    elif model == 'cities':
+        page_obj = query.order_by(City.name.asc()).paginate(page_number, 12, False)
+        ser_items = sql_serialize(City, *page_obj.items)
 
     page_dict = {"total_pages": page_obj.pages, "current_page": page_number, "items": ser_items}
     return jsonify(page_dict)
@@ -410,18 +413,12 @@ def get_city_by_id(c_id):  # FULL CITY MODEL (City,Artist,Album)
 
 @app.route('/api/cities/')
 @app.route('/api/cities')
-<<<<<<< HEAD
-def get_all_cities():  # OK 
-    wanted_keys = ['page','state','region','poprange', 'sort','order'] #valid sort params: alpha, population
-    query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
-=======
 def get_all_cities():  # OK
     wanted_keys = ['page', 'state', 'region', 'poprange', 'sort', 'order']  # valid sort params: alpha, population
     query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
->>>>>>> 71800870284f4a0bbad967374305cae2a739aead
 
     base_query = db.session.query(City)
-    matches = build_query(base_query, query_dict, 'cities').all()
+    matches = build_query(base_query, query_dict, 'cities')
 
     if 'page' in query_dict:
         return build_pages(matches,int(query_dict['page']),'cities')
