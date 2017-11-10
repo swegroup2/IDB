@@ -407,13 +407,18 @@ def get_city_by_id(c_id):  # FULL CITY MODEL (City,Artist,Album)
 
 @app.route('/api/cities/')
 @app.route('/api/cities')
-def get_all_cities():  # OK
+def get_all_cities():  # OK 
     wanted_keys = ['page','state','region','poprange', 'sort','order'] #valid sort params: alpha, population
     query_dict = build_query_dict(request.args.to_dict(),wanted_keys)
 
     base_query = db.session.query(City)
     matches = build_query(base_query, query_dict, 'cities').all()
-    return sql_json(City, *matches)
+
+    if 'page' in query_dict:
+        return build_pages(matches,int(query_dict['page']),'cities')
+    else:
+        matches = matches.all()
+        return sql_json(City,*matches)
 
 
 @app.route('/api/cities/search/<term>')
