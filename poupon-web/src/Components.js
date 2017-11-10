@@ -116,10 +116,45 @@ export class PaginatedList extends Component {
 	 * Renders the HTML interface for displaying filter options
 	 */
 	renderFilterUI() {
-		//TODO: implement
+		const filterOptions = this.props.filterOptions || {};
+		const renderedOptions = Object.keys(filterOptions).map(k => {
+			const options = filterOptions[k].map(v => 
+				<option value={v}>{v}</option>);
+			return (
+				<div>
+				<span>{k}: </span>
+				<select>{options}</select>
+				</div>
+			);
+		});
+
+		const applyHandler = event => {};
 
 		return (
-			<button type="button" className="btn btn-secondary mx-1">Filter</button>
+			<div>
+			<button type="button" className="btn btn-secondary mx-1" 
+			 data-toggle="modal" data-target="#filterModal">Filter...</button>
+
+			<div className="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+			  <div className="modal-dialog" role="document">
+			    <div className="modal-content">
+			      <div className="modal-header">
+			        <h5 className="modal-title" id="filterModalLabel">Filter options</h5>
+			        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div className="modal-body">
+			        {renderedOptions}
+			      </div>
+			      <div className="modal-footer">
+			        <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			        <button type="button" className="btn btn-primary" onClick={applyHandler}>Apply</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			</div>
 		);
 	}
 
