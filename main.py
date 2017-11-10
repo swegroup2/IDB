@@ -204,6 +204,8 @@ def alpha_sort(query, val, model):
 @app.route('/news/<path>')
 @app.route('/cities')
 @app.route('/cities/<path>')
+@app.route('/search')
+@app.route('/search/<path>')
 @app.route('/')
 def root(path=""):
     return app.send_static_file('index.html')
@@ -438,7 +440,6 @@ def search_cities(term):
     if 'page' in query_dict:
         return build_pages(matches, int(query_dict['page']), 'cities')
     else:
-        matches = matches.all()
         return sql_json(City, *matches)
 
 
