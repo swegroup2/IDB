@@ -224,6 +224,34 @@
 
     DISCLAIMER: as of right now, the table for city aliases is unused and unpopulated - we plan to implement this alongside our text analysis of news titles for mentions of instances of other models.
 
+    \section{Search}\label{sec:search}
+    We made the decision to implement full-text searching utilizing the built-in capabilities of PostgreSQL, as well as an addition to SQLAlchemy called SQLAlchemy-Searchable.
+    We discovered the existence of a PostgreSQL type called a tsvector.
+    This vector, when given a list of parameters as input, effectively concatenates a text representation of each parameter, and then performs a search over the whole concatenated string.
+    If the search is positive, then it'll add the instance that the given search term applied to it matches to a list, as a SELECT statement in SQL.
+    An example query for searching over just the names of the artists models is as follows:
+    \begin{verbatim}
+ALTER TABLE artists ADD COLUMN search_vector tsvector;
+UPDATE artists SET search_vector = to_tsvector('english', coalesce(name, ''));
+    \end{verbatim}
+
+    This process is slightly different in SQLAlchemy - essentially, we create a new column containing the search-vector over name as so:\\
+    \begin{verbatim}
+search_vector = Column(TSVectorType('name'))
+    \end{verbatim}
+    Then, we can route a search of models to a point in the api using this:
+    \begin{verbatim}
+@app.route('/api/artists/search/<term>')
+def search_artists(term):
+    matches = search(db.session.query(Artist), term, sort=True).all()
+    if matches is None:
+        return not_found()
+    return sql_json(Artist, *matches)
+    \end{verbatim}
+
+    All these changes segments serve to integrate the server-side search implementation with the database's search implementation.
+    We've made each model searchable by all its related fields that it makes sense to search over: e.g. for artists, we allow for the related searching of the artists' albums.
+
     \section{Tools}\label{sec:tools}
 
     \subsection{make}\label{subsec:make}
