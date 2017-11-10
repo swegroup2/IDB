@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactPaginate from 'react-paginate';
 
 const config = require("./config.json");
 
@@ -127,37 +128,27 @@ export class PaginatedList extends Component {
 	 */
 	renderPageUI() {
 		const numPages = this.props.data.total_pages;
-
-		//create numbered page buttons
-		let numberedButtons = [];
-		for (let i=1; i<=numPages; ++i) {
-			const handler = event => this.setState({page: i}, this.emitUpdate);
-			const activeClass = this.state.page === i ? "active" : "";
-			numberedButtons.push(
-				<li className={"page-item " + activeClass} key={i}>
-					<span className="page-link" style={{cursor: "pointer"}} onClick={handler}>{i}</span>
-				</li>
-			);
-		}
+		const handler = event => this.setState({page: event.selected + 1}, this.emitUpdate);
 
 		return (
-			<nav aria-label="Page navigation example">
-				<ul className="pagination justify-content-center">
-					<li className="page-item">
-						<a className="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-							<span className="sr-only">Previous</span>
-						</a>
-					</li>
-					{numberedButtons}
-					<li className="page-item">
-						<a className="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-							<span className="sr-only">Next</span>
-						</a>
-					</li>
-				</ul>
-			</nav>
+			<ReactPaginate previousLabel={"<<"}
+						   previousClassName={"page-item"}
+						   previousLinkClassName={"page-link"}
+			               nextLabel={">>"}
+			               nextClassName={"page-item"}
+						   nextLinkClassName={"page-link"}
+			               breakLabel={<span className="page-link">...</span>}
+			               breakClassName={"page-item"}
+			               forcePage={this.state.page-1}
+                       	   pageCount={numPages}
+                           marginPagesDisplayed={2}
+                           pageRangeDisplayed={5}
+                           onPageChange={handler}
+                           containerClassName={"pagination justify-content-center"}
+                           pageClassName={"page-item"}
+                           pageLinkClassName={"page-link"}
+                           activeClassName={"active"} />
+
 		);
 	}
 
@@ -181,7 +172,8 @@ export class PaginatedList extends Component {
 		
 		//create item instances
 		const ItemClass = this.props.itemClass;
-		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item}/>);
+		const itemProps = this.props.itemProps || {};
+		const items = this.props.data.items.map((item, i) => <ItemClass key={i} data={item} {...itemProps}/>);
 
 		//compose elements
 		return (
