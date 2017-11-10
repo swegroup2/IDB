@@ -92,7 +92,10 @@ class MultipleArticles extends Component {
                     "Least popular": {sort: "upvotes", order: "asc"}, 
                     "A-Z": {sort: "alpha", order: "asc"}, 
                     "Z-A": {sort: "alpha", order: "desc"}
-                 }}/>
+                 }}
+                 filterOptions={{
+                    "sites": ["YouTube", "iTunes", "SoundCloud", "Reddit"]
+                 }}/>/>
             </APIAdapter>
         );
     }
