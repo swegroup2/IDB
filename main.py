@@ -8,6 +8,7 @@ from database.schema import *
 from database.util import *
 from sqlalchemy_searchable import search
 import json
+import itertools
 
 app = Flask(__name__, static_url_path='', static_folder='poupon-web/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
@@ -114,6 +115,19 @@ def genre_filter(query, val, model):
         return query.join(Artist).join(genres_artists).join(Genre).filter(Genre.name == val)
     else:
         return query
+
+def build_search_query(term):
+    search_str = ""
+    str_list = term.strip().split()
+    length = len(str_list)
+
+    if length <= 1:
+        return term
+    else:
+        for word in itertools.islice(str_list,length-1):
+            search_str+= word + ' or '
+    search_str+=str_list[length-1]
+    return search_str
 
 
 # def region_filter(query,val,model): #explicit join
@@ -271,7 +285,7 @@ def get_all_artists():  # OK order_by(Artist.popularity.desc())
 def search_artists(term):
     wanted_keys = ['page']
     query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
-    matches = search(db.session.query(Artist), term, sort=True)
+    matches = search(db.session.query(Artist), build_search_query(term), sort=True)
     if matches is None:
         return not_found()
 
@@ -326,7 +340,7 @@ def get_all_albums_by_artist(artist_id):  # DEPRECATE
 def search_albums(term):
     wanted_keys = ['page']
     query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
-    matches = search(db.session.query(Album), term, sort=True)
+    matches = search(db.session.query(Album), build_search_query(term), sort=True)
     if matches is None:
         return not_found()
 
@@ -383,7 +397,8 @@ def get_all_articles():  # OK
 def search_articles(term):
     wanted_keys = ['page']
     query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
-    matches = search(db.session.query(Article), term, sort=True)
+
+    matches = search(db.session.query(Article), build_search_query(term), sort=True)
     if matches is None:
         return not_found()
 
@@ -433,7 +448,7 @@ def get_all_cities():  # OK
 def search_cities(term):
     wanted_keys = ['page']
     query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
-    matches = search(db.session.query(City), term, sort=True).all()
+    matches = search(db.session.query(City), build_search_query(term), sort=True)
     if matches is None:
         return not_found()
 
