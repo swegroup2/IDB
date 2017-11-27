@@ -116,7 +116,8 @@ export class CityPreview extends Component {
                 <thead className="thead-inverse">
                     <tbody className="w-100" style={{"display": "inline-table"}}>
                         <tr className="w-100">
-                            <td style={{width: "30%"}}><a href={`/cities/${city_id}`}>{name}</a></td>
+                            <td style={{width: "30%"}}><a href={`/cities/${city_id}`}>
+                            <Highlight search={this.props.query}>{name}</Highlight></a></td>
                             <td style={{width: "40%"}}>{numberCommas(population)}</td>
                             <td style={{width: "30%"}}>{state}</td>
                         </tr>

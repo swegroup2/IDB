@@ -433,7 +433,7 @@ def get_all_cities():  # OK
 def search_cities(term):
     wanted_keys = ['page']
     query_dict = build_query_dict(request.args.to_dict(), wanted_keys)
-    matches = search(db.session.query(City), term, sort=True).all()
+    matches = search(db.session.query(City), term, sort=True)
     if matches is None:
         return not_found()
 
