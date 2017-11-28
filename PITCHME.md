@@ -11,7 +11,7 @@
 ### Introduction
 
 Christian:
-![Christian](https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg "Christian")
+![Christian](https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg =100x100 "Christian")
 
 Note:
 Introduce yourself, explain your contributions
