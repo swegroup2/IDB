@@ -8,7 +8,10 @@
 
 @title[Introduction]
 
-#### Introduction
+### Introduction
 
 Christian:
-![Christian](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Christian")
+![Christian](https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg "Christian")
+
+Note:
+Introduce yourself, explain your contributions
