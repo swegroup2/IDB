@@ -1,4 +1,4 @@
-# [START app]
+[START app]
 import logging
 import os
 from flask import Flask, jsonify, request

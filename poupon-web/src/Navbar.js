@@ -22,7 +22,8 @@ class Navbar extends Component {
             {name: "Artists", href: "/artists"},
             {name: "Albums", href: "/albums"},
             {name: "News", href: "/news"},
-            {name: "Cities", href: "/cities"}
+            {name: "Cities", href: "/cities"},
+            {name: "Dataviz", href: "/dataviz"}
         ];
 
         //generate navigation tabs

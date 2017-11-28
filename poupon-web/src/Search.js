@@ -7,7 +7,7 @@ import {LoadingStub, APIAdapter, PaginatedList} from "./Components.js";
 import {ArtistPreviewCard} from "./Artists.js";
 import {AlbumPreviewCard} from "./Albums.js";
 import {ArticlePreviewCard} from "./News.js";
-import {CityPreviewCard} from "./Cities.js";
+import {CityPreview} from "./Cities.js";
 
 const Highlight = require("react-highlighter");
 const config = require("./config.json");
@@ -77,16 +77,6 @@ class SearchResults extends Component {
     }
 }
 
-class CityResultCard extends Component {
-    render() {
-        return (
-            <tr><td>
-                <Highlight search={this.props.query}>{this.props.data.name}</Highlight>
-            </td></tr>
-        );
-    }
-}
-
 class SearchPage extends Component {
     render() {
         return (
@@ -94,7 +84,7 @@ class SearchPage extends Component {
                 {title: "Artists", endpoint: "artists/search", itemClass: ArtistPreviewCard},
                 {title: "Albums", endpoint: "albums/search", itemClass: AlbumPreviewCard},
                 {title: "News", endpoint: "news/search", itemClass: ArticlePreviewCard},
-                {title: "Cities", endpoint: "cities/search", itemClass: CityResultCard}
+                {title: "Cities", endpoint: "cities/search", itemClass: CityPreview}
             ]}/>
         );
     }
