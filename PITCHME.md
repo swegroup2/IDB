@@ -5,7 +5,6 @@
 #### Christian C, Logan Z, Sarah W, Will X, Zach B
 
 ---
-
 @title[Introduction]
 
 ## Introduction
@@ -21,16 +20,76 @@ Introduce yourself
 Explain your contribution
 
 ---
+@title[Demo]
 
+## Demos
+
++++
 @title[Website Demo]
 
+#### Website Demo
 ![Website Demo](https://youtube.com/embed/eyZW7hbXPdI)
-*Website Demo*
 
----
-
++++
 @title[Postman Demo]
 
+#### Postman Demo
 ![Postman Demo](https://youtube.com/embed/bC6hke2j6XE)
-*Postman Demo*
+
++++
+@title[Selenium Demo]
+
+#### Selenium Demo
+![Selenium Demo]()
+
+---
+@title[Self Critiques]
+
+## Self Critiques
+
++++
+@title[Self Critique Pt. 1]
+
+#### What we did well
+
++++
+@title[Self Critique Pt. 2]
+
+#### What we learned
+
++++
+@title[Self Critique Pt. 3]
+
+#### What we can improved on
+
++++
+@title[Self Critique Pt. 4]
+
+#### What puzzled us
+
+---
+@title[Other Critiques]
+
+## Other Critiques
+
++++
+@title[Other Critique Pt. 1]
+
+#### What they did well
+
++++
+@title[Other Critique Pt. 2]
+
+#### What we learned from their site
+
++++
+@title[Other Critique Pt. 3]
+
+#### What they can improve on
+
++++
+@title[Other Critique Pt. 4]
+
+#### What puzzled us
+
 
