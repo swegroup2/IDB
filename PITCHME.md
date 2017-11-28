@@ -24,15 +24,13 @@ Explain your contribution
 
 @title[Website Demo]
 
-## Website Demo 
-
 ![Website Demo](https://youtube.com/embed/eyZW7hbXPdI)
+*Website Demo*
 
 ---
 
 @title[Postman Demo]
 
-## Postman (Unit Tests) Demo
-
 ![Postman Demo](https://youtube.com/embed/bC6hke2j6XE)
+*Postman Demo*
 
