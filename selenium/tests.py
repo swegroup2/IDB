@@ -84,50 +84,70 @@ class PythonOrgSearch(unittest.TestCase):
     #     artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
     #     self.assertEqual(artist.text, "Drake", "Checking that artists are sorted correctly")
 
-    def test_artists_filtering(self):
+    # def test_artists_filtering(self):
+    #     driver = self.driver
+    #     driver.get("https://poupon.me/artists")
+    #     time.sleep(5)
+
+    #     #filter by southern hip hop
+    #     filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
+    #     filter.click()
+    #     time.sleep(1)
+    #     select = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
+    #     select.click()
+    #     driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[5]").click()
+    #     apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")
+    #     apply.click()
+    #     time.sleep(5)
+    #     artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+    #     self.assertEqual(artist.text, "Future", "Checking that artists are filtered correctly")
+
+    #     #filter by dance pop
+    #     filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
+    #     filter.click()
+    #     time.sleep(1)
+    #     select = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
+    #     select.click()
+    #     driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[9]").click()
+    #     apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")        
+    #     apply.click()
+    #     time.sleep(5)
+    #     artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+    #     self.assertEqual(artist.text, "Justin Bieber", "Checking that artists are filtered correctly")
+
+    #     #filter by all
+    #     filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
+    #     filter.click()
+    #     time.sleep(1)
+    #     select = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
+    #     select.click()
+    #     driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[1]").click()
+    #     apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")
+    #     apply.click()
+    #     time.sleep(5)
+    #     artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+    #     self.assertEqual(artist.text, "Drake", "Checking that artists are filtered correctly")
+
+    def test_artists_paging(self):
         driver = self.driver
         driver.get("https://poupon.me/artists")
         time.sleep(5)
 
-        #filter by southern hip hop
-        filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
-        filter.click()
-        time.sleep(1)
-        select = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
-        select.click()
-        driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[5]").click()
-        apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")
-        apply.click()
+        #check the first page
+        artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+        self.assertEqual(artist.text, "Drake", "Checking that artists are paged correctly")
+
+        #check the second page
+        driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[3]/a").click()
         time.sleep(5)
         artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
-        self.assertEqual(artist.text, "Future", "Checking that artists are filtered correctly")
+        self.assertEqual(artist.text, "Travis Scott", "Checking that artists are paged correctly")
 
-        #filter by dance pop
-        filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
-        filter.click()
-        time.sleep(1)
-        select = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
-        select.click()
-        driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[9]").click()
-        apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")        
-        apply.click()
+        #go back and check the first again
+        driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[2]/a").click()
         time.sleep(5)
         artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
-        self.assertEqual(artist.text, "Justin Bieber", "Checking that artists are filtered correctly")
-
-        #filter by all
-        filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
-        filter.click()
-        time.sleep(1)
-        select = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
-        select.click()
-        driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[1]").click()
-        apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")
-        apply.click()
-        time.sleep(5)
-        artist = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
-        self.assertEqual(artist.text, "Drake", "Checking that artists are filtered correctly")
-
+        self.assertEqual(artist.text, "Drake", "Checking that artists are paged correctly")
 
     def tearDown(self):
         self.driver.close()
