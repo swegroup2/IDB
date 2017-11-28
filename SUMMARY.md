@@ -1,6 +1,6 @@
 # Summary
 
 * [Introduction](README.md)
-* Report
-* [UML](report.md)
+* [Report](report.md)
+* [UML](uml.md)
 
