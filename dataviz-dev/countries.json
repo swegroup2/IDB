@@ -1540,6 +1540,48 @@
     "status": "assigned"
   },
   {
+    "alpha2": "GB",
+    "alpha3": "GBR",
+    "countryCallingCodes": [
+      "+44"
+    ],
+    "currencies": [
+      "GBP"
+    ],
+    "emoji": "🇬🇧",
+    "ioc": "GBR",
+    "languages": [
+      "eng",
+      "cor",
+      "gle",
+      "gla",
+      "cym"
+    ],
+    "name": "Scotland",
+    "status": "assigned"
+  },
+  {
+    "alpha2": "GB",
+    "alpha3": "GBR",
+    "countryCallingCodes": [
+      "+44"
+    ],
+    "currencies": [
+      "GBP"
+    ],
+    "emoji": "🇬🇧",
+    "ioc": "GBR",
+    "languages": [
+      "eng",
+      "cor",
+      "gle",
+      "gla",
+      "cym"
+    ],
+    "name": "England",
+    "status": "assigned"
+  },
+  {
     "alpha2": "GD",
     "alpha3": "GRD",
     "countryCallingCodes": [
@@ -1962,6 +2004,23 @@
       "ind"
     ],
     "name": "Indonesia",
+    "status": "assigned"
+  },
+  {
+    "alpha2": "ID",
+    "alpha3": "IDN",
+    "countryCallingCodes": [
+      "+62"
+    ],
+    "currencies": [
+      "IDR"
+    ],
+    "emoji": "🇮🇩",
+    "ioc": "INA",
+    "languages": [
+      "ind"
+    ],
+    "name": "Bali",
     "status": "assigned"
   },
   {
@@ -3600,7 +3659,7 @@
     "languages": [
       "rus"
     ],
-    "name": "Russian Federation",
+    "name": "Russia",
     "status": "assigned"
   },
   {
@@ -4344,25 +4403,6 @@
     "status": "assigned"
   },
   {
-    "alpha2": "UK",
-    "alpha3": "",
-    "countryCallingCodes": [],
-    "currencies": [
-      "GBP"
-    ],
-    "emoji": "",
-    "ioc": "",
-    "languages": [
-      "eng",
-      "cor",
-      "gle",
-      "gla",
-      "cym"
-    ],
-    "name": "United Kingdom",
-    "status": "reserved"
-  },
-  {
     "alpha2": "UM",
     "alpha3": "UMI",
     "countryCallingCodes": [
@@ -4393,7 +4433,7 @@
     "languages": [
       "eng"
     ],
-    "name": "United States",
+    "name": "USA",
     "status": "assigned"
   },
   {
