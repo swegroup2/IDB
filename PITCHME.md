@@ -26,7 +26,7 @@ Explain your contribution
 
 ## Website Demo 
 
-![Website Demo](https://youtu.be/eyZW7hbXPdI)
+![Website Demo](https://youtube.com/embed/eyZW7hbXPdI)
 
 ---
 
@@ -34,5 +34,5 @@ Explain your contribution
 
 ## Postman (Unit Tests) Demo
 
-![Postman Demo](https://youtu.be/bC6hke2j6XE)
+![Postman Demo](https://youtube.com/embed/bC6hke2j6XE)
 
