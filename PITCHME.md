@@ -10,12 +10,9 @@
 
 ### Introduction
 
-<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="100" height="100" />
-Christian:<br/>
-<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="100" height="100" />
-Christian:<br/>
-<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="100" height="100" />
-Christian:<br/>
+<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="50" height="50" /> Christian | <img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="50" height="50" /> Christian
+<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="50" height="50" /> Christian | <img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="50" height="50" /> Christian
+<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="50" height="50" /> Christian | 
 
 Note:
 Introduce yourself, explain your contributions
