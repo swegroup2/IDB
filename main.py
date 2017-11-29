@@ -1,4 +1,4 @@
-[START app]
+# [START app]
 import logging
 import os
 from flask import Flask, jsonify, request
@@ -26,7 +26,7 @@ def build_pages(query, page_number, model):
         page_obj = query.order_by(Album.name.asc()).paginate(page_number, 12, False)
         ser_items = sql_serialize(Album, *page_obj.items)
     elif model == 'news':
-        page_obj = query.order_by(Article.title.asc()).paginate(page_number, 12, False)
+        page_obj = query.order_by(Article.date.desc()).paginate(page_number, 12, False)
         ser_items = sql_serialize(Article, *page_obj.items)
     elif model == 'cities':
         page_obj = query.order_by(City.name.asc()).paginate(page_number, 12, False)
@@ -60,8 +60,8 @@ def build_query(query, query_dict, model):
             matches = city_filter(matches, query_dict[key], model)
         elif key == 'genre':
             matches = genre_filter(matches, query_dict[key], model)
-        # elif key == 'region':
-        #     matches = region_filter(matches,query_dict[key],model)
+        elif key == 'region':
+            matches = region_filter(matches,query_dict[key],model)
         elif key == 'relyear':
             matches = relyear_filter(matches, query_dict[key], model)
         elif key == 'media':
@@ -130,9 +130,11 @@ def build_search_query(term):
     return search_str
 
 
-# def region_filter(query,val,model): #explicit join
-#     if model is "artists":
-#         return query.join(cities_artists).join(City).join()
+def region_filter(query,val,model): #explicit join
+    if model == "cities":
+        return query.join(Region).filter(Region.region == val)
+    else:
+        return query
 
 def det_sort(query, sort_type, order, model):
     if sort_type == "popularity":
