@@ -46,20 +46,60 @@ async function load() {
 function buildMap(countries) {
 	countries.forEach(country => country.code = cc.name2code(country.name));
 	
+	//compute number of cocktails
+	let numCocktails = {};
+	countries.forEach(country => {
+		if (!(country.code in numCocktails))
+			numCocktails[country.code] = 0;
+
+		numCocktails[country.code] += country.cocktails.length;
+	});
+
+	//find max number of cocktails
+	const maxCocktails = countries.map(country => country.cocktails.length)
+		.reduce((acc, current) => Math.max(acc, current), 0);
+
+	//compute fill values
 	let data = {};
-	countries.forEach(country => data[country.code] = {
-		fillKey: country.brands.length > 1 ? "many" : country.brands.length > 0 ? "one" : "none"
+	Object.keys(numCocktails).forEach(k => {
+		data[k] = {
+			numberOfThings: numCocktails[k],
+			fillColor: d3.interpolateRdYlBu(numCocktails[k] / maxCocktails)
+		};
 	});
 
 	const map = new Datamap({
 		"element": document.querySelector("#map-container"),
 		"fills": {
-			"defaultFill": "#A0A0A0",
-			"none": "#000000",
-			"one": "#FF7700",
-			"many": "#FF0000"
+			"defaultFill": "#DDDDDD"
 		},
-		"data": data
+		"data": data,
+		"geographyConfig": {
+            borderColor: '#FFFFFF',
+            highlightBorderWidth: 2,
+            // don't change color on mouse hover
+            highlightFillColor: function(geo) {
+                return geo['fillColor'] || '#F5F5F5';
+            },
+            // only change border
+            highlightBorderColor: '#B7B7B7',
+            // show desired information in tooltip
+            popupTemplate: function(geo, data) {
+                // don't show tooltip if country don't present in dataset
+                if (!data)
+                	return `
+                		<div class="hoverinfo">
+                		<strong> ${geo.properties.name} </strong>
+                		</div>`;
+                
+                // tooltip content
+                return `
+                	<div class="hoverinfo">
+                    <strong> ${geo.properties.name} </strong>
+                    <br>Cocktails: <strong> ${data.numberOfThings} </strong>
+                    </div>`;
+            }
+        }
 	});
 }
 
