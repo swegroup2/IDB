@@ -106,7 +106,7 @@ export class ArticlePreviewCard extends Component {
         const domain = media_link ? urlGetDomain(media_link) : "";
 
         return (
-            <div className="col-sm-12 col-md-6">
+            <div className="col-sm-12 col-lg-6">
                 <div className="card">
                     <div className="card-body">
                         <div className="row">

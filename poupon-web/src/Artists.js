@@ -133,9 +133,7 @@ export class ArtistPreviewCard extends Component {
         return (
             <div className="col-sm-12 col-md-6 col-lg-3">
                 <div className="card">
-                    <div className="Container">
-                        <img src={img} className="img-fluid" alt={name}/>
-                    </div>
+                    <div alt={name} className="topper" style={{"background-image": `url('${img}')`}}/>
 
                     <div className="card-body">
                         <h4><a href={`/artists/${id}`} className="card-title">
