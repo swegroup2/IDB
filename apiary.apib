@@ -20,7 +20,8 @@ Poupon is a simple API allowing consumers to grab data about hip hop.
 
 ### Get All Artists [GET]
 This will return all of the artist objects in the database. By default, sorting
-order will be by popularity in descending order. By default, there is no paging (all entries returned).
+order will be by artist popularity. By default, there is no paging (all entries returned), but if paging
+is enabled, artists are default sorted by ascending alphabetical order as well.
 
 + Parameters
     + city: 'New York City' (String, optional) - query variable denoting 
@@ -241,8 +242,9 @@ This will contain a list of the City models that match the search term used.
 
 ### Get All Albums [GET]
 This will return all of the albums in the database. By default, the albums
-are sorted by album popularity in descending order. By default, there is no paging
-(all albums returned).
+are sorted by album popularity. By default, there is no paging
+(all albums returned), but if paging is enabled, albums are default sorted by
+ascending alphabetical order as well.
 
 + Parameters
     + relyear: '2001' (String, optional) - query variable denoting 
@@ -493,9 +495,9 @@ This will contain a list of the Album models that match the search term used.
 ## News Collection [/api/news?page={page}&media={media}&sort={sort}&order={order}]
 
 ### Get All Articles [GET]
-This will return all of the news articles in the database. By default, the
-news articles are not sorted. By default, there is no paging
-(all articles returned).
+This will return all of the news articles in the database. By default, news articles
+are sorted by date. By default, there is no paging
+(all articles returned), but if paging is enabled, articles are default sorted by ascending alphabetical order as well.
 
 + Parameters
     + media: 'youtube' (String, optional) - query variable denoting 
@@ -648,7 +650,8 @@ This will contain a list of the article models that match the search term used.
 
 ### List All Cities [GET]
 This will return all of the cities in the database. By default, the
-cities are not sorted. By default, there is no paging (all entries returned).
+cities are not sorted. By default, there is no paging (all entries returned), but if
+paging is enabled, cities are default sorted by ascending alphabetical order as well.
 
 + Parameters
     + state: 'CA' (String, optional) - query variable denoting 
