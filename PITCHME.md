@@ -10,7 +10,7 @@
 +++
 @title[Christian]
 #### Christian
-![Christian](https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg =200x200)
+<img src="https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg" width="200" height="200" />
 
 +++
 @title[Logan]
@@ -20,7 +20,7 @@
 +++
 @title[Sarah]
 #### Sarah
-![Sarah](https://swesushi.files.wordpress.com/2017/01/img_7694.jpg?w=644&zoom=2" =200x200)
+![Sarah](https://swesushi.files.wordpress.com/2017/01/img_7694.jpg?w=644&zoom=2 =200x200)
 
 +++
 @title[Will]
