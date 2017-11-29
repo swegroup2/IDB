@@ -1,5 +1,5 @@
 import unittest
-import os
+import os,sys
 import json
 import datetime
 from data import *
@@ -54,6 +54,7 @@ class TestDatabaseFunctions(unittest.TestCase):
     def setUp(self):
         # Connect to in memory test DB
         os.environ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+        sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         import main as main_app
         self.app = main_app
         self.client = main_app.app.test_client()
