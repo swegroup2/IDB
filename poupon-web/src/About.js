@@ -132,6 +132,11 @@ class AboutSummary extends Component {
                                 <td></td>
                             </tr>
                             <tr>
+                                <td><a href="https://gitpitch.com/swegroup2/IDB/master">Presentation</a>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
                                 <td><a href="https://swegroup2.gitbooks.io/poupon/content/report.html">Report</a>
                                 </td>
                                 <td></td>

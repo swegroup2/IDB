@@ -1,4 +1,4 @@
-[START app]
+# [START app]
 import logging
 import os
 from flask import Flask, jsonify, request
@@ -20,8 +20,8 @@ db = SQLAlchemy(app)
 
 def build_pages(query, page_number, model):
     if model == 'artists':  # order_by(Artist.name.asc())
-        page_obj = query.order_by(Artist.name.asc()).paginate(page_number, 12, False)  # if true this returns 404, WYWD?
-        ser_items = sql_serialize(Artist, *page_obj.items)  # can really change the unpacking,packing tbh
+        page_obj = query.order_by(Artist.name.asc()).paginate(page_number, 12, False) #when paging, popularity default sorted pages need to be sorted by name as well
+        ser_items = sql_serialize(Artist, *page_obj.items)  
     elif model == 'albums':
         page_obj = query.order_by(Album.name.asc()).paginate(page_number, 12, False)
         ser_items = sql_serialize(Album, *page_obj.items)
@@ -51,17 +51,19 @@ def build_query(query, query_dict, model):
     matches = query
     if not bool(query_dict) or ('page' in query_dict and len(query_dict) == 1):  # if empty;default
         if model == 'artists':
-            return matches.order_by(Artist.popularity.desc())
+            return matches.order_by(Artist.popularity.desc()) 
         elif model == 'albums':
             return matches.order_by(Album.popularity.desc())  # add default for news?
+        elif model == 'news':
+            return matches.order_by(Article.date.desc())
 
     for key in query_dict:
         if key == 'city':
             matches = city_filter(matches, query_dict[key], model)
         elif key == 'genre':
             matches = genre_filter(matches, query_dict[key], model)
-        # elif key == 'region':
-        #     matches = region_filter(matches,query_dict[key],model)
+        elif key == 'region':
+            matches = region_filter(matches,query_dict[key],model)
         elif key == 'relyear':
             matches = relyear_filter(matches, query_dict[key], model)
         elif key == 'media':
@@ -130,9 +132,11 @@ def build_search_query(term):
     return search_str
 
 
-# def region_filter(query,val,model): #explicit join
-#     if model is "artists":
-#         return query.join(cities_artists).join(City).join()
+def region_filter(query,val,model): #explicit join
+    if model == "cities":
+        return query.join(Region).filter(Region.region == val)
+    else:
+        return query
 
 def det_sort(query, sort_type, order, model):
     if sort_type == "popularity":
