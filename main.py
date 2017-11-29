@@ -1,4 +1,4 @@
-[START app]
+# [START app]
 import logging
 import os
 from flask import Flask, jsonify, request
@@ -26,7 +26,7 @@ def build_pages(query, page_number, model):
         page_obj = query.order_by(Album.name.asc()).paginate(page_number, 12, False)
         ser_items = sql_serialize(Album, *page_obj.items)
     elif model == 'news':
-        page_obj = query.order_by(Article.title.asc()).paginate(page_number, 12, False)
+        page_obj = query.order_by(Article.date.desc()).paginate(page_number, 12, False)
         ser_items = sql_serialize(Article, *page_obj.items)
     elif model == 'cities':
         page_obj = query.order_by(City.name.asc()).paginate(page_number, 12, False)
