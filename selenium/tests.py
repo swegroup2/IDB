@@ -164,7 +164,7 @@ class PythonOrgSearch(unittest.TestCase):
     ############
     ###ALBUMS###
     ############
-    
+
     def test_albums_detail(self):
         driver = self.driver
         driver.get("https://poupon.me")
@@ -404,7 +404,7 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertEqual(article.text, "N*E*R*D allegedly claims full album to be released tonight at concert, including confirmed features from Kendrick, Future, Gucci & more.", "Checking that articles are filtered correctly")
 
 
-    def test_albums_paging(self):
+    def test_news_paging(self):
         driver = self.driver
         driver.get("https://poupon.me/news")
         time.sleep(5)
@@ -483,7 +483,7 @@ class PythonOrgSearch(unittest.TestCase):
         city = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/table/thead/tbody/tr/td[1]/a/span")
         self.assertEqual(city.text, "Atlanta", "Checking that cities are sorted correctly")
 
-    def test_albums_paging(self):
+    def test_cities_paging(self):
         driver = self.driver
         driver.get("https://poupon.me/cities")
         time.sleep(5)
