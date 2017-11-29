@@ -76,6 +76,7 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertEqual(artist.text, "Audio Push", "Checking that artists are sorted correctly")
         
         #sort by A-Z
+        sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
         sort.click()
         driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[3]").click()
         time.sleep(5)
@@ -83,6 +84,7 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertEqual(artist.text, "21 Savage", "Checking that artists are sorted correctly")
 
         #sort by Z-A
+        sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
         sort.click()
         driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[4]").click()
         time.sleep(5)
@@ -90,6 +92,7 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertEqual(artist.text, "Young Thug", "Checking that artists are sorted correctly")
 
         #sort by most popular
+        sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
         sort.click()
         driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[1]").click()
         time.sleep(5)
@@ -329,7 +332,7 @@ class PythonOrgSearch(unittest.TestCase):
         self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that news is sorted correctly")
         driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/a[2]").click()
 
-        self.assertEqual(driver.current_url, "https://poupon.me/news/1275", "On the article's page")
+        self.assertEqual(driver.current_url, "https://poupon.me/news/776", "On the article's page")
         time.sleep(5)
         article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div/div/div/div[2]/p[2]/h4")
         self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that the correct article is displayed")

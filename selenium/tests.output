@@ -1,0 +1,101 @@
+DevTools listening on ws://127.0.0.1:12750/devtools/browser/1f753cf7-9e30-4df5-b6b8-5470a21f609e
+F
+DevTools listening on ws://127.0.0.1:12013/devtools/browser/e89a6145-2024-4f34-bd81-b3395190ead6
+.
+DevTools listening on ws://127.0.0.1:12738/devtools/browser/ab4f4dc1-c012-4f55-aae8-f931efaaf657
+F
+DevTools listening on ws://127.0.0.1:12678/devtools/browser/0d83d585-f734-4918-9302-bd1ead0e2f3d
+.
+DevTools listening on ws://127.0.0.1:12151/devtools/browser/248b3505-d3ff-4d4b-8cd4-916d6128965f
+Traceback (most recent call last):
+  File "C:\Program Files (x86)\Python36-32\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "tests.py", line 555, in <module>
+    unittest.main()
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\main.py", line 94, in __init__
+    self.runTests()
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\main.py", line 255, in runTests
+    self.result = testRunner.run(self.test)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\runner.py", line 176, in run
+    test(result)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\suite.py", line 122, in run
+    test(result)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\case.py", line 649, in __call__
+    return self.run(*args, **kwds)
+  File "C:\Program Files (x86)\Python36-32\lib\unittest\case.py", line 601, in run
+    testMethod()
+  File "tests.py", line 192, in test_albums_sorting
+    sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
+  File "C:\Program Files (x86)\Python36-32\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 309, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Program Files (x86)\Python36-32\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 787, in find_element
+    'value': value})['value']
+  File "C:\Program Files (x86)\Python36-32\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 250, in execute
+    response = self.command_executor.execute(driver_command, params)
+  File "C:\Program Files (x86)\Python36-32\lib\site-packages\selenium\webdriver\remote\remote_connection.py", line 464, in execute
+    return self._request(command_info[0], url, body=data)
+  File "C:\Program Files (x86)\Python36-32\lib\site-packages\selenium\webdriver\remote\remote_connection.py", line 488, in _request
+    resp = self._conn.getresponse()
+  File "C:\Program Files (x86)\Python36-32\lib\http\client.py", line 1331, in getresponse
+    response.begin()
+  File "C:\Program Files (x86)\Python36-32\lib\http\client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "C:\Program Files (x86)\Python36-32\lib\http\client.py", line 258, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Program Files (x86)\Python36-32\lib\socket.py", line 586, in readinto
+    return self._sock.recv_into(b)
+KeyboardInterrupt
+^C
+C:\Users\Christian\Documents\School\CS\337\IDB\selenium>python tests.py > tests.output
+
+DevTools listening on ws://127.0.0.1:12665/devtools/browser/5711b3b9-fcfa-4fd7-9719-62ad02d09bb0
+.
+DevTools listening on ws://127.0.0.1:12958/devtools/browser/1383ca1f-0854-46a0-be60-bfd9cc8f34ce
+.
+DevTools listening on ws://127.0.0.1:12650/devtools/browser/eeaa9c03-f7d8-4ea9-a382-1360feaaf1fc
+.
+DevTools listening on ws://127.0.0.1:12273/devtools/browser/941f42f1-21f4-4703-ad6f-8b507526bac6
+.
+DevTools listening on ws://127.0.0.1:12410/devtools/browser/814e7dd2-b3d7-440d-a767-79f2a60ca6ed
+.
+DevTools listening on ws://127.0.0.1:12690/devtools/browser/146eb21a-df95-491d-8990-ad1ef1622c56
+.
+DevTools listening on ws://127.0.0.1:12042/devtools/browser/14f5363a-6eba-440e-8a3d-e48dd4d65608
+.
+DevTools listening on ws://127.0.0.1:12065/devtools/browser/a5297dca-4b9a-456c-abec-603d2b51cf9a
+.
+DevTools listening on ws://127.0.0.1:12041/devtools/browser/3a1b751b-9594-46b6-b3aa-be4511eb3223
+.
+DevTools listening on ws://127.0.0.1:12801/devtools/browser/02b2fec7-94b2-4d3c-b064-d66fe2a55b5e
+.
+DevTools listening on ws://127.0.0.1:12602/devtools/browser/3cd58009-895b-44f0-8b42-097f9dae43ef
+.
+DevTools listening on ws://127.0.0.1:12103/devtools/browser/c913f99e-9834-4fb1-bb34-41e4ecc069da
+.
+DevTools listening on ws://127.0.0.1:12800/devtools/browser/a0dc9a33-08af-44ab-a2ce-a204fcf57984
+.
+DevTools listening on ws://127.0.0.1:12374/devtools/browser/85ddc09d-e8bd-45e9-8bd3-8d5c41e0e46d
+.
+DevTools listening on ws://127.0.0.1:12896/devtools/browser/b31da347-9f3f-49c3-a54b-f8f18e7a6054
+.
+DevTools listening on ws://127.0.0.1:12040/devtools/browser/e5defcbe-ca45-4cd0-9213-fe63c8bde987
+.
+DevTools listening on ws://127.0.0.1:12250/devtools/browser/b1c36f9f-58ba-4e56-8967-583374f92444
+.
+DevTools listening on ws://127.0.0.1:12577/devtools/browser/491de447-69ae-4293-aac2-32ea5ec8a7fd
+.
+----------------------------------------------------------------------
+Ran 18 tests in 499.563s
+
+OK
