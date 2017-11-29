@@ -1,10 +1,10 @@
 @title[Title]
 # Grey Poupon
-#### Christian C, Logan Z, Sarah W, Will X, Zach B
+#### Christian, Logan, Sarah, Will, Zach
 
 ---
 @title[Introduction]
-## Introduction
+# Introduction
 #### The Team
 
 +++
@@ -34,7 +34,7 @@
 
 ---
 @title[Demo]
-## Demos
+# Demos
 
 +++
 @title[Website Demo]
@@ -53,57 +53,57 @@
 
 ---
 @title[Self Critiques]
-## Self Critiques
+# Self Critiques
 
 +++
 @title[Self Critique Pt. 1]
-#### What we did well
+## What we did well
 * aesthetics of the website
 * informative yet non-cluttered layout
 * database design
 
 +++
 @title[Self Critique Pt. 2]
-#### What we learned
+## What we learned
 * communication between people working on different components is key
 * always test locally before deploying
 * documentation is important
 
 +++
 @title[Self Critique Pt. 3]
-#### What we could have improved on
+## What we could have improved on
 * time management
 * understanding the spec before starting on implementation
 * scope of search functionality
 
 +++
 @title[Self Critique Pt. 4]
-#### What puzzled us
+## What puzzled us
 * issue with Flask serving static pages
 * search results when query contains stop words
 * how we used so many GCP credits
 
 ---
 @title[Other Critiques]
-## Other Critiques
+# Other Critiques
 
 +++
 @title[Other Critique Pt. 1]
-#### What they did well
+## What they did well
 
 +++
 @title[Other Critique Pt. 2]
-#### What we learned from their site
+## What we learned from their site
 
 +++
 @title[Other Critique Pt. 3]
-#### What they can improve on
+## What they can improve on
 
 +++
 @title[Other Critique Pt. 4]
-#### What puzzled us
+## What puzzled us
 
 ---
 @title[Visualization]
-## Visualization
+# Visualization
 
