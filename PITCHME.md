@@ -9,28 +9,28 @@
 
 +++
 @title[Christian]
-![Christian](https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg)
-*Christian*
+#### Christian
+![Christian](https://cjcarrollsite.files.wordpress.com/2017/09/7-copy2.jpg =200x200)
 
 +++
 @title[Logan]
-![Logan](https://loganzartman.github.io/sweblog17/profile.jpg)
-*Logan*
+#### Logan 
+![Logan](https://loganzartman.github.io/sweblog17/profile.jpg =200x200)
 
 +++
 @title[Sarah]
-![Sarah](https://swesushi.files.wordpress.com/2017/01/img_7694.jpg?w=644&zoom=2")
-*Sarah*
+#### Sarah
+![Sarah](https://swesushi.files.wordpress.com/2017/01/img_7694.jpg?w=644&zoom=2" =200x200)
 
 +++
 @title[Will]
-![Will](https://xillwu.files.wordpress.com/2017/01/12967276_10206096418031215_1083369949972101586_o.jpg)
-*Will*
+#### Will
+![Will](https://xillwu.files.wordpress.com/2017/01/12967276_10206096418031215_1083369949972101586_o.jpg =200x200)
 
 +++
 @title[Zach]
-![Zach](https://hodlandstress.files.wordpress.com/2017/09/cropped-headshot1.png)
-*Zach*
+#### Zach
+![Zach](https://hodlandstress.files.wordpress.com/2017/09/cropped-headshot1.png =200x200)
 
 ---
 @title[Demo]
