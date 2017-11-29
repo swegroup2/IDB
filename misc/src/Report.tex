@@ -4,10 +4,10 @@
 \usepackage{indentfirst}
 \setcounter{secnumdepth}{0}
 
-\title{Poupon: Technical Report, Phase 2}
+\title{Poupon: Technical Report, Phase 4}
 \subtitle{CS 373 Software Engineering, Fall 2017}
 \author{Sarah Wang, William Xu, Logan Zartman, Christian Carroll, Zach Burky}
-\date{October 26, 2017}
+\date{November 28, 2017}
 
 \begin{document}
 
@@ -224,7 +224,7 @@ https://developer.spotify.com/web-api/endpoint-reference/
     Additionally, it makes constructing relational tables as easy as defining the tables, and adding secondary attributes in the tables they relate to.
 
     We have a few small design decisions, mainly concerning the size of the database.
-    We'll be predefining on the order of 100 artists, 200 albums, 10 cities, and a variable number of articles for this second stage of the project, so as to limit the number of things that can go wrong at any one time - it should be said, however, that we do intend to implement actual automated external calling across the board in the next phase - Christian has already set that up for GitHub and Trello, so it should just be a matter of figuring out the correct ingest procedure.
+    We started by predefining on the order of 100 artists, 200 albums, 10 cities, and a variable number of articles, so as to limit the number of things that can go wrong at any one time. Then, we moved on to pulling limited numbers of models from of external APIs directly, rather than collating database input ourseves.
 
     DISCLAIMER: as of right now, the table for city aliases is unused and unpopulated - we plan to implement this alongside our text analysis of news titles for mentions of instances of other models.
 
@@ -372,18 +372,21 @@ def search_artists(term):
     From there, GCP was able to integrate itself with our domain.
 
 
-    \section{Future Plans}\label{sec:futurePlans}
-    Our goals for the future of the project are as of yet unknown, as we have yet to receive the instructions for the final phase - however, given the right set of reqirements and a plethora of time, we have some features we'd like to implement:
-
-    For one, it would be good to implement previewing on searches.
-    This would obviously be more desirable than a separate search page for very quick searches from a user's point of view.
-    This would be very difficult to actually do, as the only member with the front-end expertise necessary to implement highlighting on variable-length previews is Logan, and he'll be working on studying for tests and OS after this phase, but given the time, it's something we'd like to implement.
-
-    Another idea would be to rank search results by relevance.
-    We already partially do this, but in order to fully implement it, we'd have to designate weights for each level of the search vectors, which would require a non-significant amount of tweaking.
-    We'll have to wait and see what the actual requirements of the final phase are before committing to anything too drastically difficult.
-
-    Finally, we're hoping for a very slight redesign of the UI - some members feel the layout could be improved with not too much effort, so we'll spend some time exploring the feasibility of that.
-    In particular, some of cards could be a bit prettier, so that we can paginate and at normal screen size, not make the user scroll.
-    We've implemented all of our user stories and everything, so now we just have to wait and see what is required of us to turn Poupon.me to the best it can be!
+    \section{Critiques}\label{sec:critiques}
+    \subsection*{What did we do well?}
+    Our team did a very good job of assigning tasks in an orderly and efficacious fashion. Everybody knew before the start of each phase which tasks were theirs to do and which members would be available to help other members. This was crucial, as our team collectively had very little time to devote to our project, so the time we did spend needed to be efficient and effective. Additionally, we were very good at realizing which tasks certain members would be best at ahead of time. From the get-go, we knew Logan would be the most skilled at React and Bootstrap, so we made it so that he never really had to touch the back-end. Zach understood SQL from prior experiences in security, and so we left the design to him. Sarah stepped up for testing and Flask writing, etc. We knew ahead of time exactly how much any given member would have to devote to any given phase.
+    \subsection*{What did we learn?}
+    We learned that sometimes finding the right tool for the job can be incredibly worthwhile, but sometimes, you have to find a way to make do with what you have. For example, Logan thought that integrating the front-end with Flask would've been much more easily done with Node.js, yet we were not able to make that decision, so he pedaled on. We also learned that industry standard workplace tools are standard for a reason - websites like Trello and Slack were absolutely critical to our teams' completion of the development of Poupon.
+    \subsection*{What can we do better?}
+    For all that we knew how much time we'd need to devote, we were very bad at actually devoting that time until very close to the deadline. This meant that the 3 or 4 days leading up to each deadline were particularly hectic, and we consequently went through phases of business and extreme laziness. We obviously still have much to learn when it comes to follow-through on our time planning. We also sometimes fell victim to the mentality of letting lack of knowledge turn into lack of action. In the future, we'll try harder to make it so that even when we're puzzled, we push through with working.
+    \subsection*{What puzzles us?}
+    As noted above, we remain confused about why React specifically was chosen. We also need more guidance to know if the code we've written is in not necessarily good style, but good convention.
+    \subsection*{What did they do well?}
+    We really liked the idea of having a centrally located search bar. It has more prominence than our right aligned bar, especially when search is such a big feature of this project. Also, we like their model accumulation pages, although it seems like maybe having the pages be so large that scrolling is required defeats some of the point of pagination.
+    \subsection*{What did we learn from their website?}
+    We really like their use of TF-IDF, and the breaking down of search terms into tags. It seems like this might be what PostgreSQL's fulltext search does under the hood, but to learn that it is doable is great, and it also affords us a better understanding of how our search might be functioning. By associating tags with each model, they're not exactly doing fulltext search, but instead searching over only relevant terms, which is a cool, if admittedly manual way if ignoring irrelevant prepositions and the like.
+    \subsection*{What can they do better?}
+    Some things GUI-wise: the About page in particular is not the prettiest - Bootstrap makes it easier to put pretty font on not all-black backgrounds, so we would've liked to see something that didn't look like basic CSS background specification. Both the home page and about page seem like they could make better use of space, although you could say the same about our home page. Highlighting doesn't seem to be active at all in search in titles specifically, and filtering doesn't seem to work for some models.
+    \subsection*{What puzzles us about their website?}
+    We're specifically curious about the usage case sensitivity in search - this is something postgres fixes by default, so we're curious why they decided to implement it intentionally. Additional, we have one lingering question around what the default sorts are - the documentation of their API does not make it clear. Overall though, we think their website looks and functions pretty good! It'd be interesting to see what specifically made them choose spirits and alcohol as their models. Also, why not include the actual recipe to make the cocktail, instead of just the ingredients? It seems like the APIs they're pulling from have more information than just ingredients, such as quantity, and that seems like it'd be an easy next step for increased usability.
 \end{document}
