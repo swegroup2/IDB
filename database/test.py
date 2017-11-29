@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
 from flask import jsonify
 import unittest
-import os
+import os,sys
 import json
 import datetime
 from data import DataInserter

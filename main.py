@@ -422,9 +422,10 @@ def get_city_by_id(c_id):  # FULL CITY MODEL (City,Artist,Album)
 
     artist_match = db.session.query(City).filter(City.city_id == c_id).join(cities_artists).join(Artist).with_entities(
         Artist).all()
-    news_match = db.session.query(City).filter(City.city_id == c_id).join(cities_artists).join(Artist).join(
-        articles_artists).with_entities(Article).order_by(Article.date.desc()).all()
-
+    #news_match = db.session.query(City).filter(City.city_id == c_id).join(cities_artists).join(Artist).join(
+     #   articles_artists).with_entities(Article).order_by(Article.date.desc()).all()
+    news_match = search(db.session.query(Article),city_match.name,sort=True).all()
+    
     json_city = sql_single_serialize(City, city_match)
     json_artist = sql_serialize(Artist, *artist_match)
     json_news = sql_serialize(Article, *news_match)
