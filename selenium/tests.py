@@ -288,26 +288,138 @@ class PythonOrgSearch(unittest.TestCase):
     #     album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
     #     self.assertEqual(album.text, "17", "Checking that albums are filtered correctly")
 
-    def test_albums_paging(self):
-        driver = self.driver
-        driver.get("https://poupon.me/albums")
-        time.sleep(5)
+    # def test_albums_paging(self):
+    #     driver = self.driver
+    #     driver.get("https://poupon.me/albums")
+    #     time.sleep(5)
 
-        #check the first page
-        album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
-        self.assertEqual(album.text, "17", "Checking that albums are paged correctly")
+    #     #check the first page
+    #     album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+    #     self.assertEqual(album.text, "17", "Checking that albums are paged correctly")
 
-        #check the second page
-        driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[3]/a").click()
-        time.sleep(5)
-        album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
-        self.assertEqual(album.text, "SUPER SLIMEY", "Checking that albums are paged correctly")
+    #     #check the second page
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[3]/a").click()
+    #     time.sleep(5)
+    #     album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+    #     self.assertEqual(album.text, "SUPER SLIMEY", "Checking that albums are paged correctly")
 
-        #go back and check the first again
-        driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[2]/a").click()
-        time.sleep(5)
-        album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
-        self.assertEqual(album.text, "17", "Checking that albums are paged correctly")
+    #     #go back and check the first again
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[2]/a").click()
+    #     time.sleep(5)
+    #     album = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div[2]/h4/a")
+    #     self.assertEqual(album.text, "17", "Checking that albums are paged correctly")
+
+    ##########
+    ###NEWS###
+    ##########
+
+    # def test_news_detail(self):
+    #     driver = self.driver
+    #     driver.get("https://poupon.me")
+    #     button = driver.find_element_by_xpath("//*[@id=\"navbarSupportedContent\"]/ul/li[5]/a/div")
+    #     button.click()
+    #     self.assertEqual(driver.current_url, "https://poupon.me/news", "On news page")
+    #     time.sleep(5)
+
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that news is sorted correctly")
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/a[2]").click()
+
+    #     self.assertEqual(driver.current_url, "https://poupon.me/news/1275", "On the article's page")
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div/div/div/div[2]/p[2]/h4")
+    #     self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that the correct article is displayed")
+
+
+    # def test_news_sorting(self):
+    #     driver = self.driver
+    #     driver.get("https://poupon.me/news")
+    #     time.sleep(5)
+    #     sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
+
+    #     #sort by oldest
+    #     sort.click()
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[2]").click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "Rick Ross wearing a Rick Ross chain wearing a Rick Ross chain", "Checking that articles are sorted correctly")
+        
+    #     #sort by most popular
+    #     sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
+    #     sort.click()
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[3]").click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "[FRESH] Kendrick Lamar: \"Humble\" (Single)", "Checking that articles are sorted correctly")
+
+    #     #sort by least popular
+    #     sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
+    #     sort.click()
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[4]").click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "N.E.R.D. single supposedly premiering tomorrow on Zane Lowe's show", "Checking that articles are sorted correctly")
+
+    #     #sort by newest
+    #     sort = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select")
+    #     sort.click()
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/select/option[1]").click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that articles are sorted correctly")
+
+    # def test_news_filtering(self):
+    #     driver = self.driver
+    #     driver.get("https://poupon.me/news")
+    #     time.sleep(5)
+
+    #     #filter by itunes
+    #     filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
+    #     filter.click()
+    #     time.sleep(1)
+    #     media = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
+    #     media.click()
+    #     driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[3]").click()
+    #     apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")
+    #     apply.click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "[FRESH] Big Sean & Metro Boomin - Pull Up N Wreck (feat. 21 Savage)", "Checking that articles are filtered correctly")
+
+    #     #filter by reddit
+    #     filter = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/div/span/button")
+    #     filter.click()
+    #     time.sleep(1)
+    #     media = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select")
+    #     media.click()
+    #     driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[2]/div/select/option[5]").click()
+    #     apply = driver.find_element_by_xpath("//*[@id=\"filterModal\"]/div/div/div[3]/button[2]")
+    #     apply.click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "N*E*R*D allegedly claims full album to be released tonight at concert, including confirmed features from Kendrick, Future, Gucci & more.", "Checking that articles are filtered correctly")
+
+
+    # def test_albums_paging(self):
+    #     driver = self.driver
+    #     driver.get("https://poupon.me/news")
+    #     time.sleep(5)
+
+    #     #check the first page
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that articles are paged correctly")
+
+    #     #check the second page
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[3]/a").click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "Juicy J - Intro (Prod. by $UICIDEBOY$)", "Checking that articles are paged correctly")
+
+    #     #go back and check the first again
+    #     driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[1]/div/ul/li[2]/a").click()
+    #     time.sleep(5)
+    #     article = driver.find_element_by_xpath("//*[@id=\"root\"]/div/div/div/div/div[2]/div/div/div/div[2]/p[2]/h5/span")
+    #     self.assertEqual(article.text, "KiD CuDi brings Out Kanye West @Chicago Show", "Checking that articles are paged correctly")
 
     def tearDown(self):
         self.driver.close()
