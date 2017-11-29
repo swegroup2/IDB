@@ -1,11 +1,13 @@
+from sqlalchemy import MetaData,create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.schema import CreateSchema
+from flask import jsonify
 import unittest
 import os
 import json
 import datetime
-from data import *
-from schema import *
-from sqlalchemy import MetaData
-from flask import jsonify
+from data import DataInserter
+import schema
 
 
 def get_Artists():
@@ -52,18 +54,15 @@ def get_Albums():
 
 class TestDatabaseFunctions(unittest.TestCase):
     def setUp(self):
-        # Connect to in memory test DB
-        os.environ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
-        import main as main_app
-        self.app = main_app
-        self.client = main_app.app.test_client()
-        Base.metadata.create_all(self.app.db.engine)
-        self.artist_data = get_Artists()
-        self.album_data = get_Albums()
+        self.engine = create_engine("sqlite:///:memory:")
+        self.engine.execute(CreateSchema(schema))
+        Session = sessionmaker()
+        Session.configure(bind=self.engine)
+        self.session = Session()
 
     def tearDown(self):
         # Clear database
-        Base.metadata.drop_all(self.app.db.engine)
+        Base.metadata.drop_all(self.engine)
 
     # Test get top artists no limit
     def test_update_artists(self):

@@ -90,6 +90,9 @@
 +++
 @title[Other Critique Pt. 1]
 ## What they did well
+* search API returns results grouped by model
+* adding a search at the top of each model page is creative
+* pages render quickly
 
 +++
 @title[Other Critique Pt. 2]
@@ -98,10 +101,15 @@
 +++
 @title[Other Critique Pt. 3]
 ## What they can improve on
+* can't get all the instances of a model with a single API call
+* sorting/filtering functionality on the website is a bit non-intuitive
+* make the URLs clickable
 
 +++
 @title[Other Critique Pt. 4]
 ## What puzzled us
+* what are the "filter by" options
+* some models only had 1 connection to other models
 
 ---
 @title[Visualization]

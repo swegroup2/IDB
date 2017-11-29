@@ -3,7 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import json
 from datetime import datetime
-
+import spotipy
+import spotipy.util as util
 
 class DataInserter:
     def __init__(self, s):
@@ -26,7 +27,7 @@ class DataInserter:
             {art['name']: self.add_artist(art) for art in artist_data if art['name'] not in self.artists})
         self.s.commit()
 
-    # Add new albums o the database
+    # Add new albums to the database
     def update_albums(self, album_data):
         # Update albums
         new_albums = []
@@ -136,6 +137,28 @@ class DataInserter:
         return new_city
         self.s.commit()
 
+    def add_album_popularity(self):
+        token = util.prompt_for_user_token(username='sarahgw_',
+            scope='user-follow-read',
+            client_id='9e5c6ecf7f5a40f0a67f6fad9fa3bf26',
+            client_secret='4d765ad11de4455b974d2817be3d98d2',
+            redirect_uri='https://example.com/callback/')
+        sp = spotipy.Spotify(auth=token)
+        for name,album in self.albums.items():
+            if album.popularity is None:
+                album.popularity = sp.album(album.spotify_id)['popularity']
+                print('%s %d' % (name,album.popularity))
+        self.s.commit()
+
+    def add_article_thumbnail(self):
+        count = 0
+        for name,article in self.news.items():
+            if len(article.artists) == 0:
+                if len(article.albums) == 0:
+                    self.s.delete(article)
+        self.s.commit()
+
+
 if __name__ == '__main__':
     # Create engine/session
     engine = create_engine('postgresql+psycopg2://postgres:downing@localhost:5432/', echo=True)
@@ -145,20 +168,20 @@ if __name__ == '__main__':
 
     # Class to insert data
     di = DataInserter(s)
+    di.add_article_thumbnail()
 
+    '''
     # Load and update artists
-    with open('data/artists.json', 'r') as f:
+    with open('artists.json', 'r') as f:
         artist_data = json.load(f)
     di.update_artists(artist_data)
     # Load and update albums
-    with open('data/albums.json', 'r') as f:
+    with open('albums.json', 'r') as f:
         album_data = json.load(f)
     di.update_albums(album_data)
+    di.add_album_popularity()
     # Load and update news
-    with open('data/news.json', 'r') as f:
+    with open('news.json', 'r') as f:
         news_data = json.load(f)
     di.update_news(news_data)
-    # Load and update cities
-    with open('data/cities.json', 'r') as f:
-        cities_data = json.load(f)
-    di.update_cities(cities_data)
+    '''
