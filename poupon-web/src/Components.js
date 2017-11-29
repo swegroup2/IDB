@@ -217,8 +217,9 @@ export class PaginatedList extends Component {
 		return (
 			<div className="row">
 				<div className="col-12">
-					<div className="mb-2 d-flex justify-content-center">
-					{pageUI} {sortFilterUI}
+					<div className="row mb-2 d-flex justify-content-center">
+						<div className="col-6-md col-12-sm">{sortFilterUI}</div>
+						<div className="col-6-md col-12-sm">{pageUI}</div>
 					</div>
 				</div>
 				{items}
