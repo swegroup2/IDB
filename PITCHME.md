@@ -39,17 +39,11 @@
 +++
 @title[Website Demo]
 #### Website Demo
-![Website Demo](https://youtube.com/embed/eyZW7hbXPdI)
 
 +++
 @title[Postman Demo]
 #### Postman Demo
 ![Postman Demo](https://youtube.com/embed/bC6hke2j6XE)
-
-+++
-@title[Selenium Demo]
-#### Selenium Demo
-![Selenium Demo]()
 
 ---
 @title[Self Critiques]
@@ -58,30 +52,30 @@
 +++
 @title[Self Critique Pt. 1]
 ## What we did well
-* aesthetics of the website
-* informative yet non-cluttered layout
-* database design
+* website aesthetics: informative and non-cluttered layout
+* database design: made the API easy to implement
+* support for mobile layouts
+* learning tools quickly to finish the project on time
 
 +++
 @title[Self Critique Pt. 2]
 ## What we learned
-* communication between people working on different components is key
+* how to implement an API
+* do your research before starting on something
 * always test locally before deploying
-* documentation is important
 
 +++
 @title[Self Critique Pt. 3]
 ## What we could have improved on
-* time management
-* understanding the spec before starting on implementation
-* scope of search functionality
+* time management (starting early)
+* keeping data in database up to date
+* better communication between people working on different components
 
 +++
 @title[Self Critique Pt. 4]
 ## What puzzled us
 * issue with Flask serving static pages
-* search results when query contains stop words
-* how we used so many GCP credits
+* how to override bootstrap's out-of-the-box CSS
 
 ---
 @title[Other Critiques]
@@ -91,7 +85,7 @@
 @title[Other Critique Pt. 1]
 ## What they did well
 * search API returns results grouped by model
-* adding a search at the top of each model page is creative
+* adding a search at the top of each model page is creative and useful
 * pages render quickly
 
 +++
