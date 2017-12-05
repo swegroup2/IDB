@@ -111,6 +111,16 @@ function buildMap(countries) {
                     <br>Cocktails: <strong> ${data.numberOfThings} </strong>
                     </div>`;
             }
+        },
+        "done": function(datamap) {
+            datamap.svg.selectAll('.datamaps-subunit').on('click', function(geo) {
+                const gid = geo.id;
+                const country = countries.find(c => c.code === gid);
+                if (!country)
+                	return;
+                const id = country.id;
+                window.open(`http://tipsymix.com/country-detail/${id}`);
+            });
         }
 	});
 }

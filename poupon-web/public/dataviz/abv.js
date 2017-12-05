@@ -76,14 +76,6 @@ d3.json("https://tipsymix.com/api/search?category=ingredients&pagesize=47", func
     .style("text-anchor", "end")
     .text("Frequency");
 
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", 0 - margin.top / 2)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("text-decoration", "underline")
-    .text("ABV of Cocktail Ingredients");
-
   // Add bar chart
   svg.selectAll("bar")
     .data(data.results)
@@ -99,7 +91,8 @@ d3.json("https://tipsymix.com/api/search?category=ingredients&pagesize=47", func
   }).attr("height", function (d) {
       return height - y(d.abv);
   }).on('mouseover', tip.show)
-    .on('mouseout', tip.hide);
+    .on('mouseout', tip.hide)
+    .on("click", function(d){window.open(`http://tipsymix.com/ingredient-detail/${d.id}`)});
 });
 
 // console.log(ingredient_list);

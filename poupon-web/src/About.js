@@ -117,6 +117,10 @@ class AboutSummary extends Component {
                             culture.
                         </p>
 
+                        <p className="card-text">
+                            Check out our <a href="/dataviz">data visualization</a> of <a href="http://tipsymix.com">Tipsymix</a>.
+                        </p>
+
                         <table className="table table-sm">
                             <tbody>
                             <tr>
