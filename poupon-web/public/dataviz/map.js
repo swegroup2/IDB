@@ -1,3 +1,6 @@
+const CACHED = true;
+const COLOR_OFFSET = 0.1;
+
 const cc = {
 	countries: null,
 	name2code: function(name) {
@@ -32,13 +35,21 @@ async function load() {
 	
 	//make API queries
 	let testData = [];
-	const promises = d3.range(1,61)
-		.map(i => fetch(`https://tipsymix.com/api/countries/${i}`)
+	
+	if (CACHED) {
+		await fetch("countries_cached.json")
 			.then(response => response.json())
-			.then(data => testData.push(data))
-			.catch(e => {})
-		);
-	await Promise.all(promises);
+			.then(data => testData = data.arr);
+	}
+	else {
+		const promises = d3.range(1,61)
+			.map(i => fetch(`https://tipsymix.com/api/countries/${i}`)
+				.then(response => response.json())
+				.then(data => testData.push(data))
+				.catch(e => {})
+			);
+		await Promise.all(promises);
+	}
 
 	buildMap(testData);
 }
@@ -64,18 +75,19 @@ function buildMap(countries) {
 	Object.keys(numCocktails).forEach(k => {
 		data[k] = {
 			numberOfThings: numCocktails[k],
-			fillColor: d3.interpolateRdYlBu(numCocktails[k] / maxCocktails)
+			fillColor: d3.interpolateYlOrBr(
+				COLOR_OFFSET + numCocktails[k] / maxCocktails * (1-COLOR_OFFSET))
 		};
 	});
 
 	const map = new Datamap({
 		"element": document.querySelector("#map-container"),
 		"fills": {
-			"defaultFill": "#DDDDDD"
+			"defaultFill": "#FFFFFF"
 		},
 		"data": data,
 		"geographyConfig": {
-            borderColor: '#FFFFFF',
+            borderColor: '#DDDDDD',
             highlightBorderWidth: 2,
             // don't change color on mouse hover
             highlightFillColor: function(geo) {

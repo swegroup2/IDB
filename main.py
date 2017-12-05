@@ -228,6 +228,9 @@ def alpha_sort(query, val, model):
 def root(path=""):
     return app.send_static_file('index.html')
 
+@app.route('/dataviz')
+def show_dataviz():
+    return app.send_static_file('dataviz/index.html')
 
 @app.route('/api/hello')
 def show_hello():
