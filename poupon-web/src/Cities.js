@@ -73,7 +73,7 @@ class CityDetailCard extends Component {
                             </div>
                             <div className="col-sm-12 col-md-12 col-lg-12">
                                 <h3>News Articles</h3>
-                                    <table className="table table-light table-sm table-hover">
+                                    <table className="table table-dark table-sm table-hover">
                                         <tbody>
                                         {articles}
                                         </tbody>
@@ -112,7 +112,7 @@ export class CityPreview extends Component {
 
         return (
             <div className="col-12 p-0">
-            <table className="table table-light m-0">
+            <table className="table table-dark m-0">
                 <thead className="thead-inverse">
                     <tbody className="w-100" style={{"display": "inline-table"}}>
                         <tr className="w-100">

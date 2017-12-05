@@ -78,7 +78,7 @@ class AlbumDetailCard extends Component {
                             </div>
                             <div className="col-sm-12 col-md-12 col-lg-12">
                                 <h3>News Articles</h3>
-                                    <table className="table table-light table-sm table-hover">
+                                    <table className="table table-dark table-sm table-hover">
                                         <tbody>
                                         {articles}
                                         </tbody>

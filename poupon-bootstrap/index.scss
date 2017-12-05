@@ -1,1 +1,57 @@
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+$white:    $gray-800;
+$black:    $gray-100;
+$light:         $gray-800;
+$dark:          $gray-100;
+$alt-black: $white;
+$alt-white: $black;
+$alt-light: $dark;
+$alt-dark:  $light;
+
+$primary:       $yellow;
+
+$body-color: $alt-light;
+$body-bg: $alt-black;
+$input-color: $alt-light;
+$input-border-color: $gray-700;
+$input-bg: $alt-dark;
+
+$pagination-border-color: $gray-700;
+$pagination-disabled-border-color:  $gray-700;
+
+$custom-select-indicator-color: $alt-white;
+
+$modal-backdrop-bg: $alt-black;
+
+//trickery
+$table-dark-bg:               $gray-900;
+$table-dark-accent-bg:        rgba($alt-black, .05);
+$table-dark-hover-bg:         rgba($alt-black, .075);
+$table-dark-color:            $alt-white;
+
+$font-family-sans-serif:      "Barlow Semi Condensed", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$font-family-base:            $font-family-sans-serif;
+
+$enable-shadows: true;
+
 @import "node_modules/bootstrap/scss/bootstrap";
