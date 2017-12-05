@@ -203,13 +203,15 @@ export class PaginatedList extends Component {
 		let sortFilterUI = null;
 		if (!this.props.hideSortFilter) {
 			sortFilterUI = (
-				<div>
-					{this.renderSortUI()}
-					{this.renderFilterUI()}
+				<div className="col-6-md col-12-sm">
+					<div>
+						{this.renderSortUI()}
+						{this.renderFilterUI()}
+					</div>
 				</div>
 			);
 		}
-		const pageUI = this.renderPageUI();
+		const pageUI = (<div className="col-6-md col-12-sm">{this.renderPageUI()}</div>);
 		
 		//create item instances
 		const ItemClass = this.props.itemClass;
@@ -218,11 +220,11 @@ export class PaginatedList extends Component {
 
 		//compose elements
 		return (
-			<div className="row">
+			<div className="row fade-in">
 				<div className="col-12">
 					<div className="row mb-2 d-flex justify-content-center">
-						<div className="col-6-md col-12-sm">{sortFilterUI}</div>
-						<div className="col-6-md col-12-sm">{pageUI}</div>
+						{sortFilterUI}
+						{pageUI}
 					</div>
 				</div>
 				{items}
