@@ -74,8 +74,10 @@
 +++
 @title[Self Critique Pt. 4]
 ## What puzzled us
-* issue with Flask serving static pages
-* how to override bootstrap's out-of-the-box CSS
+* Issue with Flask serving static pages
+* How to override bootstrap's out-of-the-box CSS
+* GCP???
+* Used Spotify but didn't have "pop christmas"
 
 ---
 @title[Other Critiques]
@@ -84,9 +86,9 @@
 +++
 @title[Other Critique Pt. 1]
 ## What they did well
-* search API returns results grouped by model
-* adding a search at the top of each model page is creative and useful
-* pages render quickly
+* Search API returns results grouped by model
+* Adding a search at the top of each model page is creative and useful
+* Pages render quickly
 
 +++
 @title[Other Critique Pt. 2]
@@ -95,15 +97,15 @@
 +++
 @title[Other Critique Pt. 3]
 ## What they can improve on
-* can't get all the instances of a model with a single API call
-* sorting/filtering functionality on the website is a bit non-intuitive
-* make the URLs clickable
+* Can't get all the instances of a model with a single API call
+* Sorting/filtering functionality on the website is a bit non-intuitive
+* Make the URLs clickable
 
 +++
 @title[Other Critique Pt. 4]
 ## What puzzled us
-* what are the "filter by" options
-* some models only had 1 connection to other models
+* What are the "filter by" options
+* Some models only had 1 connection to other models
 
 ---
 @title[Visualization]
