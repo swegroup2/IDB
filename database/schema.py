@@ -51,6 +51,9 @@ class Artist(Base):
         back_populates='artists')
     albums = relationship("Album")
 
+    search_vector = Column(TSVectorType('name', 'albums.name', 'cities.name',
+                                        'cities.state', 'genres.name', 'articles.title'))
+
 
 class Album(Base):
     __tablename__ = "albums"
@@ -66,6 +69,8 @@ class Album(Base):
         'Article',
         secondary=articles_albums,
         back_populates='albums')
+
+    search_vector = Column(TSVectorType('name'))
 
 
 class Genre(Base):
@@ -112,6 +117,7 @@ class Article(Base):
         'Artist',
         secondary=articles_artists,
         back_populates='articles')
+    search_vector = Column(TSVectorType('title'))
 
 
 class City(Base):
@@ -126,3 +132,5 @@ class City(Base):
         'Artist',
         secondary=cities_artists,
         back_populates='cities')
+
+    search_vector = Column(TSVectorType('name', 'state'))
