@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 
 const config = require("./config.json");
+const logo = require("./logo.png");
 
 class Navbar extends Component {
     constructor(params) {
@@ -48,7 +49,10 @@ class Navbar extends Component {
         //render navbar template
         return (
             <nav className="navbar navbar-expand-md navbar-light bg-light">
-                <a className="navbar-brand" href="/">Poupon</a>
+                <a className="navbar-brand" href="/">
+                    <img src={logo} style={{width: "30px", height: "30px"}} className="d-inline-block align-top mr-1"></img> 
+                    Poupon
+                </a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
