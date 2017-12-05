@@ -52,24 +52,24 @@
 +++
 @title[Self Critique Pt. 1]
 ## What we did well
-* website aesthetics: informative and non-cluttered layout
-* database design: made the API easy to implement
-* support for mobile layouts
-* learning tools quickly to finish the project on time
+* Website aesthetics: informative and non-cluttered layout
+* Database design made the API easy to implement
+* API does filter, sorting and pagination on the backend to lessen the load on the website
+* Learning tools quickly to finish the project on time
 
 +++
 @title[Self Critique Pt. 2]
 ## What we learned
-* how to implement an API
-* do your research before starting on something
-* always test locally before deploying
+* Flask has an API manager
+* Wrote the API on our own, so had a lot of control
+* Test locally before deploying
 
 +++
 @title[Self Critique Pt. 3]
 ## What we could have improved on
-* time management (starting early)
-* keeping data in database up to date
-* better communication between people working on different components
+* Time management (starting early)
+* Keeping data in database up to date
+* Better communication between people working on different components
 
 +++
 @title[Self Critique Pt. 4]
