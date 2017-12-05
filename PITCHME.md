@@ -93,6 +93,8 @@
 +++
 @title[Other Critique Pt. 2]
 ## What we learned from their site
+* Generated tags, search engine can search on tags
+* Search was intelligent, finds the best category
 
 +++
 @title[Other Critique Pt. 3]
@@ -105,6 +107,7 @@
 @title[Other Critique Pt. 4]
 ## What puzzled us
 * What are the "filter by" options
+* "Color" attribute in the database
 
 ---
 @title[Visualization]
