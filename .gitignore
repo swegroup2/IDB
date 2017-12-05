@@ -5,3 +5,5 @@ __pycache__
 cloud_sql_proxy
 .docker_built
 package-lock.json
+node_modules
+

@@ -1,0 +1,15 @@
+{
+  "name": "poupon-bootstrap",
+  "version": "0.0.1",
+  "description": "Bootstrap 4 customized for poupon.me",
+  "main": "build/index.css",
+  "scripts": {
+    "build": "node_modules/node-sass/bin/node-sass index.scss build/index.css"
+  },
+  "author": "poupon.me",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "node-sass": "^4.7.2"
+  }
+}
