@@ -97,15 +97,14 @@
 +++
 @title[Other Critique Pt. 3]
 ## What they can improve on
-* Can't get all the instances of a model with a single API call
+* Apiary isn't completely up to date
 * Sorting/filtering functionality on the website is a bit non-intuitive
-* Make the URLs clickable
+* The URLs on the website aren't hyperlinks
 
 +++
 @title[Other Critique Pt. 4]
 ## What puzzled us
 * What are the "filter by" options
-* Some models only had 1 connection to other models
 
 ---
 @title[Visualization]
