@@ -52,30 +52,32 @@
 +++
 @title[Self Critique Pt. 1]
 ## What we did well
-* website aesthetics: informative and non-cluttered layout
-* database design: made the API easy to implement
-* support for mobile layouts
-* learning tools quickly to finish the project on time
+* Website aesthetics: informative and non-cluttered layout
+* Database design made the API easy to implement
+* API does filter, sorting and pagination on the backend to lessen the load on the website
+* Learning tools quickly to finish the project on time
 
 +++
 @title[Self Critique Pt. 2]
 ## What we learned
-* how to implement an API
-* do your research before starting on something
-* always test locally before deploying
+* Flask has an API manager
+* Wrote the API on our own, so had a lot of control
+* Test locally before deploying
 
 +++
 @title[Self Critique Pt. 3]
 ## What we could have improved on
-* time management (starting early)
-* keeping data in database up to date
-* better communication between people working on different components
+* Time management (starting early)
+* Could have used a different search library than Postgres
+* Better communication between people working on different components
 
 +++
 @title[Self Critique Pt. 4]
 ## What puzzled us
-* issue with Flask serving static pages
-* how to override bootstrap's out-of-the-box CSS
+* Issue with Flask serving static pages
+* How to override bootstrap's out-of-the-box CSS
+* GCP???
+* Used Spotify but didn't have "pop christmas"
 
 ---
 @title[Other Critiques]
@@ -84,26 +86,28 @@
 +++
 @title[Other Critique Pt. 1]
 ## What they did well
-* search API returns results grouped by model
-* adding a search at the top of each model page is creative and useful
-* pages render quickly
+* Search API returns results grouped by model
+* Adding a search at the top of each model page is creative and useful
+* Pages render quickly
 
 +++
 @title[Other Critique Pt. 2]
 ## What we learned from their site
+* Generated tags, search engine can search on tags
+* Search was intelligent, finds the best category
 
 +++
 @title[Other Critique Pt. 3]
 ## What they can improve on
-* can't get all the instances of a model with a single API call
-* sorting/filtering functionality on the website is a bit non-intuitive
-* make the URLs clickable
+* Apiary isn't completely up to date
+* Sorting/filtering functionality on the website is a bit non-intuitive
+* The URLs on the website aren't hyperlinks
 
 +++
 @title[Other Critique Pt. 4]
 ## What puzzled us
-* what are the "filter by" options
-* some models only had 1 connection to other models
+* What are the "filter by" options
+* "Color" attribute in the database
 
 ---
 @title[Visualization]
