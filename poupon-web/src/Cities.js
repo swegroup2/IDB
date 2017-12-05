@@ -99,7 +99,7 @@ export class MultipleCities extends Component {
                     "Smallest": {sort: "population", order: "asc"}
                  }}
                  filterOptions={{
-                    "pop": ["range0"]
+                    "poprange": ["1", "2", "3"]
                  }}/>
             </APIAdapter>
         );
