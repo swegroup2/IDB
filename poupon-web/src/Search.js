@@ -63,7 +63,7 @@ class SearchResults extends Component {
 
         return (
             <div className="row">
-                <div className="col-12 text-light p-2">
+                <div className="col-12 p-2">
                     <h3 className="mb-3">Search results for "{this.props.query}":</h3>
                     <ul className="nav nav-pills nav-fill">
                         {tabs}
