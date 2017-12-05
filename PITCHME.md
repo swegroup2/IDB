@@ -68,7 +68,7 @@
 @title[Self Critique Pt. 3]
 ## What we could have improved on
 * Time management (starting early)
-* Keeping data in database up to date
+* Could have used a different search library than Postgres
 * Better communication between people working on different components
 
 +++
