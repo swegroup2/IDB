@@ -2,17 +2,20 @@ import React, {Component} from 'react';
 import ReactPaginate from 'react-paginate';
 
 const config = require("./config.json");
+const logo = require("./logo.png");
 
 /**
  * A loading indicator
- * TODO: make it look cool
  */
 export class LoadingStub extends Component {
 	render() {
-		const message = this.props.message || "Loading...";
+		const message = this.props.message || "loading...";
 		return (
-			<div className="alert alert-primary" role="alert">
-				{message}
+			<div className="row text-center" role="alert">
+				<div className="col-12">
+					<img className="spinning mr-2" style={{width: "64px", height: "64px"}} src={logo}></img>
+					<h3 className="text-primary">{message}</h3>
+				</div>
 			</div>
 		);
 	}

@@ -12,3 +12,8 @@
 	background-size: cover;
 	background-position: center;
 }
+
+.spinning {
+	animation: spin 0.6s ease-out infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
